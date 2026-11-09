@@ -74,6 +74,17 @@ README language: 🇨🇳 [简体中文](./doc/README.zh-cn.md), 🇺🇸 [Engli
 
 <!-- /MarkdownTOC -->
 
+## Native Rust migration
+
+A native Rust library and `carbone render` CLI are now available as a **migration
+preview**, with no Node.js dependency at runtime. This is the first stage, not a
+feature-complete replacement for Carbone v3.9.1. The JavaScript implementation
+remains the compatibility reference until the remaining features are ported.
+
+See **[Rust usage and compatibility status](doc/RUST.md)** for installation,
+examples, verification commands, and the explicit unsupported-feature list.
+The existing [Carbone Code License](LICENSE.md) continues to apply.
+
 ## Features
 
   - 🍏  **Extremely simple** : Create templates with LibreOffice™, Google Docs, Microsoft Office™, TinyMCE, CKEditor, ...
