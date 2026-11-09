@@ -1,0 +1,597 @@
+{
+  "reference": {
+    "package": "carbone",
+    "version": "3.9.1",
+    "description": "Expected strings captured from the original Node implementation. Run node scripts/check-parity.cjs to verify; --update deliberately refreshes the reference outputs. Rust-only rejection tests are separate."
+  },
+  "cases": [
+    {
+      "id": "literal-text",
+      "feature": "literal",
+      "source": "test/test.builder.buildXML.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{unrelated} plain text</xml>",
+      "data": null,
+      "options": {},
+      "expected": "<xml>{unrelated} plain text</xml>"
+    },
+    {
+      "id": "simple-field",
+      "feature": "scalar",
+      "source": "test/test.builder.buildXML.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> {d.title} </xml>",
+      "data": {
+        "title": "boo"
+      },
+      "options": {},
+      "expected": "<xml> boo </xml>"
+    },
+    {
+      "id": "adjacent-complement",
+      "feature": "complement",
+      "source": "test/test.builder.buildXML.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.title}{c.date}</xml>",
+      "data": {
+        "title": "boo"
+      },
+      "options": {
+        "complement": {
+          "date": "today"
+        }
+      },
+      "expected": "<xml>bootoday</xml>"
+    },
+    {
+      "id": "nested-fields",
+      "feature": "nested",
+      "source": "test/test.builder.buildXML.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.person.address.city}/{c.company.name}</xml>",
+      "data": {
+        "person": {
+          "address": {
+            "city": "Paris"
+          }
+        }
+      },
+      "options": {
+        "complement": {
+          "company": {
+            "name": "Acme"
+          }
+        }
+      },
+      "expected": "<xml>Paris/Acme</xml>"
+    },
+    {
+      "id": "missing-and-null",
+      "feature": "missing",
+      "source": "test/test.builder.buildXML.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.missing}/{d.nil}/{d.nil.child}/{d.absent.deep.field}</xml>",
+      "data": {
+        "nil": null
+      },
+      "options": {},
+      "expected": "<xml>///</xml>"
+    },
+    {
+      "id": "scalar-types",
+      "feature": "scalar",
+      "source": "test/test.builder.buildXML.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.yes}|{d.no}|{d.zero}|{d.decimal}</xml>",
+      "data": {
+        "yes": true,
+        "no": false,
+        "zero": 0,
+        "decimal": 12.5
+      },
+      "options": {},
+      "expected": "<xml>true|false|0|12.5</xml>"
+    },
+    {
+      "id": "xml-escaping",
+      "feature": "escaping",
+      "source": "test/test.builder.buildXML.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.text}</xml>",
+      "data": {
+        "text": "&<>\"' &amp;"
+      },
+      "options": {},
+      "expected": "<xml>&amp;&lt;&gt;\"' &amp;amp;</xml>"
+    },
+    {
+      "id": "control-characters",
+      "feature": "escaping",
+      "source": "test/test.builder.buildXML.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.text}</xml>",
+      "data": {
+        "text": "a\u0000\b\u000b\f\u001fb\t\n\r"
+      },
+      "options": {},
+      "expected": "<xml>ab\t\n\r</xml>"
+    },
+    {
+      "id": "fixed-named-index",
+      "feature": "fixed-selector",
+      "source": "test/test.builder.buildXML.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.cars[i=0].brand}/{d.cars[i=1].brand}</xml>",
+      "data": {
+        "cars": [
+          {
+            "brand": "Lumeneo"
+          },
+          {
+            "brand": "Tesla"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml>Lumeneo/Tesla</xml>"
+    },
+    {
+      "id": "fixed-numeric-index",
+      "feature": "fixed-selector",
+      "source": "test/test.builder.buildXML.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.cars[0].details.brand}/{d.cars[1].details.brand}</xml>",
+      "data": {
+        "cars": [
+          {
+            "details": {
+              "brand": "Lumeneo"
+            }
+          },
+          {
+            "details": {
+              "brand": "Tesla"
+            }
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml>Lumeneo/Tesla</xml>"
+    },
+    {
+      "id": "fixed-missing-index",
+      "feature": "fixed-selector",
+      "source": "test/test.builder.buildXML.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.cars[9].brand}/{d.absent[i=0].brand}</xml>",
+      "data": {
+        "cars": []
+      },
+      "options": {},
+      "expected": "<xml>/</xml>"
+    },
+    {
+      "id": "root-repeat",
+      "feature": "repeat",
+      "source": "test/test.builder.buildXML.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><row>{d[i].brand}</row><row>{d[i+1].brand}</row></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo"
+        },
+        {
+          "brand": "Tesla"
+        },
+        {
+          "brand": "Toyota"
+        }
+      ],
+      "options": {},
+      "expected": "<xml><row>Lumeneo</row><row>Tesla</row><row>Toyota</row></xml>"
+    },
+    {
+      "id": "singleton-repeat",
+      "feature": "repeat",
+      "source": "test/test.builder.buildXML.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><row>{d[i].brand}</row><row>{d[i+1].brand}</row></xml>",
+      "data": [
+        {
+          "brand": "Tesla"
+        }
+      ],
+      "options": {},
+      "expected": "<xml><row>Tesla</row></xml>"
+    },
+    {
+      "id": "empty-repeat",
+      "feature": "repeat",
+      "source": "test/test.builder.buildXML.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><row>{d[i].brand}</row><row>{d[i+1].brand}</row></xml>",
+      "data": [],
+      "options": {},
+      "expected": "<xml></xml>"
+    },
+    {
+      "id": "nested-property-repeat",
+      "feature": "repeat",
+      "source": "test/test.builder.buildXML.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><header>{d.title}</header><row><name>{d.cars[i].brand}</name><n>{d.cars[i].count}</n></row><row><name>{d.cars[i+1].brand}</name><n>{d.cars[i+1].count}</n></row><footer>{c.note}</footer></xml>",
+      "data": {
+        "title": "Cars",
+        "cars": [
+          {
+            "brand": "A&B",
+            "count": 1
+          },
+          {
+            "brand": "Tesla",
+            "count": 2
+          }
+        ]
+      },
+      "options": {
+        "complement": {
+          "note": "Done"
+        }
+      },
+      "expected": "<xml><header>Cars</header><row><name>A&amp;B</name><n>1</n></row><row><name>Tesla</name><n>2</n></row><footer>Done</footer></xml>"
+    },
+    {
+      "id": "complement-repeat",
+      "feature": "repeat",
+      "source": "test/test.builder.buildXML.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><row>{c.cars[i].brand}</row><row>{c.cars[i+1].brand}</row></xml>",
+      "data": {},
+      "options": {
+        "complement": {
+          "cars": [
+            {
+              "brand": "A"
+            },
+            {
+              "brand": "B"
+            }
+          ]
+        }
+      },
+      "expected": "<xml><row>A</row><row>B</row></xml>"
+    },
+    {
+      "id": "nested-array-repeat",
+      "feature": "nested-repeat",
+      "source": "test/test.builder.buildXML.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><row><cell>{d.cars[i].wheels[i].size}</cell><cell>{d.cars[i].wheels[i+1].size}</cell></row><row><cell>{d.cars[i+1].wheels[i].size}</cell><cell>{d.cars[i+1].wheels[i+1].size}</cell></row></xml>",
+      "data": {
+        "cars": [
+          {
+            "wheels": [
+              {
+                "size": "A"
+              },
+              {
+                "size": "B"
+              }
+            ]
+          },
+          {
+            "wheels": [
+              {
+                "size": "C"
+              },
+              {
+                "size": "D"
+              },
+              {
+                "size": "E"
+              }
+            ]
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><row><cell>A</cell><cell>B</cell></row><row><cell>C</cell><cell>D</cell><cell>E</cell></row></xml>"
+    },
+    {
+      "id": "repeat-formatter",
+      "feature": "repeat",
+      "source": "test/test.builder.buildXML.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><row>{d.people[i].name:upperCase}</row><row>{d.people[i+1].name:upperCase}</row></xml>",
+      "data": {
+        "people": [
+          {
+            "name": "ada"
+          },
+          {
+            "name": "grace"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><row>ADA</row><row>GRACE</row></xml>"
+    },
+    {
+      "id": "case-formatters",
+      "feature": "formatter",
+      "source": "test/test.formatter.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.text:lowerCase}|{d.text:upperCase}|{d.text:ucFirst}|{d.text:ucWords}</xml>",
+      "data": {
+        "text": "azerty ss zzzeZ"
+      },
+      "options": {},
+      "expected": "<xml>azerty ss zzzez|AZERTY SS ZZZEZ|Azerty ss zzzeZ|Azerty Ss ZzzeZ</xml>"
+    },
+    {
+      "id": "case-nonstring",
+      "feature": "formatter",
+      "source": "test/test.formatter.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.n:upperCase}|{d.nil:lowerCase}|{d.missing:ucFirst}</xml>",
+      "data": {
+        "n": 120,
+        "nil": null
+      },
+      "options": {},
+      "expected": "<xml>120||</xml>"
+    },
+    {
+      "id": "unaccent-chain",
+      "feature": "formatter",
+      "source": "test/test.formatter.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.text:unaccent:upperCase}</xml>",
+      "data": {
+        "text": "crème brûlée"
+      },
+      "options": {},
+      "expected": "<xml>CREME BRULEE</xml>"
+    },
+    {
+      "id": "substring",
+      "feature": "formatter",
+      "source": "test/test.formatter.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.text:substr(0,3)}|{d.text:slice(3,4)}|{d.text:substr(0,0)}</xml>",
+      "data": {
+        "text": "coucou"
+      },
+      "options": {},
+      "expected": "<xml>cou|c|</xml>"
+    },
+    {
+      "id": "padding",
+      "feature": "formatter",
+      "source": "test/test.formatter.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.text:padl(5,0)}|{d.text:padr(5,xy)}</xml>",
+      "data": {
+        "text": "12"
+      },
+      "options": {},
+      "expected": "<xml>00012|12xyx</xml>"
+    },
+    {
+      "id": "print-literal",
+      "feature": "formatter",
+      "source": "test/test.formatter.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.value:print(hello)}|{d.value:print('a,b')}</xml>",
+      "data": {
+        "value": 42
+      },
+      "options": {},
+      "expected": "<xml>hello|a,b</xml>"
+    },
+    {
+      "id": "prepend",
+      "feature": "formatter",
+      "source": "formatters/string.js:prepend",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.text:prepend(Hello )}</xml>",
+      "data": {
+        "text": "world"
+      },
+      "options": {},
+      "expected": "<xml>Helloworld</xml>"
+    },
+    {
+      "id": "arithmetic",
+      "feature": "formatter",
+      "source": "test/test.formatter.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.n:add(67)}|{d.n:sub(67)}|{d.n:mul(67)}|{d.n:div(80)}</xml>",
+      "data": {
+        "n": "120"
+      },
+      "options": {},
+      "expected": "<xml>187|53|8040|1.5</xml>"
+    },
+    {
+      "id": "round-boundaries",
+      "feature": "formatter",
+      "source": "test/test.formatter.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.a:round(2)}|{d.b:round(2)}|{d.c:round(2)}</xml>",
+      "data": {
+        "a": 1.005,
+        "b": -1.005,
+        "c": -1.006
+      },
+      "options": {},
+      "expected": "<xml>1.01|-1|-1.01</xml>"
+    },
+    {
+      "id": "numeric-formatters",
+      "feature": "formatter",
+      "source": "formatters/number.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.n:int}|{d.n:toFixed(2)}|{d.fr:toEN}|{d.n:toFR}</xml>",
+      "data": {
+        "n": "12.345",
+        "fr": "12,345"
+      },
+      "options": {},
+      "expected": "<xml>12|12.35|12.345|12,345</xml>"
+    },
+    {
+      "id": "arithmetic-chain",
+      "feature": "formatter",
+      "source": "test/test.formatter.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.n:add(2):mul(3):toFixed(2)}</xml>",
+      "data": {
+        "n": 4
+      },
+      "options": {},
+      "expected": "<xml>18.00</xml>"
+    },
+    {
+      "id": "array-join",
+      "feature": "formatter",
+      "source": "test/test.formatter.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.values:arrayJoin}|{d.values:arrayJoin(' | ')}</xml>",
+      "data": {
+        "values": [
+          "1",
+          "2",
+          "hey!"
+        ]
+      },
+      "options": {},
+      "expected": "<xml>1, 2, hey!|1 | 2 | hey!</xml>"
+    },
+    {
+      "id": "array-map",
+      "feature": "formatter",
+      "source": "test/test.formatter.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.values:arrayMap(' | ',':',name,id)}</xml>",
+      "data": {
+        "values": [
+          {
+            "id": 2,
+            "name": "car"
+          },
+          {
+            "id": 3,
+            "name": "plane"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml>car:2 | plane:3</xml>"
+    },
+    {
+      "id": "md5",
+      "feature": "formatter",
+      "source": "formatters/string.js:md5",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.text:md5}</xml>",
+      "data": {
+        "text": "carbone"
+      },
+      "options": {},
+      "expected": "<xml>a4d811e0fa9c5ee6828d57194a1e46a4</xml>"
+    },
+    {
+      "id": "formatter-escaping",
+      "feature": "escaping",
+      "source": "test/test.builder.buildXML.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.text:upperCase}</xml>",
+      "data": {
+        "text": "a&b <c> \"d\" 'e'"
+      },
+      "options": {},
+      "expected": "<xml>A&amp;B &lt;C&gt; \"D\" 'E'</xml>"
+    },
+    {
+      "id": "translation-selected-language",
+      "feature": "translation",
+      "source": "lib/parser.js:translate",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{t(Hello)} {d.name}</xml>",
+      "data": {
+        "name": "Ada"
+      },
+      "options": {
+        "lang": "fr",
+        "translations": {
+          "fr": {
+            "Hello": "Bonjour"
+          },
+          "en": {
+            "Hello": "Hi"
+          }
+        }
+      },
+      "expected": "<xml>Bonjour Ada</xml>"
+    },
+    {
+      "id": "translation-fallback",
+      "feature": "translation",
+      "source": "lib/parser.js:translate",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{t(Missing)}|{t(Empty)}</xml>",
+      "data": {},
+      "options": {
+        "lang": "fr",
+        "translations": {
+          "fr": {
+            "Empty": ""
+          }
+        }
+      },
+      "expected": "<xml>Missing|Empty</xml>"
+    },
+    {
+      "id": "translation-escaping",
+      "feature": "translation",
+      "source": "lib/parser.js:translate",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{t(Hello)}</xml>",
+      "data": {},
+      "options": {
+        "lang": "fr",
+        "translations": {
+          "fr": {
+            "Hello": "A&B <C> \"D\" 'E'"
+          }
+        }
+      },
+      "expected": "<xml>A&amp;B &lt;C&gt; \"D\" &apos;E&apos;</xml>"
+    },
+    {
+      "id": "docx-split-run",
+      "feature": "office-split-run",
+      "source": "test/test.parser.js:removeXMLInsideMarkers",
+      "reference_api": "carbone.renderXML",
+      "template": "<w:p><w:r><w:t>{d.na</w:t></w:r><w:r><w:t>me}</w:t></w:r></w:p>",
+      "data": {
+        "name": "Ada"
+      },
+      "options": {},
+      "expected": "<w:p><w:r><w:t>Ada</w:t></w:r><w:r><w:t></w:t></w:r></w:p>"
+    },
+    {
+      "id": "odt-split-run",
+      "feature": "office-split-run",
+      "source": "test/test.parser.js:removeXMLInsideMarkers",
+      "reference_api": "carbone.renderXML",
+      "template": "<text:p><text:span>{d.na</text:span><text:span>me}</text:span></text:p>",
+      "data": {
+        "name": "Ada"
+      },
+      "options": {},
+      "expected": "<text:p><text:span>Ada</text:span><text:span></text:span></text:p>"
+    }
+  ]
+}
