@@ -44,3 +44,6 @@ template/*
 coverage/*
 asset/*
 0formation/*
+
+######## Rust
+/target/
