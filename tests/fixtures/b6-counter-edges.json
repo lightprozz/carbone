@@ -1,0 +1,535 @@
+{
+  "reference": {
+    "package": "carbone",
+    "version": "3.9.1",
+    "description": "Captured from the Node renderXML API for dynamic counter starts, quoted relative paths, and first-start persistence across rows and nested groups."
+  },
+  "cases": [
+    {
+      "id": "count-dynamic-row-start-first-wins",
+      "template": "<xml><r>{d[i].name:count(.start)}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>5</r><r>6</r><r>7</r></xml>",
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "count-dynamic-root-start",
+      "template": "<xml><r>{d.rows[i].name:count(..start)}</r><r>{d.rows[i+1].name}</r></xml>",
+      "data": {
+        "start": 7,
+        "rows": [
+          {
+            "name": "A",
+            "other": "a",
+            "longerName": "aa",
+            "start": 5
+          },
+          {
+            "name": "B",
+            "other": "b",
+            "longerName": "bb",
+            "start": 9
+          },
+          {
+            "name": "C",
+            "other": "c",
+            "longerName": "cc",
+            "start": 0
+          }
+        ]
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>7</r><r>8</r><r>9</r></xml>",
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "count-dynamic-nested-parent-start",
+      "template": "<xml><g>{d[i].name}<r>{d[i].items[i].name:count(..start)}</r><r>{d[i].items[i+1].name}</r></g><g>{d[i+1].name}</g></xml>",
+      "data": [
+        {
+          "name": "G",
+          "start": 4,
+          "items": [
+            {
+              "name": "A"
+            },
+            {
+              "name": "B"
+            }
+          ]
+        },
+        {
+          "name": "H",
+          "start": 8,
+          "items": [
+            {
+              "name": "C"
+            }
+          ]
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><g>G<r>4</r><r>5</r></g><g>H<r>6</r></g></xml>",
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "count-dynamic-empty-start",
+      "template": "<xml><r>{d[i].name:count(.start)}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": ""
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": ""
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": ""
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>0</r><r>1</r><r>2</r></xml>",
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "count-dynamic-zero-start",
+      "template": "<xml><r>{d[i].name:count(.start)}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 0
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 0
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>0</r><r>1</r><r>2</r></xml>",
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "count-dynamic-quoted-relative-start",
+      "template": "<xml><r>{d[i].name:count('.start')}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>5</r><r>6</r><r>7</r></xml>",
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "count-dynamic-quoted-root-start",
+      "template": "<xml><r>{d.rows[i].name:count('..start')}</r><r>{d.rows[i+1].name}</r></xml>",
+      "data": {
+        "start": 7,
+        "rows": [
+          {
+            "name": "A",
+            "other": "a",
+            "longerName": "aa",
+            "start": 5
+          },
+          {
+            "name": "B",
+            "other": "b",
+            "longerName": "bb",
+            "start": 9
+          },
+          {
+            "name": "C",
+            "other": "c",
+            "longerName": "cc",
+            "start": 0
+          }
+        ]
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>7</r><r>8</r><r>9</r></xml>",
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "count-dynamic-quoted-nested-parent-start",
+      "template": "<xml><g>{d[i].name}<r>{d[i].items[i].name:count('..start')}</r><r>{d[i].items[i+1].name}</r></g><g>{d[i+1].name}</g></xml>",
+      "data": [
+        {
+          "name": "G",
+          "start": 4,
+          "items": [
+            {
+              "name": "A"
+            },
+            {
+              "name": "B"
+            }
+          ]
+        },
+        {
+          "name": "H",
+          "start": 8,
+          "items": [
+            {
+              "name": "C"
+            }
+          ]
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><g>G<r>4</r><r>5</r></g><g>H<r>6</r></g></xml>",
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "count-dynamic-digit-string-start",
+      "template": "<xml><r>{d[i].name:count(.start)}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": "7"
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": "12"
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": "3"
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>7</r><r>8</r><r>9</r></xml>",
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "count-dynamic-leading-zero-start",
+      "template": "<xml><r>{d[i].name:count(.start)}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": "007"
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": "012"
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": "003"
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>7</r><r>8</r><r>9</r></xml>",
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "count-dynamic-later-empty-uses-first-start",
+      "template": "<xml><r>{d[i].name:count(.start)}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": ""
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": ""
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>5</r><r>6</r><r>7</r></xml>",
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "count-dynamic-start-empty-array",
+      "template": "<xml><r>{d[i].name:count(.start)}</r><r>{d[i+1].name}</r></xml>",
+      "data": [],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml></xml>",
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "count-dynamic-then-prepend",
+      "template": "<xml><r>{d[i].name:count(.start):prepend('N-')}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>N-5</r><r>N-6</r><r>N-7</r></xml>",
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "count-dynamic-then-typed-condition-replaces-token",
+      "template": "<xml><r>{d[i].name:count(.start):and(.hidden):ifEQ(true):show('hidden')}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "hidden": true
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "hidden": false
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "hidden": false
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>hidden</r><r>false</r><r>false</r></xml>",
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "count-dynamic-hidden-first-row-initializes-start",
+      "template": "<xml><r>{d[i].visible:showBegin}<v>{d[i].name:count(.start)}</v>{d[i].visible:showEnd}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r></r><r><v>6</v></r><r><v>7</v></r></xml>",
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "count-dynamic-first-token-discarded",
+      "template": "<xml><r>{d[i].name:count(.start):ifIN('5__'):show('skip')}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>skip</r><r>9</r><r>10</r></xml>",
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "count-dynamic-first-formatter-skipped",
+      "template": "<xml><r>{d[i].name:ifEQ('A'):show('skip'):count(.start)}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>skip</r><r>9</r><r>10</r></xml>",
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML"
+    }
+  ]
+}
