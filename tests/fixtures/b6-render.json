@@ -1,0 +1,277 @@
+{
+  "reference": {
+    "package": "carbone",
+    "version": "3.9.1",
+    "description": "Captured from the Node formatter, mathematical-expression parser, builder counter, and renderXML APIs. Arithmetic oracle executes only the original parser-generated code in the Node capture process; native evaluation never executes code."
+  },
+  "cases": [
+    {
+      "id": "count-flat",
+      "template": "<xml><r>{d[i].name:count()}:{d[i].name}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A"
+        },
+        {
+          "name": "B"
+        },
+        {
+          "name": "C"
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>1:A</r><r>2:B</r><r>3:C</r></xml>",
+      "feature": "b6-extras",
+      "source": "formatters/{array,number,string}.js; test/test.carbone.js",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "count-zero",
+      "template": "<xml><r>{d[i].name:count(0)}:{d[i].name}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A"
+        },
+        {
+          "name": "B"
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>0:A</r><r>1:B</r></xml>",
+      "feature": "b6-extras",
+      "source": "formatters/{array,number,string}.js; test/test.carbone.js",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "count-nested",
+      "template": "<xml><r>{d[i].items[i].name:count()}:{d[i].items[i].name}</r><r>{d[i+1].items[i+1].name}</r></xml>",
+      "data": [
+        {
+          "items": [
+            {
+              "name": "A"
+            },
+            {
+              "name": "B"
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "name": "C"
+            }
+          ]
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>1:A</r><r>2:B</r><r>3:C</r></xml>",
+      "feature": "b6-extras",
+      "source": "formatters/{array,number,string}.js; test/test.carbone.js",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "arithmetic-relative",
+      "template": "<xml>{d.passed:mul(100):div(.passed + .failed)}</xml>",
+      "data": {
+        "passed": 10,
+        "failed": 2
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml>83.33333333333333</xml>",
+      "feature": "b6-extras",
+      "source": "formatters/{array,number,string}.js; test/test.carbone.js",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "enum-render",
+      "template": "<xml>{d.value:convEnum(ORDER_STATUS)}</xml>",
+      "data": {
+        "value": 1
+      },
+      "options": {
+        "enum": {
+          "ORDER_STATUS": [
+            "pending",
+            "sent",
+            null
+          ],
+          "YES_NO": {
+            "true": "Yes",
+            "false": "No",
+            "null": "Nothing"
+          },
+          "NESTED": {
+            "obj": {
+              "label": "Object"
+            },
+            "array": [
+              "x",
+              "y"
+            ]
+          },
+          "TEXT": "abc"
+        },
+        "complement": {}
+      },
+      "expected": "<xml>sent</xml>",
+      "feature": "b6-extras",
+      "source": "formatters/{array,number,string}.js; test/test.carbone.js",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "crlf-escaped",
+      "template": "<xml><w:t>{d.value:convCRLF()}</w:t></xml>",
+      "data": {
+        "value": "<&>\r\nend"
+      },
+      "options": {
+        "extension": "docx",
+        "complement": {}
+      },
+      "expected": "<xml><w:t>&lt;&amp;&gt;</w:t><w:br/><w:t>end</w:t></xml>",
+      "feature": "b6-extras",
+      "source": "formatters/{array,number,string}.js; test/test.carbone.js",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "crlf-reordered",
+      "template": "<xml>{d.value:convCRLF():upperCase()}</xml>",
+      "data": {
+        "value": "a\nb"
+      },
+      "options": {
+        "extension": "odt",
+        "complement": {}
+      },
+      "expected": "<xml>A<text:line-break/>B</xml>",
+      "feature": "b6-extras",
+      "source": "formatters/{array,number,string}.js; test/test.carbone.js",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "crlf-stopped",
+      "template": "<xml>{d.value:ifEQ(a):show(x):convCRLF()}</xml>",
+      "data": {
+        "value": "a"
+      },
+      "options": {
+        "extension": "odt",
+        "complement": {}
+      },
+      "expected": "<xml>x</xml>",
+      "feature": "b6-extras",
+      "source": "formatters/{array,number,string}.js; test/test.carbone.js",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "count-upper",
+      "feature": "b6-extras",
+      "source": "formatters/{array,string}.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml><r>{d[i].name:count():upperCase()}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A"
+        },
+        {
+          "name": "B"
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>1</r><r>2</r></xml>"
+    },
+    {
+      "id": "count-prepend",
+      "feature": "b6-extras",
+      "source": "formatters/{array,string}.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml><r>{d[i].name:count():prepend(N)}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A"
+        },
+        {
+          "name": "B"
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>N1</r><r>N2</r></xml>"
+    },
+    {
+      "id": "count-replaced",
+      "feature": "b6-extras",
+      "source": "formatters/{array,string}.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml><r>{d[i].name:count():print(x)}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A"
+        },
+        {
+          "name": "B"
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>x</r><r>x</r></xml>"
+    },
+    {
+      "id": "crlf-twice",
+      "feature": "b6-extras",
+      "source": "formatters/{array,string}.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.value:convCRLF():convCRLF():upperCase()}</xml>",
+      "data": {
+        "value": "<&>\na"
+      },
+      "options": {
+        "extension": "odt",
+        "complement": {}
+      },
+      "expected": "<xml>&lt;&amp;&gt;<text:line-break/>A</xml>"
+    },
+    {
+      "id": "parent-three-dots",
+      "feature": "parent traversal",
+      "source": "lib/parser.js; lib/builder.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.cars[0].wheels[0].keys[0]...name}</xml>",
+      "data": {
+        "name": "root",
+        "cars": [
+          {
+            "name": "toy",
+            "wheels": [
+              {
+                "name": "wheel",
+                "keys": [
+                  {
+                    "name": "key"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml>toy</xml>"
+    }
+  ]
+}
