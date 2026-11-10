@@ -1,0 +1,1474 @@
+{
+  "reference": {
+    "package": "carbone",
+    "version": "3.9.1",
+    "description": "Captured from the Node renderXML API for multiple counters, token-inspecting formatter chains, UTF-16 marker positions, separate and nested loops, hidden rows, unusual starts, and large numeric IDs."
+  },
+  "cases": [
+    {
+      "id": "count-token-two-noargs",
+      "template": "<xml><r>{d[i].name:count()}|{d[i].other:count()}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r>1|__COUNT_undefined_1__</r><r>2|__COUNT_undefined_1__</r><r>3|__COUNT_undefined_1__</r></xml>"
+    },
+    {
+      "id": "count-token-two-zero",
+      "template": "<xml><r>{d[i].name:count(0)}|{d[i].other:count(0)}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r>0|1</r><r>1|2</r><r>2|3</r></xml>"
+    },
+    {
+      "id": "count-token-two-five",
+      "template": "<xml><r>{d[i].name:count(5)}|{d[i].other:count(5)}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r>5|1</r><r>6|2</r><r>7|3</r></xml>"
+    },
+    {
+      "id": "count-token-two-mixed-zero-five",
+      "template": "<xml><r>{d[i].name:count(0)}|{d[i].other:count(5)}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r>0|1</r><r>1|2</r><r>2|3</r></xml>"
+    },
+    {
+      "id": "count-token-two-dynamic",
+      "template": "<xml><r>{d[i].name:count(.start)}|{d[i].other:count(.otherStart)}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r>5|1</r><r>6|1</r><r>7|1</r></xml>"
+    },
+    {
+      "id": "count-token-two-dynamic-reversed",
+      "template": "<xml><r>{d[i].name:count(.otherStart)}|{d[i].other:count(.start)}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r>2|1</r><r>3|1</r><r>4|1</r></xml>"
+    },
+    {
+      "id": "count-token-three-noargs",
+      "template": "<xml><r>{d[i].name:count()}|{d[i].other:count()}|{d[i].longerName:count()}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r>1|__COUNT_undefined_1__|1</r><r>2|__COUNT_undefined_1__|2</r><r>3|__COUNT_undefined_1__|3</r></xml>"
+    },
+    {
+      "id": "count-token-three-mixed",
+      "template": "<xml><r>{d[i].name:count(0)}|{d[i].other:count(5)}|{d[i].longerName:count(.start)}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r>0|1|5</r><r>1|2|6</r><r>2|3|7</r></xml>"
+    },
+    {
+      "id": "count-token-two-second-length",
+      "template": "<xml><r>{d[i].name:count()}|{d[i].other:count():len()}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r>1|21</r><r>2|21</r><r>3|21</r></xml>"
+    },
+    {
+      "id": "count-token-two-second-lowercase",
+      "template": "<xml><r>{d[i].name:count()}|{d[i].other:count():lowerCase()}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r>1|__count_undefined_1__</r><r>2|__count_undefined_1__</r><r>3|__count_undefined_1__</r></xml>"
+    },
+    {
+      "id": "count-token-two-slice-identities",
+      "template": "<xml><r>{d[i].name:count():slice(8)}|{d[i].other:count():slice(8)}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r>09_1__|undefined_1__</r><r>09_1__|undefined_1__</r><r>09_1__|undefined_1__</r></xml>"
+    },
+    {
+      "id": "count-token-two-condition-detects-token",
+      "template": "<xml><r>{d[i].name:count():ifIN('__COUNT_'):show('token')}|{d[i].other:count():ifIN('__COUNT_'):show('token')}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r>token|token</r><r>token|token</r><r>token|token</r></xml>"
+    },
+    {
+      "id": "count-token-two-condition-detects-unassigned",
+      "template": "<xml><r>{d[i].name:count()}|{d[i].other:count():ifEQ('__COUNT_undefined_1__'):show('unassigned')}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r>1|unassigned</r><r>2|unassigned</r><r>3|unassigned</r></xml>"
+    },
+    {
+      "id": "count-token-two-condition-inspects-start",
+      "template": "<xml><r>{d[i].name:count(5)}|{d[i].other:count(5):ifIN('_5__'):show('five')}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r>5|1</r><r>6|2</r><r>7|3</r></xml>"
+    },
+    {
+      "id": "count-token-length-baseline",
+      "template": "<xml><r>{d[i].name:count():len()}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r>14</r><r>14</r><r>14</r></xml>"
+    },
+    {
+      "id": "count-token-length-long-static-prefix",
+      "template": "<xml>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx<r>{d[i].name:count():len()}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx<r>16</r><r>16</r><r>16</r></xml>"
+    },
+    {
+      "id": "count-token-identity-bmp-prefix",
+      "template": "<xml>é漢<r>{d[i].name:count():slice(8)}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml>é漢<r>011_1__</r><r>011_1__</r><r>011_1__</r></xml>"
+    },
+    {
+      "id": "count-token-identity-astral-prefix",
+      "template": "<xml>😀<r>{d[i].name:count():slice(8)}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml>😀<r>011_1__</r><r>011_1__</r><r>011_1__</r></xml>"
+    },
+    {
+      "id": "count-token-identity-noncounter-prefix",
+      "template": "<xml>{d.title}<r>{d.rows[i].name:count():slice(8)}</r><r>{d.rows[i+1].name}</r></xml>",
+      "data": {
+        "title": "Title",
+        "rows": [
+          {
+            "name": "A",
+            "other": "a",
+            "longerName": "aa",
+            "start": 5,
+            "otherStart": 2,
+            "hidden": false,
+            "visible": false
+          },
+          {
+            "name": "B",
+            "other": "b",
+            "longerName": "bb",
+            "start": 9,
+            "otherStart": 7,
+            "hidden": true,
+            "visible": true
+          },
+          {
+            "name": "C",
+            "other": "c",
+            "longerName": "cc",
+            "start": 0,
+            "otherStart": 8,
+            "hidden": false,
+            "visible": true
+          }
+        ]
+      },
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml>Title<r>110_1__</r><r>110_1__</r><r>110_1__</r></xml>"
+    },
+    {
+      "id": "count-token-double-count-noargs",
+      "template": "<xml><r>{d[i].name:count():count()}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r>__COUNT_undefined_1__</r><r>__COUNT_undefined_1__</r><r>__COUNT_undefined_1__</r></xml>"
+    },
+    {
+      "id": "count-token-double-count-five-zero",
+      "template": "<xml><r>{d[i].name:count(5):count(0)}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r>1</r><r>2</r><r>3</r></xml>"
+    },
+    {
+      "id": "count-token-two-double-counts",
+      "template": "<xml><r>{d[i].name:count():count()}|{d[i].other:count():count()}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r>__COUNT_undefined_1__|__COUNT_undefined_1__</r><r>__COUNT_undefined_1__|__COUNT_undefined_1__</r><r>__COUNT_undefined_1__|__COUNT_undefined_1__</r></xml>"
+    },
+    {
+      "id": "count-token-separate-loops",
+      "template": "<xml><a>{d.left[i].name:count()}</a><a>{d.left[i+1].name}</a><b>{d.right[i].name:count(5)}</b><b>{d.right[i+1].name}</b></xml>",
+      "data": {
+        "left": [
+          {
+            "name": "A",
+            "other": "a",
+            "longerName": "aa",
+            "start": 5,
+            "otherStart": 2,
+            "hidden": false,
+            "visible": false
+          },
+          {
+            "name": "B",
+            "other": "b",
+            "longerName": "bb",
+            "start": 9,
+            "otherStart": 7,
+            "hidden": true,
+            "visible": true
+          }
+        ],
+        "right": [
+          {
+            "name": "B",
+            "other": "b",
+            "longerName": "bb",
+            "start": 9,
+            "otherStart": 7,
+            "hidden": true,
+            "visible": true
+          },
+          {
+            "name": "C",
+            "other": "c",
+            "longerName": "cc",
+            "start": 0,
+            "otherStart": 8,
+            "hidden": false,
+            "visible": true
+          }
+        ]
+      },
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><a>1</a><a>2</a><b>5</b><b>6</b></xml>"
+    },
+    {
+      "id": "count-token-separate-loops-inspect-identities",
+      "template": "<xml><a>{d.left[i].name:count():slice(8)}</a><a>{d.left[i+1].name}</a><b>{d.right[i].name:count():slice(8)}</b><b>{d.right[i+1].name}</b></xml>",
+      "data": {
+        "left": [
+          {
+            "name": "A",
+            "other": "a",
+            "longerName": "aa",
+            "start": 5,
+            "otherStart": 2,
+            "hidden": false,
+            "visible": false
+          },
+          {
+            "name": "B",
+            "other": "b",
+            "longerName": "bb",
+            "start": 9,
+            "otherStart": 7,
+            "hidden": true,
+            "visible": true
+          }
+        ],
+        "right": [
+          {
+            "name": "B",
+            "other": "b",
+            "longerName": "bb",
+            "start": 9,
+            "otherStart": 7,
+            "hidden": true,
+            "visible": true
+          },
+          {
+            "name": "C",
+            "other": "c",
+            "longerName": "cc",
+            "start": 0,
+            "otherStart": 8,
+            "hidden": false,
+            "visible": true
+          }
+        ]
+      },
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><a>09_1__</a><a>09_1__</a><b>225_1__</b><b>225_1__</b></xml>"
+    },
+    {
+      "id": "count-token-nested-two-inner-counters",
+      "template": "<xml><g>{d[i].name}<r>{d[i].items[i].name:count()}|{d[i].items[i].other:count()}</r><r>{d[i].items[i+1].name}</r></g><g>{d[i+1].name}</g></xml>",
+      "data": [
+        {
+          "name": "G",
+          "start": 4,
+          "items": [
+            {
+              "name": "A",
+              "other": "a",
+              "longerName": "aa",
+              "start": 5,
+              "otherStart": 2,
+              "hidden": false,
+              "visible": false
+            },
+            {
+              "name": "B",
+              "other": "b",
+              "longerName": "bb",
+              "start": 9,
+              "otherStart": 7,
+              "hidden": true,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "name": "H",
+          "start": 8,
+          "items": [
+            {
+              "name": "C",
+              "other": "c",
+              "longerName": "cc",
+              "start": 0,
+              "otherStart": 8,
+              "hidden": false,
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><g>G<r>1|__COUNT_undefined_1__</r><r>2|__COUNT_undefined_1__</r></g><g>H<r>3|__COUNT_undefined_1__</r></g></xml>"
+    },
+    {
+      "id": "count-token-nested-outer-inner-identities",
+      "template": "<xml><g>{d[i].name:count():slice(8)}<r>{d[i].items[i].name:count():slice(8)}</r><r>{d[i].items[i+1].name}</r></g><g>{d[i+1].name}</g></xml>",
+      "data": [
+        {
+          "name": "G",
+          "start": 4,
+          "items": [
+            {
+              "name": "A",
+              "other": "a",
+              "longerName": "aa",
+              "start": 5,
+              "otherStart": 2,
+              "hidden": false,
+              "visible": false
+            },
+            {
+              "name": "B",
+              "other": "b",
+              "longerName": "bb",
+              "start": 9,
+              "otherStart": 7,
+              "hidden": true,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "name": "H",
+          "start": 8,
+          "items": [
+            {
+              "name": "C",
+              "other": "c",
+              "longerName": "cc",
+              "start": 0,
+              "otherStart": 8,
+              "hidden": false,
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><g>09_1__<r>113_1__</r><r>113_1__</r></g><g>09_1__<r>113_1__</r></g></xml>"
+    },
+    {
+      "id": "count-token-nested-two-dynamic-counters",
+      "template": "<xml><g>{d[i].name}<r>{d[i].items[i].name:count(..start)}|{d[i].items[i].other:count(.otherStart)}</r><r>{d[i].items[i+1].name}</r></g><g>{d[i+1].name}</g></xml>",
+      "data": [
+        {
+          "name": "G",
+          "start": 4,
+          "items": [
+            {
+              "name": "A",
+              "other": "a",
+              "longerName": "aa",
+              "start": 5,
+              "otherStart": 2,
+              "hidden": false,
+              "visible": false
+            },
+            {
+              "name": "B",
+              "other": "b",
+              "longerName": "bb",
+              "start": 9,
+              "otherStart": 7,
+              "hidden": true,
+              "visible": true
+            }
+          ]
+        },
+        {
+          "name": "H",
+          "start": 8,
+          "items": [
+            {
+              "name": "C",
+              "other": "c",
+              "longerName": "cc",
+              "start": 0,
+              "otherStart": 8,
+              "hidden": false,
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><g>G<r>4|1</r><r>5|1</r></g><g>H<r>6|1</r></g></xml>"
+    },
+    {
+      "id": "count-token-hidden-middle-two-counters",
+      "template": "<xml><r>{d[i].hidden:ifEQ(true):hideBegin}{d[i].name:count()}|{d[i].other:count()}{d[i].hidden:hideEnd}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r>1|__COUNT_undefined_1__</r><r></r><r>3|__COUNT_undefined_1__</r></xml>"
+    },
+    {
+      "id": "count-token-hidden-first-two-dynamic-counters",
+      "template": "<xml><r>{d[i].visible:showBegin}<v>{d[i].name:count(.start)}|{d[i].other:count(.otherStart)}</v>{d[i].visible:showEnd}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r></r><r><v>6|1</v></r><r><v>7|1</v></r></xml>"
+    },
+    {
+      "id": "count-token-noncounter-between-counters",
+      "template": "<xml><r>{d[i].name:count():slice(8)}|{d[i].name}|{d[i].other:count():slice(8)}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r>09_1__|A|213_1__</r><r>09_1__|B|213_1__</r><r>09_1__|C|213_1__</r></xml>"
+    },
+    {
+      "id": "count-token-negative-start-literal",
+      "template": "<xml><r>{d[i].name:count(-2)}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r>__COUNT_09_-2__</r><r>__COUNT_09_-2__</r><r>__COUNT_09_-2__</r></xml>"
+    },
+    {
+      "id": "count-token-fractional-start-literal",
+      "template": "<xml><r>{d[i].name:count(1.5)}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r>__COUNT_09_1.5__</r><r>__COUNT_09_1.5__</r><r>__COUNT_09_1.5__</r></xml>"
+    },
+    {
+      "id": "count-token-empty-string-start",
+      "template": "<xml><r>{d[i].name:count('')}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r>0</r><r>1</r><r>2</r></xml>"
+    },
+    {
+      "id": "count-token-bare-and-empty-default",
+      "template": "<xml><r>{d[i].name:count}|{d[i].name}|{d[i].other:count()}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r>1|A|1</r><r>2|B|2</r><r>3|C|3</r></xml>"
+    },
+    {
+      "id": "count-token-large-unassigned-id-precision",
+      "template": "<xml><r>{d[i].name:count():slice(8)}|{d[i].other:count(9007199254740994):slice(8)}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "other": "a",
+          "longerName": "aa",
+          "start": 5,
+          "otherStart": 2,
+          "hidden": false,
+          "visible": false
+        },
+        {
+          "name": "B",
+          "other": "b",
+          "longerName": "bb",
+          "start": 9,
+          "otherStart": 7,
+          "hidden": true,
+          "visible": true
+        },
+        {
+          "name": "C",
+          "other": "c",
+          "longerName": "cc",
+          "start": 0,
+          "otherStart": 8,
+          "hidden": false,
+          "visible": true
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "feature": "b6-extras",
+      "source": "lib/parser.js; lib/builder.js; formatters/array.js; formatters/string.js; formatters/condition.js",
+      "reference_api": "carbone.renderXML",
+      "expected": "<xml><r>09_1__|9007199254740994_1__</r><r>09_1__|9007199254740994_1__</r><r>09_1__|9007199254740994_1__</r></xml>"
+    }
+  ]
+}
