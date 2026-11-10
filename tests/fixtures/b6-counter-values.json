@@ -1,0 +1,157 @@
+{
+  "reference": {
+    "package": "carbone",
+    "version": "3.9.1",
+    "description": "Counter assembly expectations recorded from unchanged Node renderXML."
+  },
+  "cases": [
+    {
+      "id": "counter-token-in-scalar-data",
+      "template": "<xml>{d.value}</xml>",
+      "data": {
+        "value": "__COUNT_9_5__"
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml>5</xml>",
+      "feature": "b6-counter-assembly",
+      "source": "lib/builder.js getLoopIteration",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "counter-token-inspected-without-count",
+      "template": "<xml>{d.value:len()}</xml>",
+      "data": {
+        "value": "__COUNT_9_5__"
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml>13</xml>",
+      "feature": "b6-counter-assembly",
+      "source": "lib/builder.js getLoopIteration",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "counter-token-first-start-wins",
+      "template": "<xml><r>{d[i].value}</r><r>{d[i+1].value}</r></xml>",
+      "data": [
+        {
+          "value": "__COUNT_9_5__"
+        },
+        {
+          "value": "__COUNT_9_8__"
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>5</r><r>6</r></xml>",
+      "feature": "b6-counter-assembly",
+      "source": "lib/builder.js getLoopIteration",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "counter-token-array-only-first-resolved",
+      "template": "<xml><r>{d[i].value}</r><r>{d[i+1].value}</r></xml>",
+      "data": [
+        {
+          "value": [
+            "__COUNT_9_5__",
+            "__COUNT_9_5__"
+          ]
+        },
+        {
+          "value": [
+            "__COUNT_9_5__",
+            "__COUNT_9_5__"
+          ]
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>5,__COUNT_9_5__</r><r>6,__COUNT_9_5__</r></xml>",
+      "feature": "b6-counter-assembly",
+      "source": "lib/builder.js getLoopIteration",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "counter-token-static-text-untouched",
+      "template": "<xml><r>__COUNT_9_5__{d[i].name}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A"
+        },
+        {
+          "name": "B"
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>__COUNT_9_5__A</r><r>__COUNT_9_5__B</r></xml>",
+      "feature": "b6-counter-assembly",
+      "source": "lib/builder.js getLoopIteration",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "counter-token-formatter-only-first-resolved",
+      "template": "<xml><r>{d[i].name:ifNEM():show('__COUNT_09_3____COUNT_09_3__')}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A"
+        },
+        {
+          "name": "B"
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>3__COUNT_09_3__</r><r>4__COUNT_09_3__</r></xml>",
+      "feature": "b6-counter-assembly",
+      "source": "lib/builder.js getLoopIteration",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "counter-token-empty-id-shared",
+      "template": "<xml><r>{d[i].value}</r><r>{d[i+1].value}</r></xml>",
+      "data": [
+        {
+          "value": "__COUNT__5__"
+        },
+        {
+          "value": "__COUNT__8__"
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>5</r><r>6</r></xml>",
+      "feature": "b6-counter-assembly",
+      "source": "lib/builder.js getLoopIteration",
+      "reference_api": "carbone.renderXML"
+    },
+    {
+      "id": "counter-token-nondigits-left-literal",
+      "template": "<xml><r>{d[i].value}</r><r>{d[i+1].value}</r></xml>",
+      "data": [
+        {
+          "value": "__COUNT_x_5__"
+        },
+        {
+          "value": "__COUNT_09_-2__"
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>__COUNT_x_5__</r><r>__COUNT_09_-2__</r></xml>",
+      "feature": "b6-counter-assembly",
+      "source": "lib/builder.js getLoopIteration",
+      "reference_api": "carbone.renderXML"
+    }
+  ]
+}
