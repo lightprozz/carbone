@@ -1,0 +1,2175 @@
+{
+  "reference": {
+    "package": "carbone",
+    "version": "3.9.1",
+    "description": "B3/B4 expected strings captured from the original Node implementation, using JSON-compatible iteration and filter inputs from test/test.builder.buildXML.js. Run node scripts/record-iteration-parity.cjs to verify; --update deliberately records fresh Node outputs."
+  },
+  "cases": [
+    {
+      "id": "b34-array-root",
+      "feature": "iteration",
+      "source": "test/test.builder.buildXML.js:166 (should automatically repeat the xml if the root is an array of objects)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[i].brand} </t_row><t_row> {d[i+1].brand} </t_row></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo"
+        },
+        {
+          "brand": "Tesla motors"
+        },
+        {
+          "brand": "Toyota"
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <t_row> Lumeneo </t_row><t_row> Tesla motors </t_row><t_row> Toyota </t_row></xml>"
+    },
+    {
+      "id": "b34-adjacent-root-markers",
+      "feature": "row-span",
+      "source": "test/test.builder.buildXML.js:178 (should accept markers next to other loop markers (without whitespaces))",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> {d.id}<t_row>{d.id}{d.cars[i].brand}{d.id}</t_row>{d.id}<t_row>{d.id}{d.cars[i+1].brand}{d.id}</t_row>{d.id}</xml>",
+      "data": {
+        "id": 3,
+        "cars": [
+          {
+            "brand": "Lumeneo"
+          },
+          {
+            "brand": "Tesla motors"
+          },
+          {
+            "brand": "Toyota"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml> 3<t_row>3Lumeneo3</t_row>3<t_row>3Tesla motors3</t_row>3<t_row>3Toyota3</t_row>33</xml>"
+    },
+    {
+      "id": "b34-plain-text-loop",
+      "feature": "row-span",
+      "source": "test/test.builder.buildXML.js:193 (should accept non-XML structure)",
+      "reference_api": "builder.buildXML",
+      "template": "{d[i].brand} , {d[i+1].brand}",
+      "data": [
+        {
+          "brand": "Lumeneo"
+        },
+        {
+          "brand": "Tesla motors"
+        },
+        {
+          "brand": "Toyota"
+        }
+      ],
+      "options": {},
+      "expected": "Lumeneo , Tesla motors , Toyota , "
+    },
+    {
+      "id": "b34-empty-row-between-markers",
+      "feature": "row-span",
+      "source": "test/test.builder.buildXML.js:218 (should works even if there are some empty rows between the two repetition markers)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[i].brand} </t_row> <t_row></t_row> <t_row> {d[i+1].brand} </t_row></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo"
+        },
+        {
+          "brand": "Tesla motors"
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <t_row> Lumeneo </t_row> <t_row></t_row> <t_row> Tesla motors </t_row> <t_row></t_row> </xml>"
+    },
+    {
+      "id": "b34-array-in-object",
+      "feature": "iteration",
+      "source": "test/test.builder.buildXML.js:229 (should handle array in an object)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><t_row> {d.cars[i].brand} </t_row><t_row> {d.cars[i+1].brand} </t_row></xml>",
+      "data": {
+        "cars": [
+          {
+            "brand": "Lumeneo"
+          },
+          {
+            "brand": "Tesla motors"
+          },
+          {
+            "brand": "Toyota"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><t_row> Lumeneo </t_row><t_row> Tesla motors </t_row><t_row> Toyota </t_row></xml>"
+    },
+    {
+      "id": "b34-root-field-in-loop",
+      "feature": "iteration",
+      "source": "test/test.builder.buildXML.js:243 (should repeat d.who if it is inside a repetition section)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><tr>{d.who} {d.cars[i].brand} </tr><tr> {d.who} {d.cars[i+1].brand} </tr></xml>",
+      "data": {
+        "who": "my",
+        "cars": [
+          {
+            "brand": "Lumeneo"
+          },
+          {
+            "brand": "Tesla motors"
+          },
+          {
+            "brand": "Toyota"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><tr>my Lumeneo </tr><tr>my Tesla motors </tr><tr>my Toyota </tr></xml>"
+    },
+    {
+      "id": "b34-custom-sort",
+      "feature": "sort",
+      "source": "test/test.builder.buildXML.js:258 (should accept custom iterators and sort the data using this iterator)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><t_row> {d.cars[sort].brand} </t_row><t_row> {d.cars[sort+1].brand} </t_row></xml>",
+      "data": {
+        "cars": [
+          {
+            "brand": "Lumeneo",
+            "sort": 3
+          },
+          {
+            "brand": "Tesla motors",
+            "sort": 1
+          },
+          {
+            "brand": "Toyota",
+            "sort": 2
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><t_row> Tesla motors </t_row><t_row> Toyota </t_row><t_row> Lumeneo </t_row></xml>"
+    },
+    {
+      "id": "b34-constant-key-first-row",
+      "feature": "grouping",
+      "source": "test/test.builder.buildXML.js:272 (should keep the first element of the array if the custom iterator is constant (always equals 1))",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><t_row> {d.cars[sort].brand} </t_row><t_row> {d.cars[sort+1].brand} </t_row></xml>",
+      "data": {
+        "cars": [
+          {
+            "brand": "Lumeneo",
+            "sort": 1
+          },
+          {
+            "brand": "Tesla motors",
+            "sort": 1
+          },
+          {
+            "brand": "Toyota",
+            "sort": 1
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><t_row> Lumeneo </t_row></xml>"
+    },
+    {
+      "id": "b34-two-sort-iterators",
+      "feature": "sort",
+      "source": "test/test.builder.buildXML.js:286 (should accept two iterators)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><t_row> {d.cars[sort,i].brand} </t_row><t_row> {d.cars[sort+1,i+1].brand} </t_row></xml>",
+      "data": {
+        "cars": [
+          {
+            "brand": "Lumeneo",
+            "sort": 1
+          },
+          {
+            "brand": "Tesla motors",
+            "sort": 2
+          },
+          {
+            "brand": "Toyota",
+            "sort": 1
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><t_row> Lumeneo </t_row><t_row> Toyota </t_row><t_row> Tesla motors </t_row></xml>"
+    },
+    {
+      "id": "b34-three-sort-iterators",
+      "feature": "sort",
+      "source": "test/test.builder.buildXML.js:300 (should accept three iterators)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><t_row> {d.cars[speed, sort,i].brand} </t_row><t_row> {d.cars[speed+1, sort+1, i+1].brand} </t_row></xml>",
+      "data": {
+        "cars": [
+          {
+            "brand": "fourth",
+            "speed": "c",
+            "sort": 1
+          },
+          {
+            "brand": "fifth",
+            "speed": "c",
+            "sort": 1
+          },
+          {
+            "brand": "first",
+            "speed": "a",
+            "sort": 2
+          },
+          {
+            "brand": "third",
+            "speed": "b",
+            "sort": 2
+          },
+          {
+            "brand": "second",
+            "speed": "b",
+            "sort": 1
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><t_row> first </t_row><t_row> second </t_row><t_row> third </t_row><t_row> fourth </t_row><t_row> fifth </t_row></xml>"
+    },
+    {
+      "id": "b34-null-key-first-row",
+      "feature": "grouping",
+      "source": "test/test.builder.buildXML.js:316 (should select only the first element if the iterator is always null ???)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><t_row> {d.cars[sort].brand} </t_row><t_row> {d.cars[sort+1].brand} </t_row></xml>",
+      "data": {
+        "cars": [
+          {
+            "brand": "Lumeneo",
+            "sort": null
+          },
+          {
+            "brand": "Tesla motors",
+            "sort": null
+          },
+          {
+            "brand": "Toyota",
+            "sort": null
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><t_row> Lumeneo </t_row></xml>"
+    },
+    {
+      "id": "b34-whitespace-before-bracket",
+      "feature": "iteration",
+      "source": "test/test.builder.buildXML.js:344 (should work if there is a whitespace between \"cars\" and \"[\" in some tags)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><t_row> {d.cars[i].brand} </t_row><t_row> {d.cars [i+1].brand} </t_row></xml>",
+      "data": {
+        "cars": [
+          {
+            "brand": "Lumeneo"
+          },
+          {
+            "brand": "Tesla motors"
+          },
+          {
+            "brand": "Toyota"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><t_row> Lumeneo </t_row><t_row> Tesla motors </t_row><t_row> Toyota </t_row></xml>"
+    },
+    {
+      "id": "b34-attribute-loop",
+      "feature": "row-span",
+      "source": "test/test.builder.buildXML.js:358 (should work if there is a marker in a tag)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><t_row bla={d.cars[i].brand}>  </t_row><t_row bla={d.cars [i+1].brand}>  </t_row></xml>",
+      "data": {
+        "cars": [
+          {
+            "brand": "Lumeneo"
+          },
+          {
+            "brand": "Tesla motors"
+          },
+          {
+            "brand": "Toyota"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><t_row bla=Lumeneo>  </t_row><t_row bla=Tesla motors>  </t_row><t_row bla=Toyota>  </t_row></xml>"
+    },
+    {
+      "id": "b34-self-closing-delimiter",
+      "feature": "row-span",
+      "source": "test/test.builder.buildXML.js:410 (should detect repetition even if there is only one self-closing tag between the two parts (with whitespaces))",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><p><p><br/></p></p>{d[i].brand}  <br/>{d[i+1].brand}  <br/></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo"
+        },
+        {
+          "brand": "Tesla motors"
+        }
+      ],
+      "options": {},
+      "expected": "<xml><p><p><br/></p></p>Lumeneo  <br/>Tesla motors  <br/></xml>"
+    },
+    {
+      "id": "b34-self-closing-only",
+      "feature": "row-span",
+      "source": "test/test.builder.buildXML.js:421 (should work even if there are only self-closing tags)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <br/> {d[i].brand} <br/> <br/><br/> <br/> {d[i+1].brand} <br/></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo"
+        },
+        {
+          "brand": "Tesla motors"
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <br/> Lumeneo <br/> <br/><br/> <br/> Tesla motors <br/> <br/><br/> <br/> </xml>"
+    },
+    {
+      "id": "b34-nested-row-column-loops",
+      "feature": "iteration",
+      "source": "test/test.builder.buildXML.js:432 (should manage nested arrays)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><t_row><td>{d.cars[i].wheels[i].size  }</td><td>{d.cars[i].wheels[i+1].size  }</td></t_row><t_row><td>{d.cars[i+1].wheels[i].size}</td><td>{d.cars[i+1].wheels[i+1].size}</td></t_row></xml>",
+      "data": {
+        "cars": [
+          {
+            "wheels": [
+              {
+                "size": "A"
+              },
+              {
+                "size": "B"
+              }
+            ]
+          },
+          {
+            "wheels": [
+              {
+                "size": "C"
+              },
+              {
+                "size": "D"
+              },
+              {
+                "size": "E"
+              }
+            ]
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><t_row><td>A</td><td>B</td></t_row><t_row><td>C</td><td>D</td><td>E</td></t_row></xml>"
+    },
+    {
+      "id": "b34-partial-outer-boundary",
+      "feature": "row-span",
+      "source": "test/test.builder.buildXML.js:489 (should manage two adjacents arrays within an array. It should accept partial repetitions (only {d[i+1].site.label} is set))",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><table><h1>{d[i].site.label}</h1><cell><t_row>{d[i].cars[i].size}</t_row><t_row>{d[i].cars[i+1].size}</t_row></cell><cell><t_row>{d[i].trucks[i].size}</t_row><t_row>{d[i].trucks[i+1].size}</t_row></cell></table><table><h1>{d[i+1].site.label}</h1></table></xml>",
+      "data": [
+        {
+          "site": {
+            "label": "site_A"
+          },
+          "cars": [
+            {
+              "size": "A"
+            },
+            {
+              "size": "B"
+            }
+          ],
+          "trucks": [
+            {
+              "size": "X"
+            }
+          ]
+        }
+      ],
+      "options": {},
+      "expected": "<xml><table><h1>site_A</h1><cell><t_row>A</t_row><t_row>B</t_row></cell><cell><t_row>X</t_row></cell></table></xml>"
+    },
+    {
+      "id": "b34-partial-outer-nested-object",
+      "feature": "row-span",
+      "source": "test/test.builder.buildXML.js:513 (should manage nested object with two adjacents arrays within an array. It should accept partial repetitions (only {d[i+1].site.label} is set))",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><table><h1>{d[i].site.label}</h1><cell><t_row><td>{d[i].cars[i].size}</td><td>{d[i].cars[i].spec.qty}</td></t_row><t_row><td>{d[i].cars[i+1].size}</td><td>{d[i].cars[i+1].spec.qty}</td></t_row></cell><cell><t_row><td>{d[i].trucks[i].size}</td></t_row><t_row><td>{d[i].trucks[i+1].size}</td></t_row></cell></table><table><h1>{d[i+1].site.label}</h1></table></xml>",
+      "data": [
+        {
+          "site": {
+            "label": "site_A"
+          },
+          "cars": [
+            {
+              "size": "A",
+              "spec": {
+                "qty": 1
+              }
+            },
+            {
+              "size": "B",
+              "spec": {
+                "qty": 2
+              }
+            }
+          ],
+          "trucks": [
+            {
+              "size": "X"
+            }
+          ]
+        }
+      ],
+      "options": {},
+      "expected": "<xml><table><h1>site_A</h1><cell><t_row><td>A</td><td>1</td></t_row><t_row><td>B</td><td>2</td></t_row></cell><cell><t_row><td>X</td></t_row></cell></table></xml>"
+    },
+    {
+      "id": "b34-three-level-same-xml-tags",
+      "feature": "iteration",
+      "source": "test/test.builder.buildXML.js:537 (1. should manage 3 levels of arrays with nested objects even if the xml tags are the same everywhere (td))",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><td><h1>{d[i].site.label}</h1><td><td>{d[i].cars[i].name} {d[i].cars[i].autonomy} <td>{d[i].cars[i].spec.weight}</td></td><td>{d[i].cars[i].wheels[i].strengh} {d[i].cars[i].wheels[i].tire.brand}</td><td>{d[i].cars[i].wheels[i+1].strengh} {d[i].cars[i].wheels[i+1].tire.brand}</td></td><td><td>{d[i].cars[i+1].name} {d[i].cars[i+1].autonomy} <td>{d[i].cars[i+1].spec.weight}</td></td></td><td><td>{d[i].trucks[i].name}</td><td>{d[i].trucks[i+1].name}</td></td></td><td><h1>{d[i+1].site.label}</h1></td></xml>",
+      "data": [
+        {
+          "site": {
+            "label": "site_A"
+          },
+          "cars": [
+            {
+              "name": "prius",
+              "autonomy": 7,
+              "spec": {
+                "weight": 1
+              },
+              "wheels": [
+                {
+                  "strengh": "s1",
+                  "tire": {
+                    "brand": "mich"
+                  }
+                }
+              ]
+            },
+            {
+              "name": "civic",
+              "autonomy": 0,
+              "spec": {
+                "weight": 2
+              },
+              "wheels": [
+                {
+                  "strengh": "s2",
+                  "tire": {
+                    "brand": "mich"
+                  }
+                }
+              ]
+            }
+          ],
+          "trucks": [
+            {
+              "name": "scania"
+            }
+          ]
+        },
+        {
+          "site": {
+            "label": "site_B"
+          },
+          "cars": [],
+          "trucks": [
+            {
+              "name": "daf"
+            },
+            {
+              "name": "hyundai"
+            }
+          ]
+        }
+      ],
+      "options": {},
+      "expected": "<xml><td><h1>site_A</h1><td><td>prius 7 <td>1</td></td><td>s1 mich</td></td><td><td>civic 0 <td>2</td></td><td>s2 mich</td></td><td><td>scania</td></td></td><td><h1>site_B</h1><td><td>daf</td><td>hyundai</td></td></td></xml>"
+    },
+    {
+      "id": "b34-independent-object-arrays",
+      "feature": "iteration",
+      "source": "test/test.builder.buildXML.js:616 (should work with two independant arrays in sub objects)",
+      "reference_api": "builder.buildXML",
+      "template": "<table>  <row>    {d.cars.bills[i].name}    a: {d.cars.bills[i].range.dist}  </row>  <row>    {d.cars.bills[i+1].name}  </row></table><table>  <row>    {d.fruit.vitamins[i].name}  </row>  <row>    {d.fruit.vitamins[i+1].name}  </row></table>",
+      "data": {
+        "cars": {
+          "bills": [
+            {
+              "name": "Tesla",
+              "range": {
+                "dist": 1000
+              }
+            },
+            {
+              "name": "Delorean",
+              "range": {
+                "dist": 1200
+              }
+            }
+          ]
+        },
+        "fruit": {
+          "vitamins": [
+            {
+              "name": "B1"
+            }
+          ]
+        }
+      },
+      "options": {},
+      "expected": "<table>  <row>    Tesla    a: 1000  </row>  <row>    Delorean    a: 1200  </row>  </table><table>  <row>    B1  </row>  </table>"
+    },
+    {
+      "id": "b34-three-level-flatten",
+      "feature": "flatten",
+      "source": "test/test.builder.buildXML.js:670 (should repeat automatically all markers which are on the same row of a deeper array (third level here). It will flatten the JSON)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><tr><td>{d[i].site.label}</td><td>{d[i].cars[i].name} {d[i].cars[i].autonomy}</td><td>{d[i].cars[i].spec.weight}</td><td>{d[i].cars[i].wheels[i].strengh} {d[i].cars[i].wheels[i].tire.brand}</td></tr><tr><td>{d[i+1].site.label}</td><td>{d[i+1].cars[i+1].name} {d[i+1].cars[i+1].autonomy}</td><td>{d[i+1].cars[i+1].spec.weight}</td><td>{d[i+1].cars[i+1].wheels[i+1].strengh} {d[i+1].cars[i+1].wheels[i+1].tire.brand}</td></tr></xml>",
+      "data": [
+        {
+          "site": {
+            "label": "site_A"
+          },
+          "cars": [
+            {
+              "name": "prius",
+              "autonomy": 7,
+              "spec": {
+                "weight": 1
+              },
+              "wheels": [
+                {
+                  "strengh": "s1",
+                  "tire": {
+                    "brand": "mich"
+                  }
+                },
+                {
+                  "strengh": "s2",
+                  "tire": {
+                    "brand": "cont"
+                  }
+                }
+              ]
+            },
+            {
+              "name": "civic",
+              "autonomy": 0,
+              "spec": {
+                "weight": 2
+              },
+              "wheels": [
+                {
+                  "strengh": "s2",
+                  "tire": {
+                    "brand": "mich"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "site": {
+            "label": "site_B"
+          },
+          "cars": [
+            {
+              "name": "modelS",
+              "autonomy": 4,
+              "spec": {
+                "weight": 1
+              },
+              "wheels": [
+                {
+                  "strengh": "s1",
+                  "tire": {
+                    "brand": "mich"
+                  }
+                },
+                {
+                  "strengh": "s2",
+                  "tire": {
+                    "brand": "uni"
+                  }
+                },
+                {
+                  "strengh": "s3",
+                  "tire": {
+                    "brand": "cont"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "options": {},
+      "expected": "<xml><tr><td>site_A</td><td>prius 7</td><td>1</td><td>s1 mich</td></tr><tr><td>site_A</td><td>prius 7</td><td>1</td><td>s2 cont</td></tr><tr><td>site_A</td><td>civic 0</td><td>2</td><td>s2 mich</td></tr><tr><td>site_B</td><td>modelS 4</td><td>1</td><td>s1 mich</td></tr><tr><td>site_B</td><td>modelS 4</td><td>1</td><td>s2 uni</td></tr><tr><td>site_B</td><td>modelS 4</td><td>1</td><td>s3 cont</td></tr></xml>"
+    },
+    {
+      "id": "b34-deep-marker-before-parent",
+      "feature": "flatten",
+      "source": "test/test.builder.buildXML.js:767 (should repeat automatically all markers which are on the same row of a deeper array Special case here where the third level is written first and the second level is not written)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><tr><td>{d[i].cars[i].wheels[i].tire.brand}</td><td>{d[i].site.label}</td></tr><tr><td>{d[i+1].cars[i+1].wheels[i+1].tire.brand}</td><td>{d[i+1].site.label}</td></tr></xml>",
+      "data": [
+        {
+          "site": {
+            "label": "site_A"
+          },
+          "cars": [
+            {
+              "wheels": [
+                {
+                  "tire": {
+                    "brand": "mich"
+                  }
+                },
+                {
+                  "tire": {
+                    "brand": "cont"
+                  }
+                }
+              ]
+            },
+            {
+              "wheels": [
+                {
+                  "tire": {
+                    "brand": "mich"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "site": {
+            "label": "site_B"
+          },
+          "cars": [
+            {
+              "wheels": [
+                {
+                  "tire": {
+                    "brand": "mich"
+                  }
+                },
+                {
+                  "tire": {
+                    "brand": "uni"
+                  }
+                },
+                {
+                  "tire": {
+                    "brand": "cont"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "options": {},
+      "expected": "<xml><tr><td>mich</td><td>site_A</td></tr><tr><td>cont</td><td>site_A</td></tr><tr><td>mich</td><td>site_A</td></tr><tr><td>mich</td><td>site_B</td></tr><tr><td>uni</td><td>site_B</td></tr><tr><td>cont</td><td>site_B</td></tr></xml>"
+    },
+    {
+      "id": "b34-nested-custom-sort-path",
+      "feature": "sort",
+      "source": "test/test.builder.buildXML.js:840 (should manage nested arrays with complex iterators)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><t_row><td>{d.cars[driver.name].wheels[size].size  }</td><td>{d.cars[driver.name].wheels[size+1].size  }</td></t_row><t_row><td>{d.cars[driver.name+1].wheels[size].size}</td><td>{d.cars[driver.name+1].wheels[size+1].size}</td></t_row></xml>",
+      "data": {
+        "cars": [
+          {
+            "wheels": [
+              {
+                "size": "B"
+              },
+              {
+                "size": "A"
+              }
+            ],
+            "driver": {
+              "name": "david"
+            }
+          },
+          {
+            "wheels": [
+              {
+                "size": "D"
+              },
+              {
+                "size": "C"
+              },
+              {
+                "size": "E"
+              }
+            ],
+            "driver": {
+              "name": "bob"
+            }
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><t_row><td>C</td><td>D</td><td>E</td></t_row><t_row><td>A</td><td>B</td></t_row></xml>"
+    },
+    {
+      "id": "b34-adjacent-loops-static-separator",
+      "feature": "row-span",
+      "source": "test/test.builder.buildXML.js:864 (should work with two adjacents arrays and some xml in between. It should work even if there are a lot of whitespaces )",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><t_cars>   <td>{  d.cars[ i ].brand   } </td> <td>{   d.cars[i + 1 ].brand   } </td> </t_cars><oo> hello </oo><t_wheels> <td>{  d.wheels[ i ].size  } </td> <td>{   d.wheels[ i + 1].size  } </td> </t_wheels></xml>",
+      "data": {
+        "cars": [
+          {
+            "brand": "Tesla"
+          },
+          {
+            "brand": "Lumeneo"
+          },
+          {
+            "brand": "Venturi"
+          }
+        ],
+        "wheels": [
+          {
+            "size": "A"
+          },
+          {
+            "size": "B"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><t_cars>   <td>Tesla </td> <td>Lumeneo </td> <td>Venturi </td>  </t_cars><oo> hello </oo><t_wheels> <td>A </td> <td>B </td>  </t_wheels></xml>"
+    },
+    {
+      "id": "b34-filter-equal",
+      "feature": "filter",
+      "source": "test/test.builder.buildXML.js:880 (should accept condition \"=\" in arrays)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[speed=100,i].brand} </t_row><t_row> {d[  speed =  100 ,  i+1].brand} </t_row></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo",
+          "speed": 100
+        },
+        {
+          "brand": "Tesla motors",
+          "speed": 200
+        },
+        {
+          "brand": "Toyota",
+          "speed": 100
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <t_row> Lumeneo </t_row><t_row> Toyota </t_row></xml>"
+    },
+    {
+      "id": "b34-nested-loop-filters",
+      "feature": "filter",
+      "source": "test/test.builder.buildXML.js:892 (should manage conditions with nested arrays)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><t_row><td>{d.cars[speed>10, i].wheels[size>6, i].size  }</td><td>{d.cars[speed>10, i].wheels[size>6, i+1].size  }</td></t_row><t_row><td>{d.cars[speed>10, i+1].wheels[size>6, i].size}</td><td>{d.cars[speed>10, i+1].wheels[size>6, i+1].size}</td></t_row></xml>",
+      "data": {
+        "cars": [
+          {
+            "wheels": [
+              {
+                "size": 5
+              },
+              {
+                "size": 10
+              }
+            ],
+            "speed": 5
+          },
+          {
+            "wheels": [
+              {
+                "size": 5
+              },
+              {
+                "size": 10
+              },
+              {
+                "size": 20
+              }
+            ],
+            "speed": 20
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><t_row><td>10</td><td>20</td></t_row></xml>"
+    },
+    {
+      "id": "b34-filter-greater",
+      "feature": "filter",
+      "source": "test/test.builder.buildXML.js:909 (should accept condition \">\" in arrays)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[speed>100,i].brand} </t_row><t_row> {d[  speed >  100 ,  i+1].brand} </t_row></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo",
+          "speed": 50
+        },
+        {
+          "brand": "Tesla motors",
+          "speed": 200
+        },
+        {
+          "brand": "Toyota",
+          "speed": 100
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <t_row> Tesla motors </t_row></xml>"
+    },
+    {
+      "id": "b34-filter-greater-entity",
+      "feature": "filter",
+      "source": "test/test.builder.buildXML.js:921 (should accept condition encoded \">\" in arrays)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[speed&gt;100,i].brand} </t_row><t_row> {d[  speed &gt;  100 ,  i+1].brand} </t_row></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo",
+          "speed": 50
+        },
+        {
+          "brand": "Tesla motors",
+          "speed": 200
+        },
+        {
+          "brand": "Toyota",
+          "speed": 100
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <t_row> Tesla motors </t_row></xml>"
+    },
+    {
+      "id": "b34-filter-less",
+      "feature": "filter",
+      "source": "test/test.builder.buildXML.js:933 (should accept condition \"<\" in arrays)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[speed<200,i].brand} </t_row><t_row> {d[  speed <  200 ,  i+1].brand} </t_row></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo",
+          "speed": 150
+        },
+        {
+          "brand": "Tesla motors",
+          "speed": 200
+        },
+        {
+          "brand": "Toyota",
+          "speed": 100
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <t_row> Lumeneo </t_row><t_row> Toyota </t_row></xml>"
+    },
+    {
+      "id": "b34-filter-less-entity",
+      "feature": "filter",
+      "source": "test/test.builder.buildXML.js:945 (should accept condition encoded \"<\" in arrays)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[speed&lt;200,i].brand} </t_row><t_row> {d[  speed &lt;  200 ,  i+1].brand} </t_row></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo",
+          "speed": 150
+        },
+        {
+          "brand": "Tesla motors",
+          "speed": 200
+        },
+        {
+          "brand": "Toyota",
+          "speed": 100
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <t_row> Lumeneo </t_row><t_row> Toyota </t_row></xml>"
+    },
+    {
+      "id": "b34-multiple-filters",
+      "feature": "filter",
+      "source": "test/test.builder.buildXML.js:957 (should accept multiple conditions in arrays)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[speed=100, high < 15, i].brand} </t_row><t_row> {d[speed=100, high < 15,i+1].brand} </t_row></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo",
+          "speed": 100,
+          "high": 12
+        },
+        {
+          "brand": "Tesla motors",
+          "speed": 200,
+          "high": 5
+        },
+        {
+          "brand": "Toyota",
+          "speed": 100,
+          "high": 44
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <t_row> Lumeneo </t_row></xml>"
+    },
+    {
+      "id": "b34-filter-array-length",
+      "feature": "filter",
+      "source": "test/test.builder.buildXML.js:969 (should accept conditions using length of the array)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[drivers.length>0, i].brand} </t_row><t_row> {d[drivers.length>0, i+1].brand} </t_row></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo",
+          "drivers": [
+            "bob",
+            "martin"
+          ]
+        },
+        {
+          "brand": "Tesla motors",
+          "drivers": []
+        },
+        {
+          "brand": "Toyota",
+          "drivers": [
+            "david",
+            "leonardo"
+          ]
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <t_row> Lumeneo </t_row><t_row> Toyota </t_row></xml>"
+    },
+    {
+      "id": "b34-filter-nested-path",
+      "feature": "filter",
+      "source": "test/test.builder.buildXML.js:981 (should accept conditions in a nested object)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[ speed . high > 13, i].brand} </t_row><t_row> {d[ speed.high > 13,i+1].brand} </t_row></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo",
+          "speed": {
+            "high": 12,
+            "low": 1
+          }
+        },
+        {
+          "brand": "Tesla motors",
+          "speed": {
+            "high": 5,
+            "low": 2
+          }
+        },
+        {
+          "brand": "Toyota",
+          "speed": {
+            "high": 44,
+            "low": 20
+          }
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <t_row> Toyota </t_row></xml>"
+    },
+    {
+      "id": "b34-repeated-direct-filter",
+      "feature": "filter",
+      "source": "test/test.builder.buildXML.js:993 (should accept conditions in a nested object without iterator. Should accept to use the same condition twice)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <tr> {d[ speed.high = 12].brand}  {d[ speed.high=10].brand}  {d[ speed.high=12].brand} </tr></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo",
+          "speed": {
+            "high": 12,
+            "low": 1
+          }
+        },
+        {
+          "brand": "Tesla motors",
+          "speed": {
+            "high": 5,
+            "low": 2
+          }
+        },
+        {
+          "brand": "Toyota",
+          "speed": {
+            "high": 44,
+            "low": 20
+          }
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <tr> Lumeneo    Lumeneo </tr></xml>"
+    },
+    {
+      "id": "b34-filter-not-equal",
+      "feature": "filter",
+      "source": "test/test.builder.buildXML.js:1006 (should accept comparison operatior !=)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[ speed.high!=5, i].brand} </t_row><t_row> {d[ speed.high != 5,i+1].brand} </t_row></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo",
+          "speed": {
+            "high": 12,
+            "low": 1
+          }
+        },
+        {
+          "brand": "Tesla motors",
+          "speed": {
+            "high": 5,
+            "low": 2
+          }
+        },
+        {
+          "brand": "Toyota",
+          "speed": {
+            "high": 44,
+            "low": 20
+          }
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <t_row> Lumeneo </t_row><t_row> Toyota </t_row></xml>"
+    },
+    {
+      "id": "b34-filter-not-equal-spaced",
+      "feature": "filter",
+      "source": "test/test.builder.buildXML.js:1018 (should accept comparison operatior != with a lot of whitespaces)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[ speed . high !  =  5, i].brand} </t_row><t_row> {d[ speed.high  !   = 5,  i+1].brand} </t_row></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo",
+          "speed": {
+            "high": 12,
+            "low": 1
+          }
+        },
+        {
+          "brand": "Tesla motors",
+          "speed": {
+            "high": 5,
+            "low": 2
+          }
+        },
+        {
+          "brand": "Toyota",
+          "speed": {
+            "high": 44,
+            "low": 20
+          }
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <t_row> Lumeneo </t_row><t_row> Toyota </t_row></xml>"
+    },
+    {
+      "id": "b34-filter-same-path-twice",
+      "feature": "filter",
+      "source": "test/test.builder.buildXML.js:1030 (should accept two conditions on the same object-attribute. It should accept extra whitespaces in the condition)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[ speed . high > 8, s pe ed.h igh < 20, i].brand} </t_row><t_row> {d[ speed.high > 8, speed.high < 20, i+1].brand} </t_row></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo",
+          "speed": {
+            "high": 12,
+            "low": 1
+          }
+        },
+        {
+          "brand": "Tesla motors",
+          "speed": {
+            "high": 5,
+            "low": 2
+          }
+        },
+        {
+          "brand": "Toyota",
+          "speed": {
+            "high": 44,
+            "low": 20
+          }
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <t_row> Lumeneo </t_row></xml>"
+    },
+    {
+      "id": "b34-same-array-two-loops",
+      "feature": "iteration",
+      "source": "test/test.builder.buildXML.js:1054 (should work if the same array is repeated two times in the xml)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[i].brand} </t_row><t_row> {d[i+1].brand} </t_row><t_row> {d[i].brand} </t_row><t_row> {d[i+1].brand} </t_row></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo"
+        },
+        {
+          "brand": "Tesla motors"
+        },
+        {
+          "brand": "Toyota"
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <t_row> Lumeneo </t_row><t_row> Tesla motors </t_row><t_row> Toyota </t_row><t_row> Lumeneo </t_row><t_row> Tesla motors </t_row><t_row> Toyota </t_row></xml>"
+    },
+    {
+      "id": "b34-same-array-two-filtered-subloops",
+      "feature": "filter",
+      "source": "test/test.builder.buildXML.js:1066 (should work if the same array is repeated two times in the xml and there are condition is in a sub array)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[i].brand} </t_row> <t_row> <td> {d[i].cars[weight,weight<3].wheel.name} </td> <td> {d[i].cars[weight+1,weight<3].wheel.name} </td> </t_row><t_row> {d[i+1].brand} </t_row><t_row> {d[i].brand} </t_row> <t_row> <td> {d[i].cars[weight,weight>2].wheel.name} </td> <td> {d[i].cars[weight+1,weight>2].wheel.name} </td> </t_row><t_row> {d[i+1].brand} </t_row> </xml>",
+      "data": [
+        {
+          "brand": "Toyota",
+          "cars": [
+            {
+              "name": "prius",
+              "autonomy": 7,
+              "weight": 1,
+              "wheel": {
+                "name": "norauto"
+              }
+            },
+            {
+              "name": "yaris",
+              "autonomy": 2,
+              "weight": 3,
+              "wheel": {
+                "name": "goodyear"
+              }
+            },
+            {
+              "name": "civic",
+              "autonomy": 0,
+              "weight": 2,
+              "wheel": {
+                "name": "michelin"
+              }
+            },
+            {
+              "name": "auris",
+              "autonomy": 3,
+              "weight": 4,
+              "wheel": {
+                "name": "continental"
+              }
+            }
+          ]
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <t_row> Toyota </t_row> <t_row> <td> norauto </td> <td> michelin </td>  </t_row><t_row> Toyota </t_row> <t_row> <td> goodyear </td> <td> continental </td>  </t_row> </xml>"
+    },
+    {
+      "id": "b34-direct-filter",
+      "feature": "filter",
+      "source": "test/test.builder.buildXML.js:1092 (should accept conditionnal arrays without iterators)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[id=2].brand} </t_row><t_row> {d[id=1].brand} </t_row></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo",
+          "id": 1
+        },
+        {
+          "brand": "Tesla motors",
+          "id": 2
+        },
+        {
+          "brand": "Toyota",
+          "id": 3
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <t_row> Tesla motors </t_row><t_row> Lumeneo </t_row></xml>"
+    },
+    {
+      "id": "b34-direct-string-single-quote",
+      "feature": "filter",
+      "source": "test/test.builder.buildXML.js:1104 (should accept conditionnal arrays on string (simple quotes))",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[brand='Tesla'].brand} </t_row></xml>",
+      "data": [
+        {
+          "brand": "Toyota",
+          "id": 1
+        },
+        {
+          "brand": "Tesla",
+          "id": 2
+        },
+        {
+          "brand": "Toyota",
+          "id": 3
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <t_row> Tesla </t_row></xml>"
+    },
+    {
+      "id": "b34-direct-string-double-quote",
+      "feature": "filter",
+      "source": "test/test.builder.buildXML.js:1116 (should accept conditionnal arrays on string (double quotes))",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[brand=\"Tesla\"].brand} </t_row></xml>",
+      "data": [
+        {
+          "brand": "Toyota",
+          "id": 1
+        },
+        {
+          "brand": "Tesla",
+          "id": 2
+        },
+        {
+          "brand": "Toyota",
+          "id": 3
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <t_row> Tesla </t_row></xml>"
+    },
+    {
+      "id": "b34-loop-string-spaces-single-quote",
+      "feature": "filter",
+      "source": "test/test.builder.buildXML.js:1128 (should accept whitespaces with string filters in arrays and simple quotes)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[i, brand='Tesla car'].brand} </t_row><t_row> {d[i+1, brand='Tesla car'].brand} </t_row></xml>",
+      "data": [
+        {
+          "brand": "Toyota car",
+          "id": 1
+        },
+        {
+          "brand": "Tesla car",
+          "id": 2
+        },
+        {
+          "brand": "Toyota car",
+          "id": 3
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <t_row> Tesla car </t_row></xml>"
+    },
+    {
+      "id": "b34-loop-string-spaces-double-quote",
+      "feature": "filter",
+      "source": "test/test.builder.buildXML.js:1140 (should accept whitespaces with string filters in arrays and double quotes)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[i, brand=\"Tesla car\"].brand} </t_row><t_row> {d[i+1, brand=\"Tesla car\"].brand} </t_row></xml>",
+      "data": [
+        {
+          "brand": "Toyota car",
+          "id": 1
+        },
+        {
+          "brand": "Tesla car",
+          "id": 2
+        },
+        {
+          "brand": "Toyota car",
+          "id": 3
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <t_row> Tesla car </t_row></xml>"
+    },
+    {
+      "id": "b34-direct-filter-first-match",
+      "feature": "filter",
+      "source": "test/test.builder.buildXML.js:1152 (if two objects match with the filter, it should select the first occurence)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[id=2].brand} </t_row><t_row> {d[id=1].brand} </t_row></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo",
+          "id": 1
+        },
+        {
+          "brand": "Tesla motors",
+          "id": 2
+        },
+        {
+          "brand": "Toyota",
+          "id": 2
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <t_row> Tesla motors </t_row><t_row> Lumeneo </t_row></xml>"
+    },
+    {
+      "id": "b34-index-equality",
+      "feature": "index",
+      "source": "test/test.builder.buildXML.js:1164 (should accept conditions on the main iterators \"i\")",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[i=2].brand} </t_row><t_row> {d[i=1].brand} </t_row></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo",
+          "id": 1
+        },
+        {
+          "brand": "Tesla motors",
+          "id": 2
+        },
+        {
+          "brand": "Toyota",
+          "id": 3
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <t_row> Toyota </t_row><t_row> Tesla motors </t_row></xml>"
+    },
+    {
+      "id": "b34-index-shorthand",
+      "feature": "index",
+      "source": "test/test.builder.buildXML.js:1176 (should accept direct access without writing i=10)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[2].brand} </t_row><t_row> {d[1].brand} </t_row></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo",
+          "id": 1
+        },
+        {
+          "brand": "Tesla motors",
+          "id": 2
+        },
+        {
+          "brand": "Toyota",
+          "id": 3
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <t_row> Toyota </t_row><t_row> Tesla motors </t_row></xml>"
+    },
+    {
+      "id": "b34-negative-index",
+      "feature": "index",
+      "source": "test/test.builder.buildXML.js:1188 (should print the last row if \"i=-1\", and the row before the last if i=-2 ...)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[i=-1].brand} </t_row><t_row> {d[i=-2].brand} </t_row></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo",
+          "id": 1
+        },
+        {
+          "brand": "Tesla motors",
+          "id": 2
+        },
+        {
+          "brand": "Toyota",
+          "id": 3
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <t_row> Toyota </t_row><t_row> Tesla motors </t_row></xml>"
+    },
+    {
+      "id": "b34-negative-index-out-of-range",
+      "feature": "index",
+      "source": "test/test.builder.buildXML.js:1200 (should not crash if the array is too small when using negative values)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[i=-10].brand} </t_row></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo",
+          "id": 1
+        },
+        {
+          "brand": "Tesla motors",
+          "id": 2
+        },
+        {
+          "brand": "Toyota",
+          "id": 3
+        }
+      ],
+      "options": {},
+      "expected": "<xml> <t_row>  </t_row></xml>"
+    },
+    {
+      "id": "b34-negative-index-empty",
+      "feature": "index",
+      "source": "test/test.builder.buildXML.js:1212 (should not crash if the array is empty when using negative values)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d[i=-10].brand} </t_row></xml>",
+      "data": [],
+      "options": {},
+      "expected": "<xml> <t_row>  </t_row></xml>"
+    },
+    {
+      "id": "b34-url-between-loop-rows",
+      "feature": "row-span",
+      "source": "test/test.builder.buildXML.js:1292 (should accept xml tags with URLs between loop start and end)",
+      "reference_api": "builder.buildXML",
+      "template": "<document><p><w>{d.list[i].name}</w></p><a url=\"http://sdsd/\"></a><p><w>{d.list[i+1].name}</w></p></document>",
+      "data": {
+        "list": [
+          {
+            "name": "Lumeneo"
+          },
+          {
+            "name": "Tesla motors"
+          },
+          {
+            "name": "Toyota"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<document><p><w>Lumeneo</w></p><a url=\"http://sdsd/\"></a><p><w>Tesla motors</w></p><a url=\"http://sdsd/\"></a><p><w>Toyota</w></p><a url=\"http://sdsd/\"></a></document>"
+    },
+    {
+      "id": "b34-empty-direct-index-preserves-rows",
+      "feature": "index",
+      "source": "test/test.builder.buildXML.js:1391 (should not crash if the array is empty. If there is no iterator, it should not remove xml rows, but just print an empty string)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml> <t_row> {d.site.tabs[i=0].brand} </t_row> <t_row> {d.site.tabs[i=1].brand} </t_row> <t_row> {d.site.tabs[i=1].brand} </t_row></xml>",
+      "data": {
+        "site": {
+          "tabs": []
+        }
+      },
+      "options": {},
+      "expected": "<xml> <t_row>  </t_row> <t_row>  </t_row> <t_row>  </t_row></xml>"
+    },
+    {
+      "id": "b34-direct-index-in-table-loop",
+      "feature": "index",
+      "source": "test/test.builder.buildXML.js:1474 (should direct access to a property in a loop inside a table)",
+      "reference_api": "builder.buildXML",
+      "template": "<table>  <tr>    {d.modules[i].id} : {d.modules[i].observations[i=0].url}  </tr>  <tr>    {d.modules[i+1].id}  </tr></table>",
+      "data": {
+        "modules": [
+          {
+            "id": "1"
+          },
+          {
+            "id": "2",
+            "observations": [
+              {
+                "url": "foo"
+              }
+            ]
+          },
+          {
+            "id": "3"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<table>  <tr>    1 :   </tr>  <tr>    2 : foo  </tr>  <tr>    3 :   </tr>  </table>"
+    },
+    {
+      "id": "b34-nested-arrays-increment-together",
+      "feature": "flatten",
+      "source": "test/test.builder.buildXML.js:1512 (should accept to increment two nested arrays in the same time. Thus, the nested array is flattened)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><tr>{d.cars[i].wheels[i].size  }</tr><tr>{d.cars[i+1].wheels[i+1].size}</tr></xml>",
+      "data": {
+        "cars": [
+          {
+            "wheels": [
+              {
+                "size": "A"
+              },
+              {
+                "size": "B"
+              }
+            ]
+          },
+          {
+            "wheels": [
+              {
+                "size": "C"
+              },
+              {
+                "size": "D"
+              },
+              {
+                "size": "E"
+              }
+            ]
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><tr>A</tr><tr>B</tr><tr>C</tr><tr>D</tr><tr>E</tr></xml>"
+    },
+    {
+      "id": "b34-aligned-sort-key-holes",
+      "feature": "grouping",
+      "source": "test/test.builder.buildXML.js:1529 (should manage \"holes\" if we use the operatior \"++\" instead of \"+1\")",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><t_row><td>{d.cars[i].wheels[size].size  }</td><td>{d.cars[i].wheels[size++].size  }</td></t_row><t_row><td>{d.cars[i+1].wheels[size].size}</td><td>{d.cars[i+1].wheels[size++].size}</td></t_row></xml>",
+      "data": {
+        "cars": [
+          {
+            "wheels": [
+              {
+                "size": "D"
+              },
+              {
+                "size": "E"
+              }
+            ]
+          },
+          {
+            "wheels": [
+              {
+                "size": "C"
+              },
+              {
+                "size": "D"
+              },
+              {
+                "size": "E"
+              }
+            ]
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><t_row><td></td><td>D</td><td>E</td></t_row><t_row><td>C</td><td>D</td><td>E</td></t_row></xml>"
+    },
+    {
+      "id": "b34-aligned-sort-key-holes-nested-object",
+      "feature": "grouping",
+      "source": "test/test.builder.buildXML.js:1573 (should manage \"holes\"(++) and it should not crash if we use a nested object)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><t_row><td>{d.cars[i].wheels[size].obj.id  }</td><td>{d.cars[i].wheels[size++].obj.id  }</td></t_row><t_row><td>{d.cars[i+1].wheels[size].obj.id}</td><td>{d.cars[i+1].wheels[size++].obj.id}</td></t_row></xml>",
+      "data": {
+        "cars": [
+          {
+            "wheels": [
+              {
+                "size": "D",
+                "obj": {
+                  "id": 2
+                }
+              },
+              {
+                "size": "E",
+                "obj": {
+                  "id": 3
+                }
+              }
+            ]
+          },
+          {
+            "wheels": [
+              {
+                "size": "C",
+                "obj": {
+                  "id": 1
+                }
+              },
+              {
+                "size": "D",
+                "obj": {
+                  "id": 2
+                }
+              },
+              {
+                "size": "E",
+                "obj": {
+                  "id": 3
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><t_row><td></td><td>2</td><td>3</td></t_row><t_row><td>1</td><td>2</td><td>3</td></t_row></xml>"
+    },
+    {
+      "id": "b34-nested-direct-multiple-filters",
+      "feature": "filter",
+      "source": "test/test.builder.buildXML.js:1590 (should work with conditions on nested arrays and with an object)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><t_row>{d.menus[meal=0, weekday=2].dishes[sort=2].obj.name}</t_row><t_row>{d.menus[meal=0, weekday=1].dishes[sort=2].obj.name}</t_row></xml>",
+      "data": {
+        "menus": [
+          {
+            "weekday": 1,
+            "meal": 0,
+            "dishes": [
+              {
+                "sort": 1,
+                "obj": {
+                  "name": "A"
+                }
+              },
+              {
+                "sort": 2,
+                "obj": {
+                  "name": "E"
+                }
+              }
+            ]
+          },
+          {
+            "weekday": 2,
+            "meal": 0,
+            "dishes": [
+              {
+                "sort": 1,
+                "obj": {
+                  "name": "B"
+                }
+              },
+              {
+                "sort": 2,
+                "obj": {
+                  "name": "F"
+                }
+              }
+            ]
+          },
+          {
+            "weekday": 1,
+            "meal": 1,
+            "dishes": [
+              {
+                "sort": 1,
+                "obj": {
+                  "name": "C"
+                }
+              },
+              {
+                "sort": 2,
+                "obj": {
+                  "name": "G"
+                }
+              },
+              {
+                "sort": 3,
+                "obj": {
+                  "name": "I"
+                }
+              }
+            ]
+          },
+          {
+            "weekday": 2,
+            "meal": 1,
+            "dishes": [
+              {
+                "sort": 1,
+                "obj": {
+                  "name": "D"
+                }
+              },
+              {
+                "sort": 2,
+                "obj": {
+                  "name": "H"
+                }
+              },
+              {
+                "sort": 3,
+                "obj": {
+                  "name": "J"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><t_row>F</t_row><t_row>E</t_row></xml>"
+    },
+    {
+      "id": "b34-parent-path-in-loop",
+      "feature": "iteration",
+      "source": "test/test.builder.buildXML.js:1609 (shoud go up in hierarchy using two points \"..\")",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><tr> {d.cars[i]..who} </tr><tr> {d.cars[i+1]..who} </tr></xml>",
+      "data": {
+        "who": "test",
+        "cars": [
+          {
+            "brand": "Lumeneo"
+          },
+          {
+            "brand": "Tesla motors"
+          },
+          {
+            "brand": "Toyota"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><tr> test </tr><tr> test </tr><tr> test </tr></xml>"
+    },
+    {
+      "id": "b34-flat-marker-boundary",
+      "feature": "row-span",
+      "source": "test/test.builder.buildXML.js:1624 (should accept to use markers as the start or the end of a loop. should accept flat XML between repetition sections)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.cars[i].wheels[i]} <i></i> {d.cars[i].wheels[i].nuts[i].type} <b></b> {d.cars[i].wheels[i].nuts[i+1].type} <i></i> {d.cars[i+1].wheels[i+1]}</xml>",
+      "data": {
+        "who": "test",
+        "cars": [
+          {
+            "wheels": [
+              {
+                "size": 10,
+                "nuts": [
+                  {
+                    "type": "M5"
+                  },
+                  {
+                    "type": "M6"
+                  }
+                ]
+              },
+              {
+                "size": 11,
+                "nuts": [
+                  {
+                    "type": "M8"
+                  },
+                  {
+                    "type": "M9"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml> <i></i> M5 <b></b> M6 <b></b>   <i></i> M8 <b></b> M9 <b></b>  </xml>"
+    },
+    {
+      "id": "b34-flat-marker-boundary-nested-object",
+      "feature": "row-span",
+      "source": "test/test.builder.buildXML.js:1650 (should accept to use markers as the start or the end of a loop, even if the second loop is nested in an object)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.cars[i].wheels[i]} <i></i> {d.cars[i].wheels[i].obj.nuts[i].type} <b></b> {d.cars[i].wheels[i].obj.nuts[i+1].type} <i></i> {d.cars[i+1].wheels[i+1]}</xml>",
+      "data": {
+        "who": "test",
+        "cars": [
+          {
+            "wheels": [
+              {
+                "size": 10,
+                "obj": {
+                  "nuts": [
+                    {
+                      "type": "M5"
+                    },
+                    {
+                      "type": "M6"
+                    }
+                  ]
+                }
+              },
+              {
+                "size": 11,
+                "obj": {
+                  "nuts": [
+                    {
+                      "type": "M8"
+                    },
+                    {
+                      "type": "M9"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml> <i></i> M5 <b></b> M6 <b></b>   <i></i> M8 <b></b> M9 <b></b>  </xml>"
+    },
+    {
+      "id": "b34-json-siblings-nested-in-xml",
+      "feature": "row-span",
+      "source": "test/test.builder.buildXML.js:1675 (should accept to nest arrays in XML whereas these arrays are not nested in JSON. Moreover, the XML structure is flat)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.cars[i].wheels[i].keys[i]} <i></i> {d.cars[i].wheels[i].nuts[i].type} <b></b> {d.cars[i].wheels[i].nuts[i+1].type} <i></i> {d.cars[i+1].wheels[i+1].keys[i+1]}</xml>",
+      "data": {
+        "who": "test",
+        "cars": [
+          {
+            "wheels": [
+              {
+                "size": 10,
+                "nuts": [
+                  {
+                    "type": "M5"
+                  },
+                  {
+                    "type": "M6"
+                  }
+                ],
+                "keys": [
+                  {
+                    "type": "8"
+                  },
+                  {
+                    "type": "10"
+                  },
+                  {
+                    "type": "17"
+                  }
+                ]
+              },
+              {
+                "size": 11,
+                "nuts": [
+                  {
+                    "type": "M8"
+                  },
+                  {
+                    "type": "M9"
+                  }
+                ],
+                "keys": [
+                  {
+                    "type": "12"
+                  },
+                  {
+                    "type": "14"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml> <i></i> M5 <b></b> M6 <b></b>   <i></i> M5 <b></b> M6 <b></b>   <i></i> M5 <b></b> M6 <b></b>   <i></i> M8 <b></b> M9 <b></b>   <i></i> M8 <b></b> M9 <b></b>  </xml>"
+    },
+    {
+      "id": "b34-independent-array-inside-loop",
+      "feature": "row-span",
+      "source": "test/test.builder.buildXML.js:1702 (should accept to access nested objects in an array (movies), which is itself nested in another array in XML (countries))",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><tr>{d.countries[i].name}</tr><tr>{d.movies[i].subObject.name}</tr><tr>{d.movies[i+1].subObject.name}</tr><tr>{d.countries[i+1].name}</tr></xml>",
+      "data": {
+        "countries": [
+          {
+            "name": "france"
+          },
+          {
+            "name": "usa"
+          }
+        ],
+        "movies": [
+          {
+            "subObject": {
+              "name": "matrix"
+            }
+          },
+          {
+            "subObject": {
+              "name": "bttf"
+            }
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><tr>france</tr><tr>matrix</tr><tr>bttf</tr><tr>usa</tr><tr>matrix</tr><tr>bttf</tr></xml>"
+    },
+    {
+      "id": "b34-two-independent-arrays-inside-loop",
+      "feature": "row-span",
+      "source": "test/test.builder.buildXML.js:1728 (should accept to access nested (2-level) objects in an array (movies), which is itself nested in another array in XML (countries) )",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><tr>{d.countries[i].name}</tr><tr>{d.movies[i].subObject.subObject.name}</tr><tr>{d.movies[i+1].subObject.subObject.name}</tr><tr>{d.cars[i].subObject.subObject.name}</tr><tr>{d.cars[i+1].subObject.subObject.name}</tr><tr>{d.countries[i+1].name}</tr></xml>",
+      "data": {
+        "countries": [
+          {
+            "name": "france"
+          },
+          {
+            "name": "usa"
+          }
+        ],
+        "movies": [
+          {
+            "subObject": {
+              "subObject": {
+                "name": "matrix"
+              }
+            }
+          },
+          {
+            "subObject": {
+              "subObject": {
+                "name": "bttf"
+              }
+            }
+          }
+        ],
+        "cars": [
+          {
+            "subObject": {
+              "subObject": {
+                "name": "tesla"
+              }
+            }
+          },
+          {
+            "subObject": {
+              "subObject": {
+                "name": "polestar"
+              }
+            }
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><tr>france</tr><tr>matrix</tr><tr>bttf</tr><tr>tesla</tr><tr>polestar</tr><tr>usa</tr><tr>matrix</tr><tr>bttf</tr><tr>tesla</tr><tr>polestar</tr></xml>"
+    },
+    {
+      "id": "b34-flat-empty-boundary-parent-paths",
+      "feature": "row-span",
+      "source": "test/test.builder.buildXML.js:1764 (should work if XML is flat (no hierarchy), and JSON is flattened, using two \"empty\" markers to define the start and end of the loop)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{d.cars[i].wheels[i].keys[i]}<tr></tr>{d.cars[i].wheels[i].keys[i]..size}<b></b>{d.cars[i].wheels[i].keys[i]...name}<i></i>{d.cars[i].wheels[i].keys[i].type}<tr></tr>{d.cars[i+1].wheels[i+1].keys[i+1]}</xml>",
+      "data": {
+        "who": "test",
+        "cars": [
+          {
+            "name": "toy",
+            "wheels": [
+              {
+                "size": 100,
+                "keys": [
+                  {
+                    "type": "8"
+                  },
+                  {
+                    "type": "10"
+                  }
+                ]
+              },
+              {
+                "size": 111,
+                "keys": [
+                  {
+                    "type": "12"
+                  },
+                  {
+                    "type": "14"
+                  },
+                  {
+                    "type": "19"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><tr></tr>100<b></b>toy<i></i>8<tr></tr><tr></tr>100<b></b>toy<i></i>10<tr></tr><tr></tr>111<b></b>toy<i></i>12<tr></tr><tr></tr>111<b></b>toy<i></i>14<tr></tr><tr></tr>111<b></b>toy<i></i>19<tr></tr></xml>"
+    },
+    {
+      "id": "b34-parent-path-filter-on-start-only",
+      "feature": "filter",
+      "source": "test/test.builder.buildXML.js:1834 (shoud go up in hierarchy using two points \"..\" and accept filters)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><tr> {d.cars[i, brand=\"Lumeneo\"]..who} </tr><tr> {d.cars[i+1]..who} </tr></xml>",
+      "data": {
+        "who": "test",
+        "cars": [
+          {
+            "brand": "Lumeneo"
+          },
+          {
+            "brand": "Tesla motors"
+          },
+          {
+            "brand": "Toyota"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><tr> test </tr></xml>"
+    },
+    {
+      "id": "b34-object-attributes",
+      "feature": "object-iteration",
+      "source": "test/test.builder.buildXML.js:2043 (should accept to iterate on objects and print objects attributes)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><tr>{d.users[i].att}</tr><tr>{d.users[i+1].att}</tr></xml>",
+      "data": {
+        "users": {
+          "paul": "10",
+          "jack": "20",
+          "bob": "30"
+        }
+      },
+      "options": {},
+      "expected": "<xml><tr>paul</tr><tr>jack</tr><tr>bob</tr></xml>"
+    },
+    {
+      "id": "b34-object-values",
+      "feature": "object-iteration",
+      "source": "test/test.builder.buildXML.js:2059 (should accept to iterate on objects and print objects values)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><tr>{d.users[i].val}</tr><tr>{d.users[i+1].val}</tr></xml>",
+      "data": {
+        "users": {
+          "paul": "10",
+          "jack": "20",
+          "bob": "30"
+        }
+      },
+      "options": {},
+      "expected": "<xml><tr>10</tr><tr>20</tr><tr>30</tr></xml>"
+    },
+    {
+      "id": "b34-object-nested-values",
+      "feature": "object-iteration",
+      "source": "test/test.builder.buildXML.js:2075 (should accept to iterate on objects and access sub-objects)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><tr>{d.users[i].val.id}</tr><tr>{d.users[i+1].val.id}</tr></xml>",
+      "data": {
+        "users": {
+          "paul": {
+            "id": 10
+          },
+          "jack": {
+            "id": 20
+          },
+          "bob": {
+            "id": 30
+          }
+        }
+      },
+      "options": {},
+      "expected": "<xml><tr>10</tr><tr>20</tr><tr>30</tr></xml>"
+    },
+    {
+      "id": "b34-object-nested-array-values",
+      "feature": "object-iteration",
+      "source": "test/test.builder.buildXML.js:2097 (should accept to iterate on objects and access sub-arrays)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><tr>{d.users[i].val.myArray[i].id}</tr><tr>{d.users[i+1].val.myArray[i+1].id}</tr></xml>",
+      "data": {
+        "users": {
+          "paul": {
+            "myArray": [
+              {
+                "id": 10
+              },
+              {
+                "id": 11
+              }
+            ]
+          },
+          "jack": {
+            "myArray": [
+              {
+                "id": 20
+              },
+              {
+                "id": 21
+              }
+            ]
+          },
+          "bob": {
+            "myArray": [
+              {
+                "id": 30
+              },
+              {
+                "id": 31
+              }
+            ]
+          }
+        }
+      },
+      "options": {},
+      "expected": "<xml><tr>10</tr><tr>11</tr><tr>20</tr><tr>21</tr><tr>30</tr><tr>31</tr></xml>"
+    },
+    {
+      "id": "b34-object-inside-array",
+      "feature": "object-iteration",
+      "source": "test/test.builder.buildXML.js:2119 (should accept to iterate on objects (attribute and value) event it is inside an object)",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><tr>{d.countries[i].users[i].att} : {d.countries[i].users[i].val}</tr><tr>{d.countries[i+1].users[i+1].att}</tr></xml>",
+      "data": {
+        "countries": [
+          {
+            "users": {
+              "paul": "10",
+              "jack": "20",
+              "bob": "30"
+            }
+          },
+          {
+            "users": {
+              "neo": "50",
+              "trinity": "40"
+            }
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><tr>paul : 10</tr><tr>jack : 20</tr><tr>bob : 30</tr><tr>neo : 50</tr><tr>trinity : 40</tr></xml>"
+    }
+  ]
+}
