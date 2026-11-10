@@ -1,0 +1,812 @@
+{
+  "reference": {
+    "package": "carbone",
+    "version": "3.9.1",
+    "description": "B5 block oracle: outputs captured from carbone.renderXML; verified by scripts/check-parity.cjs."
+  },
+  "cases": [
+    {
+      "id": "b5-show-true",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.ok:showBegin}<p>hello</p>{d.unrelated:showEnd}<q/></xml>",
+      "data": {
+        "ok": true
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><p>hello</p><q/></xml>"
+    },
+    {
+      "id": "b5-hide-true",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.ok:hideBegin}<p>hello</p>{d.unrelated:hideEnd}<q/></xml>",
+      "data": {
+        "ok": true
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><q/></xml>"
+    },
+    {
+      "id": "b5-show-false",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.ok:showBegin}<p>hello</p>{d.unrelated:showEnd}<q/></xml>",
+      "data": {
+        "ok": false
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><q/></xml>"
+    },
+    {
+      "id": "b5-hide-false",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.ok:hideBegin}<p>hello</p>{d.unrelated:hideEnd}<q/></xml>",
+      "data": {
+        "ok": false
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><p>hello</p><q/></xml>"
+    },
+    {
+      "id": "b5-show-null",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.ok:showBegin}<p>hello</p>{d.unrelated:showEnd}<q/></xml>",
+      "data": {
+        "ok": null
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><q/></xml>"
+    },
+    {
+      "id": "b5-hide-null",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.ok:hideBegin}<p>hello</p>{d.unrelated:hideEnd}<q/></xml>",
+      "data": {
+        "ok": null
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><p>hello</p><q/></xml>"
+    },
+    {
+      "id": "b5-show-0",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.ok:showBegin}<p>hello</p>{d.unrelated:showEnd}<q/></xml>",
+      "data": {
+        "ok": 0
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><q/></xml>"
+    },
+    {
+      "id": "b5-hide-0",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.ok:hideBegin}<p>hello</p>{d.unrelated:hideEnd}<q/></xml>",
+      "data": {
+        "ok": 0
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><p>hello</p><q/></xml>"
+    },
+    {
+      "id": "b5-show-1",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.ok:showBegin}<p>hello</p>{d.unrelated:showEnd}<q/></xml>",
+      "data": {
+        "ok": 1
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><p>hello</p><q/></xml>"
+    },
+    {
+      "id": "b5-hide-1",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.ok:hideBegin}<p>hello</p>{d.unrelated:hideEnd}<q/></xml>",
+      "data": {
+        "ok": 1
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><q/></xml>"
+    },
+    {
+      "id": "b5-show-\"\"",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.ok:showBegin}<p>hello</p>{d.unrelated:showEnd}<q/></xml>",
+      "data": {
+        "ok": ""
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><q/></xml>"
+    },
+    {
+      "id": "b5-hide-\"\"",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.ok:hideBegin}<p>hello</p>{d.unrelated:hideEnd}<q/></xml>",
+      "data": {
+        "ok": ""
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><p>hello</p><q/></xml>"
+    },
+    {
+      "id": "b5-show-\"yes\"",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.ok:showBegin}<p>hello</p>{d.unrelated:showEnd}<q/></xml>",
+      "data": {
+        "ok": "yes"
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><p>hello</p><q/></xml>"
+    },
+    {
+      "id": "b5-hide-\"yes\"",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.ok:hideBegin}<p>hello</p>{d.unrelated:hideEnd}<q/></xml>",
+      "data": {
+        "ok": "yes"
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><q/></xml>"
+    },
+    {
+      "id": "b5-missing",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.missing:showBegin}<p>hello</p>{d.unrelated:showEnd}</xml>",
+      "data": {},
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml></xml>"
+    },
+    {
+      "id": "b5-expand-surrounding-true",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml><p>{d.ok:showBegin}hello</p>{d.end:showEnd}<q/></xml>",
+      "data": {
+        "ok": true
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><p>hello</p><q/></xml>"
+    },
+    {
+      "id": "b5-preserve-skeleton-true",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml><tr> a {d.ok:hideBegin()} b </tr> b <tr> d </tr> e {d.end:hideEnd()}f</xml>",
+      "data": {
+        "ok": true
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><tr> a </tr>f</xml>"
+    },
+    {
+      "id": "b5-preserve-value-marker-true",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml><p>{d.id}{d.ok:showBegin}a</p>{d.end:showEnd}</xml>",
+      "data": {
+        "ok": true,
+        "id": "kept"
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><p>kepta</p></xml>"
+    },
+    {
+      "id": "b5-complex-xml-true",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<a><b>x{d.ok:showBegin}</b></a><i>Z</i><j><k>{d.end:showEnd}m</k></j>",
+      "data": {
+        "ok": true
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<a><b>x</b></a><i>Z</i><j><k>m</k></j>"
+    },
+    {
+      "id": "b5-expand-surrounding-false",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml><p>{d.ok:showBegin}hello</p>{d.end:showEnd}<q/></xml>",
+      "data": {
+        "ok": false
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><q/></xml>"
+    },
+    {
+      "id": "b5-preserve-skeleton-false",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml><tr> a {d.ok:hideBegin()} b </tr> b <tr> d </tr> e {d.end:hideEnd()}f</xml>",
+      "data": {
+        "ok": false
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><tr> a  b </tr> b <tr> d </tr> e f</xml>"
+    },
+    {
+      "id": "b5-preserve-value-marker-false",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml><p>{d.id}{d.ok:showBegin}a</p>{d.end:showEnd}</xml>",
+      "data": {
+        "ok": false,
+        "id": "kept"
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><p>kept</p></xml>"
+    },
+    {
+      "id": "b5-complex-xml-false",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<a><b>x{d.ok:showBegin}</b></a><i>Z</i><j><k>{d.end:showEnd}m</k></j>",
+      "data": {
+        "ok": false
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<a><b>x</b></a><j><k>m</k></j>"
+    },
+    {
+      "id": "b5-ifEQ-1",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.n:ifEQ(1):showBegin()}yes{d.other:ifEM:showEnd()}</xml>",
+      "data": {
+        "n": 1
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml>yes</xml>"
+    },
+    {
+      "id": "b5-relative-chain-1",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.test.n:ifEQ(1):and(.text):ifEQ(aaa):showBegin}yes{d.test.end:showEnd}</xml>",
+      "data": {
+        "test": {
+          "n": 1,
+          "text": "aaa"
+        }
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml>yes</xml>"
+    },
+    {
+      "id": "b5-ifEQ-2",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.n:ifEQ(1):showBegin()}yes{d.other:ifEM:showEnd()}</xml>",
+      "data": {
+        "n": 2
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml></xml>"
+    },
+    {
+      "id": "b5-relative-chain-2",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.test.n:ifEQ(1):and(.text):ifEQ(aaa):showBegin}yes{d.test.end:showEnd}</xml>",
+      "data": {
+        "test": {
+          "n": 2,
+          "text": "aaa"
+        }
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml></xml>"
+    },
+    {
+      "id": "b5-nested-true-true",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.a:showBegin}<p>A{d.b:showBegin}<b>B</b>{d.b:showEnd}C</p>{d.a:showEnd}</xml>",
+      "data": {
+        "a": true,
+        "b": true
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><p>A<b>B</b>C</p></xml>"
+    },
+    {
+      "id": "b5-consecutive-true-true",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.a:showBegin}<p>A</p>{d.a:showEnd}{d.b:hideBegin}<q>B</q>{d.b:hideEnd}</xml>",
+      "data": {
+        "a": true,
+        "b": true
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><p>A</p></xml>"
+    },
+    {
+      "id": "b5-nested-true-false",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.a:showBegin}<p>A{d.b:showBegin}<b>B</b>{d.b:showEnd}C</p>{d.a:showEnd}</xml>",
+      "data": {
+        "a": true,
+        "b": false
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><p>AC</p></xml>"
+    },
+    {
+      "id": "b5-consecutive-true-false",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.a:showBegin}<p>A</p>{d.a:showEnd}{d.b:hideBegin}<q>B</q>{d.b:hideEnd}</xml>",
+      "data": {
+        "a": true,
+        "b": false
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><p>A</p><q>B</q></xml>"
+    },
+    {
+      "id": "b5-nested-false-true",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.a:showBegin}<p>A{d.b:showBegin}<b>B</b>{d.b:showEnd}C</p>{d.a:showEnd}</xml>",
+      "data": {
+        "a": false,
+        "b": true
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml></xml>"
+    },
+    {
+      "id": "b5-consecutive-false-true",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.a:showBegin}<p>A</p>{d.a:showEnd}{d.b:hideBegin}<q>B</q>{d.b:hideEnd}</xml>",
+      "data": {
+        "a": false,
+        "b": true
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml></xml>"
+    },
+    {
+      "id": "b5-nested-false-false",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.a:showBegin}<p>A{d.b:showBegin}<b>B</b>{d.b:showEnd}C</p>{d.a:showEnd}</xml>",
+      "data": {
+        "a": false,
+        "b": false
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml></xml>"
+    },
+    {
+      "id": "b5-consecutive-false-false",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.a:showBegin}<p>A</p>{d.a:showEnd}{d.b:hideBegin}<q>B</q>{d.b:hideEnd}</xml>",
+      "data": {
+        "a": false,
+        "b": false
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><q>B</q></xml>"
+    },
+    {
+      "id": "b5-loop-in-block-true",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.shown:showBegin}<row>{d.items[i].name}</row><row>{d.items[i+1].name}</row>{d.anything:showEnd}</xml>",
+      "data": {
+        "shown": true,
+        "items": [
+          {
+            "name": "one"
+          },
+          {
+            "name": "two"
+          }
+        ]
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><row>one</row><row>two</row></xml>"
+    },
+    {
+      "id": "b5-loop-in-block-false",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml>{d.shown:showBegin}<row>{d.items[i].name}</row><row>{d.items[i+1].name}</row>{d.anything:showEnd}</xml>",
+      "data": {
+        "shown": false,
+        "items": [
+          {
+            "name": "one"
+          },
+          {
+            "name": "two"
+          }
+        ]
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml></xml>"
+    },
+    {
+      "id": "b5-block-in-loop",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml><row>{d.items[i].shown:showBegin}{d.items[i].name}{d.items[i].shown:showEnd}</row><row>{d.items[i+1].shown:showBegin}{d.items[i+1].name}{d.items[i+1].shown:showEnd}</row></xml>",
+      "data": {
+        "items": [
+          {
+            "shown": true,
+            "name": "one"
+          },
+          {
+            "shown": false,
+            "name": "two"
+          },
+          {
+            "shown": true,
+            "name": "three"
+          }
+        ]
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><row>one</row><row></row><row>three</row></xml>"
+    },
+    {
+      "id": "b5-split-xml-markers-0",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml><a><b>{d.n:ifEQ(</b><c>1</c><d>):showBegin}</d></a><i>Z</i><j><k>{d.n:show</k><l>End</l><m>}</m></j></xml>",
+      "data": {
+        "n": 0
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml></xml>"
+    },
+    {
+      "id": "b5-split-xml-markers-1",
+      "feature": "conditional-block",
+      "source": "test/test.carbone.js",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml><a><b>{d.n:ifEQ(</b><c>1</c><d>):showBegin}</d></a><i>Z</i><j><k>{d.n:show</k><l>End</l><m>}</m></j></xml>",
+      "data": {
+        "n": 1
+      },
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><a><b></b><c></c><d></d></a><i>Z</i><j><k></k><l></l><m></m></j></xml>"
+    },
+    {
+      "id": "b5-truthiness-empty-array-show",
+      "template": "<r>{d.value:showBegin}<p>yes</p>{d.end:showEnd}</r>",
+      "data": {
+        "value": []
+      },
+      "feature": "conditional-block",
+      "source": "formatters/condition.js; lib/builder.js",
+      "reference_api": "carbone.renderXML",
+      "options": {},
+      "expected": "<r><p>yes</p></r>"
+    },
+    {
+      "id": "b5-truthiness-empty-array-hide",
+      "template": "<r>{d.value:hideBegin}<p>yes</p>{d.end:hideEnd}</r>",
+      "data": {
+        "value": []
+      },
+      "feature": "conditional-block",
+      "source": "formatters/condition.js; lib/builder.js",
+      "reference_api": "carbone.renderXML",
+      "options": {},
+      "expected": "<r></r>"
+    },
+    {
+      "id": "b5-truthiness-array-show",
+      "template": "<r>{d.value:showBegin}<p>yes</p>{d.end:showEnd}</r>",
+      "data": {
+        "value": [
+          1
+        ]
+      },
+      "feature": "conditional-block",
+      "source": "formatters/condition.js; lib/builder.js",
+      "reference_api": "carbone.renderXML",
+      "options": {},
+      "expected": "<r><p>yes</p></r>"
+    },
+    {
+      "id": "b5-truthiness-array-hide",
+      "template": "<r>{d.value:hideBegin}<p>yes</p>{d.end:hideEnd}</r>",
+      "data": {
+        "value": [
+          1
+        ]
+      },
+      "feature": "conditional-block",
+      "source": "formatters/condition.js; lib/builder.js",
+      "reference_api": "carbone.renderXML",
+      "options": {},
+      "expected": "<r></r>"
+    },
+    {
+      "id": "b5-truthiness-empty-object-show",
+      "template": "<r>{d.value:showBegin}<p>yes</p>{d.end:showEnd}</r>",
+      "data": {
+        "value": {}
+      },
+      "feature": "conditional-block",
+      "source": "formatters/condition.js; lib/builder.js",
+      "reference_api": "carbone.renderXML",
+      "options": {},
+      "expected": "<r><p>yes</p></r>"
+    },
+    {
+      "id": "b5-truthiness-empty-object-hide",
+      "template": "<r>{d.value:hideBegin}<p>yes</p>{d.end:hideEnd}</r>",
+      "data": {
+        "value": {}
+      },
+      "feature": "conditional-block",
+      "source": "formatters/condition.js; lib/builder.js",
+      "reference_api": "carbone.renderXML",
+      "options": {},
+      "expected": "<r></r>"
+    },
+    {
+      "id": "b5-truthiness-object-show",
+      "template": "<r>{d.value:showBegin}<p>yes</p>{d.end:showEnd}</r>",
+      "data": {
+        "value": {
+          "a": 1
+        }
+      },
+      "feature": "conditional-block",
+      "source": "formatters/condition.js; lib/builder.js",
+      "reference_api": "carbone.renderXML",
+      "options": {},
+      "expected": "<r><p>yes</p></r>"
+    },
+    {
+      "id": "b5-truthiness-object-hide",
+      "template": "<r>{d.value:hideBegin}<p>yes</p>{d.end:hideEnd}</r>",
+      "data": {
+        "value": {
+          "a": 1
+        }
+      },
+      "feature": "conditional-block",
+      "source": "formatters/condition.js; lib/builder.js",
+      "reference_api": "carbone.renderXML",
+      "options": {},
+      "expected": "<r></r>"
+    },
+    {
+      "id": "b5-stopping-show-show(hello)-1",
+      "template": "<r>{d.n:ifEQ(1):show(hello):showBegin}<p>yes</p>{d.n:showEnd}</r>",
+      "data": {
+        "n": 1
+      },
+      "feature": "conditional-block",
+      "source": "formatters/condition.js; lib/builder.js",
+      "reference_api": "carbone.renderXML",
+      "options": {},
+      "expected": "<r>hello<p>yes</p></r>"
+    },
+    {
+      "id": "b5-stopping-show-show(hello)-2",
+      "template": "<r>{d.n:ifEQ(1):show(hello):showBegin}<p>yes</p>{d.n:showEnd}</r>",
+      "data": {
+        "n": 2
+      },
+      "feature": "conditional-block",
+      "source": "formatters/condition.js; lib/builder.js",
+      "reference_api": "carbone.renderXML",
+      "options": {},
+      "expected": "<r></r>"
+    },
+    {
+      "id": "b5-stopping-show-elseShow(no)-1",
+      "template": "<r>{d.n:ifEQ(1):elseShow(no):showBegin}<p>yes</p>{d.n:showEnd}</r>",
+      "data": {
+        "n": 1
+      },
+      "feature": "conditional-block",
+      "source": "formatters/condition.js; lib/builder.js",
+      "reference_api": "carbone.renderXML",
+      "options": {},
+      "expected": "<r><p>yes</p></r>"
+    },
+    {
+      "id": "b5-stopping-show-elseShow(no)-2",
+      "template": "<r>{d.n:ifEQ(1):elseShow(no):showBegin}<p>yes</p>{d.n:showEnd}</r>",
+      "data": {
+        "n": 2
+      },
+      "feature": "conditional-block",
+      "source": "formatters/condition.js; lib/builder.js",
+      "reference_api": "carbone.renderXML",
+      "options": {},
+      "expected": "<r>no<p>yes</p></r>"
+    },
+    {
+      "id": "b5-stopping-hide-show(hello)-1",
+      "template": "<r>{d.n:ifEQ(1):show(hello):hideBegin}<p>yes</p>{d.n:hideEnd}</r>",
+      "data": {
+        "n": 1
+      },
+      "feature": "conditional-block",
+      "source": "formatters/condition.js; lib/builder.js",
+      "reference_api": "carbone.renderXML",
+      "options": {},
+      "expected": "<r>hello<p>yes</p></r>"
+    },
+    {
+      "id": "b5-stopping-hide-show(hello)-2",
+      "template": "<r>{d.n:ifEQ(1):show(hello):hideBegin}<p>yes</p>{d.n:hideEnd}</r>",
+      "data": {
+        "n": 2
+      },
+      "feature": "conditional-block",
+      "source": "formatters/condition.js; lib/builder.js",
+      "reference_api": "carbone.renderXML",
+      "options": {},
+      "expected": "<r><p>yes</p></r>"
+    },
+    {
+      "id": "b5-stopping-hide-elseShow(no)-1",
+      "template": "<r>{d.n:ifEQ(1):elseShow(no):hideBegin}<p>yes</p>{d.n:hideEnd}</r>",
+      "data": {
+        "n": 1
+      },
+      "feature": "conditional-block",
+      "source": "formatters/condition.js; lib/builder.js",
+      "reference_api": "carbone.renderXML",
+      "options": {},
+      "expected": "<r></r>"
+    },
+    {
+      "id": "b5-stopping-hide-elseShow(no)-2",
+      "template": "<r>{d.n:ifEQ(1):elseShow(no):hideBegin}<p>yes</p>{d.n:hideEnd}</r>",
+      "data": {
+        "n": 2
+      },
+      "feature": "conditional-block",
+      "source": "formatters/condition.js; lib/builder.js",
+      "reference_api": "carbone.renderXML",
+      "options": {},
+      "expected": "<r>no<p>yes</p></r>"
+    }
+  ]
+}

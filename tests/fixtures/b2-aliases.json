@@ -1,0 +1,296 @@
+{
+  "reference": {
+    "package": "carbone",
+    "version": "3.9.1",
+    "description": "B2 alias expected strings captured directly from the original Node builder.buildXML; declarations and parameters follow parser.findVariables/preprocessMarkers. Rust-only size, cycle, depth, and unsupported-syntax tests live in src/aliases.rs."
+  },
+  "cases": [
+    {
+      "id": "alias-selector-index",
+      "feature": "aliases",
+      "source": "test/test.builder.buildXML.js; test/test.parser.js",
+      "reference_api": "builder.buildXML",
+      "template": "{#myVar= i=2  }<xml><row>{d[$myVar].brand}</row><row>{d[i=1].brand}</row></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo",
+          "id": 1
+        },
+        {
+          "brand": "Tesla motors",
+          "id": 2
+        },
+        {
+          "brand": "Toyota",
+          "id": 3
+        }
+      ],
+      "options": {},
+      "expected": "<xml><row>Toyota</row><row>Tesla motors</row></xml>"
+    },
+    {
+      "id": "alias-shared-name-prefix",
+      "feature": "aliases",
+      "source": "test/test.builder.buildXML.js; test/test.parser.js",
+      "reference_api": "builder.buildXML",
+      "template": "{#myVar2=i=2}{#myVar=i=1}<xml>{d[$myVar2].brand}|{d[$myVar].brand}</xml>",
+      "data": [
+        {
+          "brand": "Lumeneo",
+          "id": 1
+        },
+        {
+          "brand": "Tesla motors",
+          "id": 2
+        },
+        {
+          "brand": "Toyota",
+          "id": 3
+        }
+      ],
+      "options": {},
+      "expected": "<xml>Toyota|Tesla motors</xml>"
+    },
+    {
+      "id": "alias-parameter-selector",
+      "feature": "aliases",
+      "source": "test/test.builder.buildXML.js; test/test.parser.js",
+      "reference_api": "builder.buildXML",
+      "template": "{#byIndex($index)=i=$index}<xml>{d[$byIndex(0)].brand}|{d[$byIndex(2)].brand}</xml>",
+      "data": [
+        {
+          "brand": "Lumeneo",
+          "id": 1
+        },
+        {
+          "brand": "Tesla motors",
+          "id": 2
+        },
+        {
+          "brand": "Toyota",
+          "id": 3
+        }
+      ],
+      "options": {},
+      "expected": "<xml>Lumeneo|Toyota</xml>"
+    },
+    {
+      "id": "alias-parameter-prefix-range",
+      "feature": "aliases",
+      "source": "test/test.builder.buildXML.js; test/test.parser.js",
+      "reference_api": "builder.buildXML",
+      "template": "{#myVar($id,$idEnd)=i>$id,i<$idEnd}<xml><row>{d[$myVar(1,3)].brand}</row><row>{d[$myVar(0,2)].brand}</row></xml>",
+      "data": [
+        {
+          "brand": "Lumeneo",
+          "id": 1
+        },
+        {
+          "brand": "Tesla motors",
+          "id": 2
+        },
+        {
+          "brand": "Toyota",
+          "id": 3
+        }
+      ],
+      "options": {},
+      "expected": "<xml><row>Toyota</row><row>Tesla motors</row></xml>"
+    },
+    {
+      "id": "alias-top-level",
+      "feature": "aliases",
+      "source": "test/test.builder.buildXML.js; test/test.parser.js",
+      "reference_api": "builder.buildXML",
+      "template": "{#customer=d.customer.name}<xml>{$customer}</xml>",
+      "data": {
+        "customer": {
+          "name": "Ada & Co"
+        }
+      },
+      "options": {},
+      "expected": "<xml>Ada &amp; Co</xml>"
+    },
+    {
+      "id": "alias-forward-declaration",
+      "feature": "aliases",
+      "source": "test/test.builder.buildXML.js; test/test.parser.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml>{$customer}</xml>{#customer=d.customer.name}",
+      "data": {
+        "customer": {
+          "name": "Ada"
+        }
+      },
+      "options": {},
+      "expected": "<xml>Ada</xml>"
+    },
+    {
+      "id": "alias-complement",
+      "feature": "aliases",
+      "source": "test/test.builder.buildXML.js; test/test.parser.js",
+      "reference_api": "builder.buildXML",
+      "template": "{#company=c.company}<xml>{$company}</xml>",
+      "data": {},
+      "options": {
+        "complement": {
+          "company": "Carbone"
+        }
+      },
+      "expected": "<xml>Carbone</xml>"
+    },
+    {
+      "id": "alias-two-parameters",
+      "feature": "aliases",
+      "source": "test/test.builder.buildXML.js; test/test.parser.js",
+      "reference_api": "builder.buildXML",
+      "template": "{#field($group,$name)=d.$group.$name}<xml>{$field(customer,name)}|{$field(customer,city)}</xml>",
+      "data": {
+        "customer": {
+          "name": "Ada",
+          "city": "Paris"
+        }
+      },
+      "options": {},
+      "expected": "<xml>Ada|Paris</xml>"
+    },
+    {
+      "id": "alias-shared-parameter-prefix",
+      "feature": "aliases",
+      "source": "test/test.builder.buildXML.js; test/test.parser.js",
+      "reference_api": "builder.buildXML",
+      "template": "{#field($a,$ab)=d.$ab.$a}<xml>{$field(name,customer)}</xml>",
+      "data": {
+        "customer": {
+          "name": "Ada"
+        }
+      },
+      "options": {},
+      "expected": "<xml>Ada</xml>"
+    },
+    {
+      "id": "alias-repeated-usage",
+      "feature": "aliases",
+      "source": "test/test.builder.buildXML.js; test/test.parser.js",
+      "reference_api": "builder.buildXML",
+      "template": "{#field=d.name}<xml>{$field}|{$field}|{d.name:ifEQ($field):show(yes)}</xml>",
+      "data": {
+        "name": "Ada"
+      },
+      "options": {},
+      "expected": "<xml>Ada|Ada|Ada</xml>"
+    },
+    {
+      "id": "alias-first-declaration-wins",
+      "feature": "aliases",
+      "source": "test/test.builder.buildXML.js; test/test.parser.js",
+      "reference_api": "builder.buildXML",
+      "template": "{#field=d.name}{#field=d.other}<xml>{$field}</xml>",
+      "data": {
+        "name": "Ada",
+        "other": "wrong"
+      },
+      "options": {},
+      "expected": "<xml>Ada</xml>"
+    },
+    {
+      "id": "alias-unused-declaration",
+      "feature": "aliases",
+      "source": "test/test.builder.buildXML.js; test/test.parser.js",
+      "reference_api": "builder.buildXML",
+      "template": "{#unused=d.other}<xml>{d.name}</xml>",
+      "data": {
+        "name": "Ada",
+        "other": "ignored"
+      },
+      "options": {},
+      "expected": "<xml>Ada</xml>"
+    },
+    {
+      "id": "alias-literal-braces",
+      "feature": "aliases",
+      "source": "test/test.builder.buildXML.js; test/test.parser.js",
+      "reference_api": "builder.buildXML",
+      "template": "{#field=d.name}<xml>{literal} {normal $field} $field {$field}</xml>",
+      "data": {
+        "name": "Ada"
+      },
+      "options": {},
+      "expected": "<xml>{literal} {normal $field} $field Ada</xml>"
+    },
+    {
+      "id": "alias-missing-value",
+      "feature": "aliases",
+      "source": "test/test.builder.buildXML.js; test/test.parser.js",
+      "reference_api": "builder.buildXML",
+      "template": "{#field=d.missing}<xml>{$field}|{d.name}</xml>",
+      "data": {
+        "name": "Ada"
+      },
+      "options": {},
+      "expected": "<xml>|Ada</xml>"
+    },
+    {
+      "id": "alias-xml-declaration",
+      "feature": "aliases",
+      "source": "test/test.builder.buildXML.js; test/test.parser.js",
+      "reference_api": "builder.buildXML",
+      "template": "<xml><p>{ <br/> # <b/> field = d.name }</p><p>{$field}</p></xml>",
+      "data": {
+        "name": "Ada"
+      },
+      "options": {},
+      "expected": "<xml><p><br/><b/></p><p>Ada</p></xml>"
+    },
+    {
+      "id": "alias-quoted-whitespace",
+      "feature": "aliases",
+      "source": "test/test.builder.buildXML.js; test/test.parser.js",
+      "reference_api": "builder.buildXML",
+      "template": "{#field=d.name:ifEQ(&apos;hello, world&apos;):show(&apos;matched phrase&apos;)}<xml>{$field}</xml>",
+      "data": {
+        "name": "hello, world"
+      },
+      "options": {},
+      "expected": "<xml>matched phrase</xml>"
+    },
+    {
+      "id": "alias-parameter-formatters",
+      "feature": "aliases",
+      "source": "test/test.builder.buildXML.js; test/test.parser.js",
+      "reference_api": "builder.buildXML",
+      "template": "{#field($name)=d.$name:upperCase}<xml>{$field(first)}|{$field(last)}</xml>",
+      "data": {
+        "first": "Ada",
+        "last": "Lovelace"
+      },
+      "options": {},
+      "expected": "<xml>ADA|LOVELACE</xml>"
+    },
+    {
+      "id": "alias-loop-selectors",
+      "feature": "aliases",
+      "source": "test/test.builder.buildXML.js; test/test.parser.js",
+      "reference_api": "builder.buildXML",
+      "template": "{#row=i}{#next=i+1}<xml><row>{d.cars[$row].brand}</row><row>{d.cars[$next].brand}</row></xml>",
+      "data": {
+        "cars": [
+          {
+            "brand": "Lumeneo",
+            "id": 1
+          },
+          {
+            "brand": "Tesla motors",
+            "id": 2
+          },
+          {
+            "brand": "Toyota",
+            "id": 3
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><row>Lumeneo</row><row>Tesla motors</row><row>Toyota</row></xml>"
+    }
+  ]
+}
