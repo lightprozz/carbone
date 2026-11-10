@@ -1,0 +1,234 @@
+{
+  "reference": {
+    "package": "carbone",
+    "version": "3.9.1",
+    "description": "B2 alias edge expected strings captured directly from Node builder.buildXML, following parser.findVariables/preprocessMarkers, including empty declaration signatures and JavaScript replacement-string context."
+  },
+  "cases": [
+    {
+      "id": "alias-empty-signature-bare",
+      "feature": "aliases",
+      "source": "lib/parser.js findVariables/preprocessMarkers; lib/helper.js replaceAll",
+      "reference_api": "builder.buildXML",
+      "template": "{#field()=d.name}<xml>{$field}</xml>",
+      "data": {
+        "name": "Ada"
+      },
+      "options": {},
+      "expected": "<xml>Ada</xml>"
+    },
+    {
+      "id": "alias-empty-signature-ignores-arguments",
+      "feature": "aliases",
+      "source": "lib/parser.js findVariables/preprocessMarkers; lib/helper.js replaceAll",
+      "reference_api": "builder.buildXML",
+      "template": "{#field()=d.name}<xml>{$field(ignored)}</xml>",
+      "data": {
+        "name": "Ada"
+      },
+      "options": {},
+      "expected": "<xml>Ada</xml>"
+    },
+    {
+      "id": "alias-empty-signature-whitespace",
+      "feature": "aliases",
+      "source": "lib/parser.js findVariables/preprocessMarkers; lib/helper.js replaceAll",
+      "reference_api": "builder.buildXML",
+      "template": "{ # field () = d.name }<xml>{$field(any,arguments)}</xml>",
+      "data": {
+        "name": "Ada"
+      },
+      "options": {},
+      "expected": "<xml>Ada</xml>"
+    },
+    {
+      "id": "alias-numeric-name",
+      "feature": "aliases",
+      "source": "lib/parser.js findVariables/preprocessMarkers; lib/helper.js replaceAll",
+      "reference_api": "builder.buildXML",
+      "template": "{#1=d.name}<xml>{$1}</xml>",
+      "data": {
+        "name": "Ada"
+      },
+      "options": {},
+      "expected": "<xml>Ada</xml>"
+    },
+    {
+      "id": "alias-leading-digit-name",
+      "feature": "aliases",
+      "source": "lib/parser.js findVariables/preprocessMarkers; lib/helper.js replaceAll",
+      "reference_api": "builder.buildXML",
+      "template": "{#1field=d.name}<xml>{$1field}</xml>",
+      "data": {
+        "name": "Ada"
+      },
+      "options": {},
+      "expected": "<xml>Ada</xml>"
+    },
+    {
+      "id": "alias-hyphenated-name",
+      "feature": "aliases",
+      "source": "lib/parser.js findVariables/preprocessMarkers; lib/helper.js replaceAll",
+      "reference_api": "builder.buildXML",
+      "template": "{#first-name=d.name}<xml>{$first-name}</xml>",
+      "data": {
+        "name": "Ada"
+      },
+      "options": {},
+      "expected": "<xml>Ada</xml>"
+    },
+    {
+      "id": "alias-unicode-name",
+      "feature": "aliases",
+      "source": "lib/parser.js findVariables/preprocessMarkers; lib/helper.js replaceAll",
+      "reference_api": "builder.buildXML",
+      "template": "{#élève=d.name}<xml>{$élève}</xml>",
+      "data": {
+        "name": "Ada"
+      },
+      "options": {},
+      "expected": "<xml>Ada</xml>"
+    },
+    {
+      "id": "alias-ascii-only-name-boundary",
+      "feature": "aliases",
+      "source": "lib/parser.js findVariables/preprocessMarkers; lib/helper.js replaceAll",
+      "reference_api": "builder.buildXML",
+      "template": "{#field=d.name}<xml>{$fieldé}</xml>",
+      "data": {
+        "nameé": "accented"
+      },
+      "options": {},
+      "expected": "<xml>accented</xml>"
+    },
+    {
+      "id": "alias-numeric-name-prefix-boundary",
+      "feature": "aliases",
+      "source": "lib/parser.js findVariables/preprocessMarkers; lib/helper.js replaceAll",
+      "reference_api": "builder.buildXML",
+      "template": "{#1=d.first}{#12=d.last}<xml>{$12}|{$1}</xml>",
+      "data": {
+        "first": "Ada",
+        "last": "Lovelace"
+      },
+      "options": {},
+      "expected": "<xml>Lovelace|Ada</xml>"
+    },
+    {
+      "id": "alias-replacement-dollar",
+      "feature": "aliases",
+      "source": "lib/parser.js findVariables/preprocessMarkers; lib/helper.js replaceAll",
+      "reference_api": "builder.buildXML",
+      "template": "{#field=d.missing:ifEmpty(cash:$$)}<xml>{$field}</xml>",
+      "data": {},
+      "options": {},
+      "expected": "<xml>cash:$</xml>"
+    },
+    {
+      "id": "alias-replacement-match",
+      "feature": "aliases",
+      "source": "lib/parser.js findVariables/preprocessMarkers; lib/helper.js replaceAll",
+      "reference_api": "builder.buildXML",
+      "template": "{#field=d.missing:ifEmpty('match:$&')}<xml>{$field}</xml>",
+      "data": {},
+      "options": {},
+      "expected": "<xml>match:$field</xml>"
+    },
+    {
+      "id": "alias-replacement-prefix",
+      "feature": "aliases",
+      "source": "lib/parser.js findVariables/preprocessMarkers; lib/helper.js replaceAll",
+      "reference_api": "builder.buildXML",
+      "template": "{#field=d.missing:ifEmpty('prefix:$`')}<xml>{$field}</xml>",
+      "data": {},
+      "options": {},
+      "expected": "<xml>prefix:_root.</xml>"
+    },
+    {
+      "id": "alias-replacement-suffix",
+      "feature": "aliases",
+      "source": "lib/parser.js findVariables/preprocessMarkers; lib/helper.js replaceAll",
+      "reference_api": "builder.buildXML",
+      "template": "{#field=d.missing:ifEmpty(suffix:$')}<xml>{$field}</xml>",
+      "data": {},
+      "options": {},
+      "expected": "<xml>suffix:</xml>"
+    },
+    {
+      "id": "alias-replacement-suffix-original-context",
+      "feature": "aliases",
+      "source": "lib/parser.js findVariables/preprocessMarkers; lib/helper.js replaceAll",
+      "reference_api": "builder.buildXML",
+      "template": "{#field=d.missing:ifEmpty(suffix:$')}<xml>{$field:ifEmpty}</xml>",
+      "data": {},
+      "options": {},
+      "expected": "<xml>suffix::ifEmpty</xml>"
+    },
+    {
+      "id": "alias-replacement-numeric-tokens-literal",
+      "feature": "aliases",
+      "source": "lib/parser.js findVariables/preprocessMarkers; lib/helper.js replaceAll",
+      "reference_api": "builder.buildXML",
+      "template": "{#field=d.missing:ifEmpty('tokens:$0:$1:$99')}<xml>{$field}</xml>",
+      "data": {},
+      "options": {},
+      "expected": "<xml>tokens:$0:$1:$99</xml>"
+    },
+    {
+      "id": "alias-replacement-independent-markers",
+      "feature": "aliases",
+      "source": "lib/parser.js findVariables/preprocessMarkers; lib/helper.js replaceAll",
+      "reference_api": "builder.buildXML",
+      "template": "{#field=d.missing:ifEmpty('prefix:$`')}<xml>{$field}|{$field}</xml>",
+      "data": {},
+      "options": {},
+      "expected": "<xml>prefix:_root.|prefix:_root.</xml>"
+    },
+    {
+      "id": "alias-parameter-replacement-dollar",
+      "feature": "aliases",
+      "source": "lib/parser.js findVariables/preprocessMarkers; lib/helper.js replaceAll",
+      "reference_api": "builder.buildXML",
+      "template": "{#field($p)=d.missing:ifEmpty($p)}<xml>{$field(cash:$$)}</xml>",
+      "data": {},
+      "options": {},
+      "expected": "<xml>cash:$</xml>"
+    },
+    {
+      "id": "alias-parameter-replacement-match",
+      "feature": "aliases",
+      "source": "lib/parser.js findVariables/preprocessMarkers; lib/helper.js replaceAll",
+      "reference_api": "builder.buildXML",
+      "template": "{#field($p)=d.missing:ifEmpty($p)}<xml>{$field($&)}</xml>",
+      "data": {},
+      "options": {},
+      "expected": "<xml>_$0_</xml>"
+    },
+    {
+      "id": "alias-parameter-replacement-prefix",
+      "feature": "aliases",
+      "source": "lib/parser.js findVariables/preprocessMarkers; lib/helper.js replaceAll",
+      "reference_api": "builder.buildXML",
+      "template": "{#field($p)=d.$pname}<xml>{$field($`)}</xml>",
+      "data": {
+        "d": {
+          "name": "prefix context"
+        }
+      },
+      "options": {},
+      "expected": "<xml>prefix context</xml>"
+    },
+    {
+      "id": "alias-parameter-replacement-suffix",
+      "feature": "aliases",
+      "source": "lib/parser.js findVariables/preprocessMarkers; lib/helper.js replaceAll",
+      "reference_api": "builder.buildXML",
+      "template": "{#field($p)=d.$pname}<xml>{$field($')}</xml>",
+      "data": {
+        "namename": "suffix context"
+      },
+      "options": {},
+      "expected": "<xml>suffix context</xml>"
+    }
+  ]
+}
