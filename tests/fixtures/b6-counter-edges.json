@@ -1,8 +1,9 @@
 {
   "reference": {
     "package": "carbone",
-    "version": "3.9.1",
-    "description": "Captured from the Node renderXML API for dynamic counter starts, quoted relative paths, and first-start persistence across rows and nested groups."
+    "version": "3.9.2",
+    "description": "Captured from the Node renderXML API for dynamic counter starts, quoted relative paths, and first-start persistence across rows and nested groups.",
+    "capturedVersion": "3.9.1"
   },
   "cases": [
     {

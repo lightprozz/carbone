@@ -1,8 +1,9 @@
 {
   "reference": {
     "package": "carbone",
-    "version": "3.9.1",
-    "description": "B2 alias expected strings captured directly from the original Node builder.buildXML; declarations and parameters follow parser.findVariables/preprocessMarkers. Rust-only size, cycle, depth, and unsupported-syntax tests live in src/aliases.rs."
+    "version": "3.9.2",
+    "description": "B2 alias expected strings captured directly from the original Node builder.buildXML; declarations and parameters follow parser.findVariables/preprocessMarkers. Rust-only size, cycle, depth, and unsupported-syntax tests live in src/aliases.rs.",
+    "capturedVersion": "3.9.1"
   },
   "cases": [
     {

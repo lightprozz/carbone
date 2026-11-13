@@ -1,8 +1,9 @@
 {
   "reference": {
     "package": "carbone",
-    "version": "3.9.1",
-    "description": "Captured from the Node formatter, mathematical-expression parser, builder counter, and renderXML APIs. Arithmetic oracle executes only the original parser-generated code in the Node capture process; native evaluation never executes code."
+    "version": "3.9.2",
+    "description": "Captured from the Node formatter, mathematical-expression parser, builder counter, and renderXML APIs. Arithmetic oracle executes only the original parser-generated code in the Node capture process; native evaluation never executes code.",
+    "capturedVersion": "3.9.1"
   },
   "cases": [
     {

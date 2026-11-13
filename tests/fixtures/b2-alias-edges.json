@@ -1,8 +1,9 @@
 {
   "reference": {
     "package": "carbone",
-    "version": "3.9.1",
-    "description": "B2 alias edge expected strings captured directly from Node builder.buildXML, following parser.findVariables/preprocessMarkers, including empty declaration signatures and JavaScript replacement-string context."
+    "version": "3.9.2",
+    "description": "B2 alias edge expected strings captured directly from Node builder.buildXML, following parser.findVariables/preprocessMarkers, including empty declaration signatures and JavaScript replacement-string context.",
+    "capturedVersion": "3.9.1"
   },
   "cases": [
     {

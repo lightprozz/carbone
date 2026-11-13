@@ -92,7 +92,10 @@ async function main() {
     }
   }
   assert.equal(failures.length, 0, failures.join('\n'));
-  if (update) fs.writeFileSync(filename, JSON.stringify(corpus, null, 2) + '\n');
+  if (update) {
+    corpus.reference.capturedVersion = packageInfo.version;
+    fs.writeFileSync(filename, JSON.stringify(corpus, null, 2) + '\n');
+  }
   console.log(`${update ? 'Updated' : 'Verified'} ${corpus.cases.length} Node ${packageInfo.version} B6 formatter cases.`);
 
 }

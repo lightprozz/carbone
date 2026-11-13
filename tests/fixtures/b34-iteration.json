@@ -1,8 +1,9 @@
 {
   "reference": {
     "package": "carbone",
-    "version": "3.9.1",
-    "description": "B3/B4 expected strings captured from the original Node implementation, using JSON-compatible iteration and filter inputs from test/test.builder.buildXML.js. Run node scripts/record-iteration-parity.cjs to verify; --update deliberately records fresh Node outputs."
+    "version": "3.9.2",
+    "description": "B3/B4 expected strings captured from the original Node implementation, using JSON-compatible iteration and filter inputs from test/test.builder.buildXML.js. Run node scripts/record-iteration-parity.cjs to verify; --update deliberately records fresh Node outputs.",
+    "capturedVersion": "3.9.1"
   },
   "cases": [
     {

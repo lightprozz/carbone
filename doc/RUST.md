@@ -1,7 +1,7 @@
 # Native Rust migration
 
 This repository now contains a native Rust library and CLI alongside the original
-Carbone v3.9.1 JavaScript implementation. **Version 0.1.0 is a migration preview,
+Carbone v3.9.2 JavaScript implementation. **Version 0.1.0 is a migration preview,
 not a drop-in or feature-complete replacement.** Rust rendering does not invoke
 Node.js, JavaScript, Python, or a hosted service. LibreOffice is still required
 for document conversion, including PDF output.
@@ -229,8 +229,9 @@ TZ=Europe/Paris ./node_modules/.bin/mocha \
 cargo test --locked --lib document::tests::libreoffice_converts_odt_to_pdf -- --ignored
 ```
 
-The corpora in `tests/fixtures/` record 330 template results from Node 3.9.1
-(329 supported outputs and one explicitly rejected alias edge case);
+The corpora in `tests/fixtures/` record 330 template results captured from Node
+3.9.1 and verified against Node 3.9.2 (329 supported outputs and one explicitly
+rejected alias edge case);
 `tests/formatter-fixtures/` holds 106 additional formatter/error/render
 records. `check-parity.cjs` verifies both schemas against the original engine;
 `--update` deliberately regenerates expectations and must be reviewed. Rust tests

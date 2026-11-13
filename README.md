@@ -78,7 +78,7 @@ README language: 🇨🇳 [简体中文](./doc/README.zh-cn.md), 🇺🇸 [Engli
 
 A native Rust library and `carbone render` CLI are now available as a **migration
 preview**, with no Node.js dependency at runtime. This is the first stage, not a
-feature-complete replacement for Carbone v3.9.1. The JavaScript implementation
+feature-complete replacement for Carbone v3.9.2. The JavaScript implementation
 remains the compatibility reference until the remaining features are ported.
 
 See **[Rust usage and compatibility status](doc/RUST.md)** for installation,

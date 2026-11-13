@@ -1,8 +1,9 @@
 {
   "reference": {
     "package": "carbone",
-    "version": "3.9.1",
-    "description": "B5 block oracle: outputs captured from carbone.renderXML; verified by scripts/check-parity.cjs."
+    "version": "3.9.2",
+    "description": "B5 block oracle: outputs captured from carbone.renderXML; verified by scripts/check-parity.cjs.",
+    "capturedVersion": "3.9.1"
   },
   "cases": [
     {

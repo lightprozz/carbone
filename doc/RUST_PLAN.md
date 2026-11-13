@@ -5,7 +5,7 @@ plan and progress record, in three tracks:
 
 - **A. Architecture** – replace the preview engine with a design that can carry
   every remaining feature.
-- **B. Community parity** – finish everything the JavaScript v3.9.1 engine does.
+- **B. Community parity** – finish everything the JavaScript v3.9.2 engine does.
 - **C. Enterprise-equivalent features** – built from the public documentation.
 
 The project is an internal learning tool and is free to be redesigned: matching
@@ -58,8 +58,9 @@ the JavaScript *output* is the goal for track B, matching its *structure* is not
   reference engine. This is not a claim that every Community edge case is ported.
 - **Verification:** 330 template oracle records (329 supported outputs and one
   explicitly rejected alias case) plus 106 formatter/error/render records
-  are checked against Node 3.9.1. Rust exercises supported outputs and
-  explicit rejection cases; template plans render twice to check state isolation.
+  were recorded against Node 3.9.1 and are checked against Node 3.9.2. Rust
+  exercises supported outputs and explicit rejection cases; template plans render
+  twice to check state isolation.
   The full track-B exit criterion below has not been reached.
 - **Alias edge cases closed:** empty `()` declarations, Unicode/digit/hyphen
   names and JavaScript replacement tokens now have recorded Node coverage.

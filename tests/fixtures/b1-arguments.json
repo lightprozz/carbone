@@ -1,8 +1,9 @@
 {
   "reference": {
     "package": "carbone",
-    "version": "3.9.1",
-    "description": "Expected strings captured from the original Node implementation. Run node scripts/check-parity.cjs to verify; --update deliberately refreshes the reference outputs. Rust-only rejection tests are separate."
+    "version": "3.9.2",
+    "description": "Expected strings captured from the original Node implementation. Run node scripts/check-parity.cjs to verify; --update deliberately refreshes the reference outputs. Rust-only rejection tests are separate.",
+    "capturedVersion": "3.9.1"
   },
   "cases": [
     {

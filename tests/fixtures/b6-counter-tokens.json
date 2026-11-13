@@ -1,8 +1,9 @@
 {
   "reference": {
     "package": "carbone",
-    "version": "3.9.1",
-    "description": "Captured from the Node renderXML API for multiple counters, token-inspecting formatter chains, UTF-16 marker positions, separate and nested loops, hidden rows, unusual starts, and large numeric IDs."
+    "version": "3.9.2",
+    "description": "Captured from the Node renderXML API for multiple counters, token-inspecting formatter chains, UTF-16 marker positions, separate and nested loops, hidden rows, unusual starts, and large numeric IDs.",
+    "capturedVersion": "3.9.1"
   },
   "cases": [
     {

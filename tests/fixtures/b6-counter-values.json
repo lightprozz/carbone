@@ -1,8 +1,9 @@
 {
   "reference": {
     "package": "carbone",
-    "version": "3.9.1",
-    "description": "Counter assembly expectations recorded from unchanged Node renderXML."
+    "version": "3.9.2",
+    "description": "Counter assembly expectations recorded from unchanged Node renderXML.",
+    "capturedVersion": "3.9.1"
   },
   "cases": [
     {
