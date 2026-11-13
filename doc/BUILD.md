@@ -109,4 +109,5 @@ The CI commands and parity check are defined in
 [`rust.yml`](../.github/workflows/rust.yml). The convenience
 [`scripts/setup.sh`](../scripts/setup.sh) fetches locked Rust dependencies and
 installs the Node reference dependencies; it is not needed for a Rust-only
-build.
+build. This is a command-line project, not a web server; the repository does
+not configure a managed web preview.

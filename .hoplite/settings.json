@@ -18,8 +18,8 @@
 			"command": "sh scripts/setup.sh"
 		},
 		"run": {
-			"enabled": true,
-			"command": "cargo run"
+			"enabled": false,
+			"command": null
 		},
 		"archive": {
 			"enabled": true,
