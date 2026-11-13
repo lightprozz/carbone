@@ -1,0 +1,460 @@
+{
+  "reference": {
+    "package": "carbone",
+    "version": "3.9.2",
+    "description": "Expected strings captured from the original Node implementation. Run node scripts/check-parity.cjs to verify; --update deliberately refreshes the reference outputs. Rust-only rejection tests are separate.",
+    "capturedVersion": "3.9.1"
+  },
+  "cases": [
+    {
+      "id": "b1-dynamic-0",
+      "feature": "dynamic-arguments",
+      "source": "test/test.carbone.js:1060-1260",
+      "reference_api": "carbone.renderXML",
+      "template": "{d.number:ifEqual(.match,.text)}",
+      "data": {
+        "name": "Ada",
+        "number": 3,
+        "other": 10,
+        "match": 3,
+        "text": "yes",
+        "nested": {
+          "id": 2,
+          "text": "inside"
+        },
+        "list": [
+          {
+            "id": 1,
+            "text": "one"
+          },
+          {
+            "id": 2,
+            "text": "two"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "yes"
+    },
+    {
+      "id": "b1-dynamic-1",
+      "feature": "dynamic-arguments",
+      "source": "test/test.carbone.js:1060-1260",
+      "reference_api": "carbone.renderXML",
+      "template": "{d.number:ifEqual(4,.text)}",
+      "data": {
+        "name": "Ada",
+        "number": 3,
+        "other": 10,
+        "match": 3,
+        "text": "yes",
+        "nested": {
+          "id": 2,
+          "text": "inside"
+        },
+        "list": [
+          {
+            "id": 1,
+            "text": "one"
+          },
+          {
+            "id": 2,
+            "text": "two"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "3"
+    },
+    {
+      "id": "b1-dynamic-2",
+      "feature": "dynamic-arguments",
+      "source": "test/test.carbone.js:1060-1260",
+      "reference_api": "carbone.renderXML",
+      "template": "{d.nested.id:ifEqual(2,..text)}",
+      "data": {
+        "name": "Ada",
+        "number": 3,
+        "other": 10,
+        "match": 3,
+        "text": "yes",
+        "nested": {
+          "id": 2,
+          "text": "inside"
+        },
+        "list": [
+          {
+            "id": 1,
+            "text": "one"
+          },
+          {
+            "id": 2,
+            "text": "two"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "yes"
+    },
+    {
+      "id": "b1-dynamic-3",
+      "feature": "dynamic-arguments",
+      "source": "test/test.carbone.js:1060-1260",
+      "reference_api": "carbone.renderXML",
+      "template": "{d.nested.id:ifEqual(2,.text)}",
+      "data": {
+        "name": "Ada",
+        "number": 3,
+        "other": 10,
+        "match": 3,
+        "text": "yes",
+        "nested": {
+          "id": 2,
+          "text": "inside"
+        },
+        "list": [
+          {
+            "id": 1,
+            "text": "one"
+          },
+          {
+            "id": 2,
+            "text": "two"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "inside"
+    },
+    {
+      "id": "b1-dynamic-4",
+      "feature": "dynamic-arguments",
+      "source": "test/test.carbone.js:1060-1260",
+      "reference_api": "carbone.renderXML",
+      "template": "{d.number:ifEQ(3):and(.other):ifGTE(10):show(yes):elseShow(no)}",
+      "data": {
+        "name": "Ada",
+        "number": 3,
+        "other": 10,
+        "match": 3,
+        "text": "yes",
+        "nested": {
+          "id": 2,
+          "text": "inside"
+        },
+        "list": [
+          {
+            "id": 1,
+            "text": "one"
+          },
+          {
+            "id": 2,
+            "text": "two"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "yes"
+    },
+    {
+      "id": "b1-dynamic-5",
+      "feature": "dynamic-arguments",
+      "source": "test/test.carbone.js:1060-1260",
+      "reference_api": "carbone.renderXML",
+      "template": "{d.number:ifEQ(4):or(.other):ifGTE(10):show(yes):elseShow(no)}",
+      "data": {
+        "name": "Ada",
+        "number": 3,
+        "other": 10,
+        "match": 3,
+        "text": "yes",
+        "nested": {
+          "id": 2,
+          "text": "inside"
+        },
+        "list": [
+          {
+            "id": 1,
+            "text": "one"
+          },
+          {
+            "id": 2,
+            "text": "two"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "yes"
+    },
+    {
+      "id": "b1-dynamic-6",
+      "feature": "dynamic-arguments",
+      "source": "test/test.carbone.js:1060-1260",
+      "reference_api": "carbone.renderXML",
+      "template": "{d.number:ifEqual(3,\".text\")}",
+      "data": {
+        "name": "Ada",
+        "number": 3,
+        "other": 10,
+        "match": 3,
+        "text": "yes",
+        "nested": {
+          "id": 2,
+          "text": "inside"
+        },
+        "list": [
+          {
+            "id": 1,
+            "text": "one"
+          },
+          {
+            "id": 2,
+            "text": "two"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "\".text\""
+    },
+    {
+      "id": "b1-dynamic-7",
+      "feature": "dynamic-arguments",
+      "source": "test/test.carbone.js:1060-1260",
+      "reference_api": "carbone.renderXML",
+      "template": "{d.number:ifEqual(3,'.text')}",
+      "data": {
+        "name": "Ada",
+        "number": 3,
+        "other": 10,
+        "match": 3,
+        "text": "yes",
+        "nested": {
+          "id": 2,
+          "text": "inside"
+        },
+        "list": [
+          {
+            "id": 1,
+            "text": "one"
+          },
+          {
+            "id": 2,
+            "text": "two"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "yes"
+    },
+    {
+      "id": "b1-dynamic-8",
+      "feature": "dynamic-arguments",
+      "source": "test/test.carbone.js:1060-1260",
+      "reference_api": "carbone.renderXML",
+      "template": "{d.name:print(.missing)}",
+      "data": {
+        "name": "Ada",
+        "number": 3,
+        "other": 10,
+        "match": 3,
+        "text": "yes",
+        "nested": {
+          "id": 2,
+          "text": "inside"
+        },
+        "list": [
+          {
+            "id": 1,
+            "text": "one"
+          },
+          {
+            "id": 2,
+            "text": "two"
+          }
+        ]
+      },
+      "options": {},
+      "expected": ""
+    },
+    {
+      "id": "b1-dynamic-9",
+      "feature": "dynamic-arguments",
+      "source": "test/test.carbone.js:1060-1260",
+      "reference_api": "carbone.renderXML",
+      "template": "{d.nested.id:print(..list[0].text)}",
+      "data": {
+        "name": "Ada",
+        "number": 3,
+        "other": 10,
+        "match": 3,
+        "text": "yes",
+        "nested": {
+          "id": 2,
+          "text": "inside"
+        },
+        "list": [
+          {
+            "id": 1,
+            "text": "one"
+          },
+          {
+            "id": 2,
+            "text": "two"
+          }
+        ]
+      },
+      "options": {},
+      "expected": ""
+    },
+    {
+      "id": "b1-dynamic-10",
+      "feature": "dynamic-arguments",
+      "source": "test/test.carbone.js:1060-1260",
+      "reference_api": "carbone.renderXML",
+      "template": "<xml><p>{d.list[i].id:ifEqual(2,.text)}</p><p>{d.list[i+1].id}</p></xml>",
+      "data": {
+        "name": "Ada",
+        "number": 3,
+        "other": 10,
+        "match": 3,
+        "text": "yes",
+        "nested": {
+          "id": 2,
+          "text": "inside"
+        },
+        "list": [
+          {
+            "id": 1,
+            "text": "one"
+          },
+          {
+            "id": 2,
+            "text": "two"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "<xml><p>1</p><p>two</p></xml>"
+    },
+    {
+      "id": "b1-dynamic-11",
+      "feature": "dynamic-arguments",
+      "source": "test/test.carbone.js:1060-1260",
+      "reference_api": "carbone.renderXML",
+      "template": "{d.number:add(.other)}",
+      "data": {
+        "name": "Ada",
+        "number": 3,
+        "other": 10,
+        "match": 3,
+        "text": "yes",
+        "nested": {
+          "id": 2,
+          "text": "inside"
+        },
+        "list": [
+          {
+            "id": 1,
+            "text": "one"
+          },
+          {
+            "id": 2,
+            "text": "two"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "13"
+    },
+    {
+      "id": "b1-dynamic-12",
+      "feature": "dynamic-arguments",
+      "source": "test/test.carbone.js:1060-1260",
+      "reference_api": "carbone.renderXML",
+      "template": "{d.nested.id:add(..other)}",
+      "data": {
+        "name": "Ada",
+        "number": 3,
+        "other": 10,
+        "match": 3,
+        "text": "yes",
+        "nested": {
+          "id": 2,
+          "text": "inside"
+        },
+        "list": [
+          {
+            "id": 1,
+            "text": "one"
+          },
+          {
+            "id": 2,
+            "text": "two"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "12"
+    },
+    {
+      "id": "b1-dynamic-13",
+      "feature": "dynamic-arguments",
+      "source": "test/test.carbone.js:1060-1260",
+      "reference_api": "carbone.renderXML",
+      "template": "{d.name:print(.nested)}",
+      "data": {
+        "name": "Ada",
+        "number": 3,
+        "other": 10,
+        "match": 3,
+        "text": "yes",
+        "nested": {
+          "id": 2,
+          "text": "inside"
+        },
+        "list": [
+          {
+            "id": 1,
+            "text": "one"
+          },
+          {
+            "id": 2,
+            "text": "two"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "[object Object]"
+    },
+    {
+      "id": "b1-dynamic-14",
+      "feature": "dynamic-arguments",
+      "source": "test/test.carbone.js:1060-1260",
+      "reference_api": "carbone.renderXML",
+      "template": "{d.name:print(.list)}",
+      "data": {
+        "name": "Ada",
+        "number": 3,
+        "other": 10,
+        "match": 3,
+        "text": "yes",
+        "nested": {
+          "id": 2,
+          "text": "inside"
+        },
+        "list": [
+          {
+            "id": 1,
+            "text": "one"
+          },
+          {
+            "id": 2,
+            "text": "two"
+          }
+        ]
+      },
+      "options": {},
+      "expected": "[object Object],[object Object]"
+    }
+  ]
+}

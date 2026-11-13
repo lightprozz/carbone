@@ -1,0 +1,1445 @@
+{
+  "reference": {
+    "package": "carbone",
+    "version": "3.9.2",
+    "description": "Captured from the Node formatter, mathematical-expression parser, builder counter, and renderXML APIs. Arithmetic oracle executes only the original parser-generated code in the Node capture process; native evaluation never executes code.",
+    "capturedVersion": "3.9.1"
+  },
+  "cases": [
+    {
+      "id": "arithmetic-0",
+      "kind": "arithmetic",
+      "expression": "2+3*4",
+      "expected": "14"
+    },
+    {
+      "id": "arithmetic-1",
+      "kind": "arithmetic",
+      "expression": "20/2/2",
+      "expected": "5"
+    },
+    {
+      "id": "arithmetic-2",
+      "kind": "arithmetic",
+      "expression": "20-3-2",
+      "expected": "15"
+    },
+    {
+      "id": "arithmetic-3",
+      "kind": "arithmetic",
+      "expression": "-12.5+2*3",
+      "expected": "-6.5"
+    },
+    {
+      "id": "arithmetic-4",
+      "kind": "arithmetic",
+      "expression": "10--2",
+      "expected": "8"
+    },
+    {
+      "id": "arithmetic-5",
+      "kind": "arithmetic",
+      "expression": "10*-2",
+      "expected": "8"
+    },
+    {
+      "id": "arithmetic-6",
+      "kind": "arithmetic",
+      "expression": "10/-2",
+      "expected": "8"
+    },
+    {
+      "id": "arithmetic-7",
+      "kind": "arithmetic",
+      "expression": "--2",
+      "expected": "-2"
+    },
+    {
+      "id": "arithmetic-8",
+      "kind": "arithmetic",
+      "expression": "1e-3",
+      "expected": "-2"
+    },
+    {
+      "id": "arithmetic-9",
+      "kind": "arithmetic",
+      "expression": "1e+3",
+      "expected": "4"
+    },
+    {
+      "id": "arithmetic-10",
+      "kind": "arithmetic",
+      "expression": ".5+2.25",
+      "expected": "2.75"
+    },
+    {
+      "id": "arithmetic-11",
+      "kind": "arithmetic",
+      "expression": "10abc+2",
+      "expected": "12"
+    },
+    {
+      "id": "arithmetic-12",
+      "kind": "arithmetic",
+      "expression": "0x10+2",
+      "expected": "2"
+    },
+    {
+      "id": "arithmetic-13",
+      "kind": "arithmetic",
+      "expression": "2*(3+4)",
+      "expected": "6"
+    },
+    {
+      "id": "arithmetic-14",
+      "kind": "arithmetic",
+      "expression": "2(3)",
+      "expected": "2"
+    },
+    {
+      "id": "arithmetic-15",
+      "kind": "arithmetic",
+      "expression": "  -  1",
+      "expected": "-1"
+    },
+    {
+      "id": "arithmetic-16",
+      "kind": "arithmetic",
+      "expression": "2/0",
+      "expected": "Infinity"
+    },
+    {
+      "id": "arithmetic-17",
+      "kind": "arithmetic",
+      "expression": "0/0",
+      "expected": "NaN"
+    },
+    {
+      "id": "arithmetic-18",
+      "kind": "arithmetic",
+      "expression": "10 +",
+      "error": "Bad Mathematical Expression in \"10 +\""
+    },
+    {
+      "id": "arithmetic-19",
+      "kind": "arithmetic",
+      "expression": "2**3",
+      "error": "Bad Mathematical Expression in \"2**3\""
+    },
+    {
+      "id": "arithmetic-20",
+      "kind": "arithmetic",
+      "expression": "/10",
+      "error": "Bad Mathematical Expression in \"/10\""
+    },
+    {
+      "id": "arithmetic-21",
+      "kind": "arithmetic",
+      "expression": "+10",
+      "error": "Bad Mathematical Expression in \"+10\""
+    },
+    {
+      "id": "arithmetic-22",
+      "kind": "arithmetic",
+      "expression": "10 ++ 10",
+      "error": "Bad Mathematical Expression in \"10 ++ 10\""
+    },
+    {
+      "id": "arithmetic-23",
+      "kind": "arithmetic",
+      "expression": "",
+      "expected": "NaN"
+    },
+    {
+      "id": "arithmetic-24",
+      "kind": "arithmetic",
+      "expression": "foo+2",
+      "expected": "2"
+    },
+    {
+      "id": "arithmetic-25",
+      "kind": "arithmetic",
+      "expression": "foo-2",
+      "expected": "-2"
+    },
+    {
+      "id": "arithmetic-26",
+      "kind": "arithmetic",
+      "expression": " 10+2",
+      "expected": "2"
+    },
+    {
+      "id": "arithmetic-27",
+      "kind": "arithmetic",
+      "expression": "﻿10 + 2",
+      "expected": "12"
+    },
+    {
+      "id": "arithmetic-28",
+      "kind": "arithmetic",
+      "expression": "1+globalThis.process.exit(1)",
+      "expected": "1"
+    },
+    {
+      "id": "arithmetic-resolved-29",
+      "kind": "arithmetic",
+      "expression": ".a + .b * 2",
+      "operands": {
+        ".a": "10px",
+        ".b": 3
+      },
+      "expected": "16"
+    },
+    {
+      "id": "arithmetic-resolved-30",
+      "kind": "arithmetic",
+      "expression": "-.a - .b - 100/2",
+      "operands": {
+        ".a": 10,
+        ".b": 2
+      },
+      "expected": "-62"
+    },
+    {
+      "id": "arithmetic-resolved-31",
+      "kind": "arithmetic",
+      "expression": ".color-dash - .other-bidule",
+      "operands": {
+        ".color-dash": 7,
+        ".other-bidule": 2
+      },
+      "expected": "5"
+    },
+    {
+      "id": "arithmetic-resolved-32",
+      "kind": "arithmetic",
+      "expression": ".a / .b",
+      "operands": {
+        ".a": null,
+        ".b": 2
+      },
+      "expected": "NaN"
+    },
+    {
+      "id": "arithmetic-resolved-33",
+      "kind": "arithmetic",
+      "expression": ".a + .b",
+      "operands": {
+        ".a": [
+          3
+        ],
+        ".b": "4.5kg"
+      },
+      "expected": "7.5"
+    },
+    {
+      "id": "enum-34",
+      "kind": "extra",
+      "name": "convEnum",
+      "value": 0,
+      "args": [
+        "ORDER_STATUS"
+      ],
+      "context": {
+        "enum": {
+          "ORDER_STATUS": [
+            "pending",
+            "sent",
+            null
+          ],
+          "YES_NO": {
+            "true": "Yes",
+            "false": "No",
+            "null": "Nothing"
+          },
+          "NESTED": {
+            "obj": {
+              "label": "Object"
+            },
+            "array": [
+              "x",
+              "y"
+            ]
+          },
+          "TEXT": "abc"
+        }
+      },
+      "expected": "pending"
+    },
+    {
+      "id": "enum-35",
+      "kind": "extra",
+      "name": "convEnum",
+      "value": 1,
+      "args": [
+        "ORDER_STATUS"
+      ],
+      "context": {
+        "enum": {
+          "ORDER_STATUS": [
+            "pending",
+            "sent",
+            null
+          ],
+          "YES_NO": {
+            "true": "Yes",
+            "false": "No",
+            "null": "Nothing"
+          },
+          "NESTED": {
+            "obj": {
+              "label": "Object"
+            },
+            "array": [
+              "x",
+              "y"
+            ]
+          },
+          "TEXT": "abc"
+        }
+      },
+      "expected": "sent"
+    },
+    {
+      "id": "enum-36",
+      "kind": "extra",
+      "name": "convEnum",
+      "value": "1",
+      "args": [
+        "ORDER_STATUS"
+      ],
+      "context": {
+        "enum": {
+          "ORDER_STATUS": [
+            "pending",
+            "sent",
+            null
+          ],
+          "YES_NO": {
+            "true": "Yes",
+            "false": "No",
+            "null": "Nothing"
+          },
+          "NESTED": {
+            "obj": {
+              "label": "Object"
+            },
+            "array": [
+              "x",
+              "y"
+            ]
+          },
+          "TEXT": "abc"
+        }
+      },
+      "expected": "sent"
+    },
+    {
+      "id": "enum-37",
+      "kind": "extra",
+      "name": "convEnum",
+      "value": 2,
+      "args": [
+        "ORDER_STATUS"
+      ],
+      "context": {
+        "enum": {
+          "ORDER_STATUS": [
+            "pending",
+            "sent",
+            null
+          ],
+          "YES_NO": {
+            "true": "Yes",
+            "false": "No",
+            "null": "Nothing"
+          },
+          "NESTED": {
+            "obj": {
+              "label": "Object"
+            },
+            "array": [
+              "x",
+              "y"
+            ]
+          },
+          "TEXT": "abc"
+        }
+      },
+      "expected": null
+    },
+    {
+      "id": "enum-38",
+      "kind": "extra",
+      "name": "convEnum",
+      "value": 5,
+      "args": [
+        "ORDER_STATUS"
+      ],
+      "context": {
+        "enum": {
+          "ORDER_STATUS": [
+            "pending",
+            "sent",
+            null
+          ],
+          "YES_NO": {
+            "true": "Yes",
+            "false": "No",
+            "null": "Nothing"
+          },
+          "NESTED": {
+            "obj": {
+              "label": "Object"
+            },
+            "array": [
+              "x",
+              "y"
+            ]
+          },
+          "TEXT": "abc"
+        }
+      },
+      "expected": 5
+    },
+    {
+      "id": "enum-39",
+      "kind": "extra",
+      "name": "convEnum",
+      "value": "01",
+      "args": [
+        "ORDER_STATUS"
+      ],
+      "context": {
+        "enum": {
+          "ORDER_STATUS": [
+            "pending",
+            "sent",
+            null
+          ],
+          "YES_NO": {
+            "true": "Yes",
+            "false": "No",
+            "null": "Nothing"
+          },
+          "NESTED": {
+            "obj": {
+              "label": "Object"
+            },
+            "array": [
+              "x",
+              "y"
+            ]
+          },
+          "TEXT": "abc"
+        }
+      },
+      "expected": "01"
+    },
+    {
+      "id": "enum-40",
+      "kind": "extra",
+      "name": "convEnum",
+      "value": "length",
+      "args": [
+        "ORDER_STATUS"
+      ],
+      "context": {
+        "enum": {
+          "ORDER_STATUS": [
+            "pending",
+            "sent",
+            null
+          ],
+          "YES_NO": {
+            "true": "Yes",
+            "false": "No",
+            "null": "Nothing"
+          },
+          "NESTED": {
+            "obj": {
+              "label": "Object"
+            },
+            "array": [
+              "x",
+              "y"
+            ]
+          },
+          "TEXT": "abc"
+        }
+      },
+      "expected": 3
+    },
+    {
+      "id": "enum-41",
+      "kind": "extra",
+      "name": "convEnum",
+      "value": false,
+      "args": [
+        "YES_NO"
+      ],
+      "context": {
+        "enum": {
+          "ORDER_STATUS": [
+            "pending",
+            "sent",
+            null
+          ],
+          "YES_NO": {
+            "true": "Yes",
+            "false": "No",
+            "null": "Nothing"
+          },
+          "NESTED": {
+            "obj": {
+              "label": "Object"
+            },
+            "array": [
+              "x",
+              "y"
+            ]
+          },
+          "TEXT": "abc"
+        }
+      },
+      "expected": "No"
+    },
+    {
+      "id": "enum-42",
+      "kind": "extra",
+      "name": "convEnum",
+      "value": true,
+      "args": [
+        "YES_NO"
+      ],
+      "context": {
+        "enum": {
+          "ORDER_STATUS": [
+            "pending",
+            "sent",
+            null
+          ],
+          "YES_NO": {
+            "true": "Yes",
+            "false": "No",
+            "null": "Nothing"
+          },
+          "NESTED": {
+            "obj": {
+              "label": "Object"
+            },
+            "array": [
+              "x",
+              "y"
+            ]
+          },
+          "TEXT": "abc"
+        }
+      },
+      "expected": "Yes"
+    },
+    {
+      "id": "enum-43",
+      "kind": "extra",
+      "name": "convEnum",
+      "value": null,
+      "args": [
+        "YES_NO"
+      ],
+      "context": {
+        "enum": {
+          "ORDER_STATUS": [
+            "pending",
+            "sent",
+            null
+          ],
+          "YES_NO": {
+            "true": "Yes",
+            "false": "No",
+            "null": "Nothing"
+          },
+          "NESTED": {
+            "obj": {
+              "label": "Object"
+            },
+            "array": [
+              "x",
+              "y"
+            ]
+          },
+          "TEXT": "abc"
+        }
+      },
+      "expected": "Nothing"
+    },
+    {
+      "id": "enum-44",
+      "kind": "extra",
+      "name": "convEnum",
+      "value": "obj",
+      "args": [
+        "NESTED"
+      ],
+      "context": {
+        "enum": {
+          "ORDER_STATUS": [
+            "pending",
+            "sent",
+            null
+          ],
+          "YES_NO": {
+            "true": "Yes",
+            "false": "No",
+            "null": "Nothing"
+          },
+          "NESTED": {
+            "obj": {
+              "label": "Object"
+            },
+            "array": [
+              "x",
+              "y"
+            ]
+          },
+          "TEXT": "abc"
+        }
+      },
+      "expected": {
+        "label": "Object"
+      }
+    },
+    {
+      "id": "enum-45",
+      "kind": "extra",
+      "name": "convEnum",
+      "value": "array",
+      "args": [
+        "NESTED"
+      ],
+      "context": {
+        "enum": {
+          "ORDER_STATUS": [
+            "pending",
+            "sent",
+            null
+          ],
+          "YES_NO": {
+            "true": "Yes",
+            "false": "No",
+            "null": "Nothing"
+          },
+          "NESTED": {
+            "obj": {
+              "label": "Object"
+            },
+            "array": [
+              "x",
+              "y"
+            ]
+          },
+          "TEXT": "abc"
+        }
+      },
+      "expected": [
+        "x",
+        "y"
+      ]
+    },
+    {
+      "id": "enum-46",
+      "kind": "extra",
+      "name": "convEnum",
+      "value": 1,
+      "args": [
+        "TEXT"
+      ],
+      "context": {
+        "enum": {
+          "ORDER_STATUS": [
+            "pending",
+            "sent",
+            null
+          ],
+          "YES_NO": {
+            "true": "Yes",
+            "false": "No",
+            "null": "Nothing"
+          },
+          "NESTED": {
+            "obj": {
+              "label": "Object"
+            },
+            "array": [
+              "x",
+              "y"
+            ]
+          },
+          "TEXT": "abc"
+        }
+      },
+      "expected": "b"
+    },
+    {
+      "id": "enum-47",
+      "kind": "extra",
+      "name": "convEnum",
+      "value": "length",
+      "args": [
+        "TEXT"
+      ],
+      "context": {
+        "enum": {
+          "ORDER_STATUS": [
+            "pending",
+            "sent",
+            null
+          ],
+          "YES_NO": {
+            "true": "Yes",
+            "false": "No",
+            "null": "Nothing"
+          },
+          "NESTED": {
+            "obj": {
+              "label": "Object"
+            },
+            "array": [
+              "x",
+              "y"
+            ]
+          },
+          "TEXT": "abc"
+        }
+      },
+      "expected": 3
+    },
+    {
+      "id": "enum-48",
+      "kind": "extra",
+      "name": "convEnum",
+      "value": 3,
+      "args": [
+        "UNKNOWN"
+      ],
+      "context": {
+        "enum": {
+          "ORDER_STATUS": [
+            "pending",
+            "sent",
+            null
+          ],
+          "YES_NO": {
+            "true": "Yes",
+            "false": "No",
+            "null": "Nothing"
+          },
+          "NESTED": {
+            "obj": {
+              "label": "Object"
+            },
+            "array": [
+              "x",
+              "y"
+            ]
+          },
+          "TEXT": "abc"
+        }
+      },
+      "expected": 3
+    },
+    {
+      "id": "enum-49",
+      "kind": "extra",
+      "name": "convEnum",
+      "value": 1,
+      "args": [
+        "ORDER_STATUS"
+      ],
+      "context": {},
+      "expected": 1
+    },
+    {
+      "id": "crlf-50",
+      "kind": "extra",
+      "name": "convCRLF",
+      "value": "boo\nbeep",
+      "args": [],
+      "context": {
+        "extension": "odt"
+      },
+      "expected": "boo<text:line-break/>beep",
+      "rendered": true
+    },
+    {
+      "id": "crlf-51",
+      "kind": "extra",
+      "name": "convCRLF",
+      "value": "boo\r\nbeep\rbare",
+      "args": [],
+      "context": {
+        "extension": "odt"
+      },
+      "expected": "boo<text:line-break/>beep\rbare",
+      "rendered": true
+    },
+    {
+      "id": "crlf-52",
+      "kind": "extra",
+      "name": "convCRLF",
+      "value": "<&>\n\"'\u0000",
+      "args": [],
+      "context": {
+        "extension": "odt"
+      },
+      "expected": "&lt;&amp;&gt;<text:line-break/>\"'",
+      "rendered": true
+    },
+    {
+      "id": "crlf-53",
+      "kind": "extra",
+      "name": "convCRLF",
+      "value": null,
+      "args": [],
+      "context": {
+        "extension": "odt"
+      },
+      "expected": null,
+      "rendered": true
+    },
+    {
+      "id": "crlf-54",
+      "kind": "extra",
+      "name": "convCRLF",
+      "value": 7,
+      "args": [],
+      "context": {
+        "extension": "odt"
+      },
+      "expected": 7,
+      "rendered": true
+    },
+    {
+      "id": "crlf-55",
+      "kind": "extra",
+      "name": "convCRLF",
+      "value": "boo\nbeep",
+      "args": [],
+      "context": {
+        "extension": "docx"
+      },
+      "expected": "boo</w:t><w:br/><w:t>beep",
+      "rendered": true
+    },
+    {
+      "id": "crlf-56",
+      "kind": "extra",
+      "name": "convCRLF",
+      "value": "boo\r\nbeep\rbare",
+      "args": [],
+      "context": {
+        "extension": "docx"
+      },
+      "expected": "boo</w:t><w:br/><w:t>beep\rbare",
+      "rendered": true
+    },
+    {
+      "id": "crlf-57",
+      "kind": "extra",
+      "name": "convCRLF",
+      "value": "<&>\n\"'\u0000",
+      "args": [],
+      "context": {
+        "extension": "docx"
+      },
+      "expected": "&lt;&amp;&gt;</w:t><w:br/><w:t>\"'",
+      "rendered": true
+    },
+    {
+      "id": "crlf-58",
+      "kind": "extra",
+      "name": "convCRLF",
+      "value": null,
+      "args": [],
+      "context": {
+        "extension": "docx"
+      },
+      "expected": null,
+      "rendered": true
+    },
+    {
+      "id": "crlf-59",
+      "kind": "extra",
+      "name": "convCRLF",
+      "value": 7,
+      "args": [],
+      "context": {
+        "extension": "docx"
+      },
+      "expected": 7,
+      "rendered": true
+    },
+    {
+      "id": "crlf-60",
+      "kind": "extra",
+      "name": "convCRLF",
+      "value": "boo\nbeep",
+      "args": [],
+      "context": {
+        "extension": "ods"
+      },
+      "expected": "boo\nbeep",
+      "rendered": true
+    },
+    {
+      "id": "crlf-61",
+      "kind": "extra",
+      "name": "convCRLF",
+      "value": "boo\r\nbeep\rbare",
+      "args": [],
+      "context": {
+        "extension": "ods"
+      },
+      "expected": "boo\r\nbeep\rbare",
+      "rendered": true
+    },
+    {
+      "id": "crlf-62",
+      "kind": "extra",
+      "name": "convCRLF",
+      "value": "<&>\n\"'\u0000",
+      "args": [],
+      "context": {
+        "extension": "ods"
+      },
+      "expected": "&lt;&amp;&gt;\n\"'",
+      "rendered": true
+    },
+    {
+      "id": "crlf-63",
+      "kind": "extra",
+      "name": "convCRLF",
+      "value": null,
+      "args": [],
+      "context": {
+        "extension": "ods"
+      },
+      "expected": null,
+      "rendered": true
+    },
+    {
+      "id": "crlf-64",
+      "kind": "extra",
+      "name": "convCRLF",
+      "value": 7,
+      "args": [],
+      "context": {
+        "extension": "ods"
+      },
+      "expected": 7,
+      "rendered": true
+    },
+    {
+      "id": "crlf-65",
+      "kind": "extra",
+      "name": "convCRLF",
+      "value": "boo\nbeep",
+      "args": [],
+      "context": {
+        "extension": "ODT"
+      },
+      "expected": "boo\nbeep",
+      "rendered": true
+    },
+    {
+      "id": "crlf-66",
+      "kind": "extra",
+      "name": "convCRLF",
+      "value": "boo\r\nbeep\rbare",
+      "args": [],
+      "context": {
+        "extension": "ODT"
+      },
+      "expected": "boo\r\nbeep\rbare",
+      "rendered": true
+    },
+    {
+      "id": "crlf-67",
+      "kind": "extra",
+      "name": "convCRLF",
+      "value": "<&>\n\"'\u0000",
+      "args": [],
+      "context": {
+        "extension": "ODT"
+      },
+      "expected": "&lt;&amp;&gt;\n\"'",
+      "rendered": true
+    },
+    {
+      "id": "crlf-68",
+      "kind": "extra",
+      "name": "convCRLF",
+      "value": null,
+      "args": [],
+      "context": {
+        "extension": "ODT"
+      },
+      "expected": null,
+      "rendered": true
+    },
+    {
+      "id": "crlf-69",
+      "kind": "extra",
+      "name": "convCRLF",
+      "value": 7,
+      "args": [],
+      "context": {
+        "extension": "ODT"
+      },
+      "expected": 7,
+      "rendered": true
+    },
+    {
+      "id": "crlf-70",
+      "kind": "extra",
+      "name": "convCRLF",
+      "value": "boo\nbeep",
+      "args": [],
+      "context": {
+        "extension": ""
+      },
+      "expected": "boo\nbeep",
+      "rendered": true
+    },
+    {
+      "id": "crlf-71",
+      "kind": "extra",
+      "name": "convCRLF",
+      "value": "boo\r\nbeep\rbare",
+      "args": [],
+      "context": {
+        "extension": ""
+      },
+      "expected": "boo\r\nbeep\rbare",
+      "rendered": true
+    },
+    {
+      "id": "crlf-72",
+      "kind": "extra",
+      "name": "convCRLF",
+      "value": "<&>\n\"'\u0000",
+      "args": [],
+      "context": {
+        "extension": ""
+      },
+      "expected": "&lt;&amp;&gt;\n\"'",
+      "rendered": true
+    },
+    {
+      "id": "crlf-73",
+      "kind": "extra",
+      "name": "convCRLF",
+      "value": null,
+      "args": [],
+      "context": {
+        "extension": ""
+      },
+      "expected": null,
+      "rendered": true
+    },
+    {
+      "id": "crlf-74",
+      "kind": "extra",
+      "name": "convCRLF",
+      "value": 7,
+      "args": [],
+      "context": {
+        "extension": ""
+      },
+      "expected": 7,
+      "rendered": true
+    },
+    {
+      "id": "count-75",
+      "kind": "extra",
+      "name": "count",
+      "value": null,
+      "args": [],
+      "context": {
+        "count": 0
+      },
+      "expected": "1"
+    },
+    {
+      "id": "count-76",
+      "kind": "extra",
+      "name": "count",
+      "value": null,
+      "args": [],
+      "context": {
+        "count": 1
+      },
+      "expected": "2"
+    },
+    {
+      "id": "count-77",
+      "kind": "extra",
+      "name": "count",
+      "value": null,
+      "args": [],
+      "context": {
+        "count": 7
+      },
+      "expected": "8"
+    },
+    {
+      "id": "count-78",
+      "kind": "extra",
+      "name": "count",
+      "value": null,
+      "args": [
+        "0"
+      ],
+      "context": {
+        "count": 0
+      },
+      "expected": "0"
+    },
+    {
+      "id": "count-79",
+      "kind": "extra",
+      "name": "count",
+      "value": null,
+      "args": [
+        "0"
+      ],
+      "context": {
+        "count": 1
+      },
+      "expected": "1"
+    },
+    {
+      "id": "count-80",
+      "kind": "extra",
+      "name": "count",
+      "value": null,
+      "args": [
+        "0"
+      ],
+      "context": {
+        "count": 7
+      },
+      "expected": "7"
+    },
+    {
+      "id": "count-81",
+      "kind": "extra",
+      "name": "count",
+      "value": null,
+      "args": [
+        "7"
+      ],
+      "context": {
+        "count": 0
+      },
+      "expected": "7"
+    },
+    {
+      "id": "count-82",
+      "kind": "extra",
+      "name": "count",
+      "value": null,
+      "args": [
+        "7"
+      ],
+      "context": {
+        "count": 1
+      },
+      "expected": "8"
+    },
+    {
+      "id": "count-83",
+      "kind": "extra",
+      "name": "count",
+      "value": null,
+      "args": [
+        "7"
+      ],
+      "context": {
+        "count": 7
+      },
+      "expected": "14"
+    },
+    {
+      "id": "count-84",
+      "kind": "extra",
+      "name": "count",
+      "value": null,
+      "args": [
+        "007"
+      ],
+      "context": {
+        "count": 0
+      },
+      "expected": "7"
+    },
+    {
+      "id": "count-85",
+      "kind": "extra",
+      "name": "count",
+      "value": null,
+      "args": [
+        "007"
+      ],
+      "context": {
+        "count": 1
+      },
+      "expected": "8"
+    },
+    {
+      "id": "count-86",
+      "kind": "extra",
+      "name": "count",
+      "value": null,
+      "args": [
+        "007"
+      ],
+      "context": {
+        "count": 7
+      },
+      "expected": "14"
+    },
+    {
+      "id": "count-87",
+      "kind": "extra",
+      "name": "count",
+      "value": null,
+      "args": [
+        ""
+      ],
+      "context": {
+        "count": 0
+      },
+      "expected": "0"
+    },
+    {
+      "id": "count-88",
+      "kind": "extra",
+      "name": "count",
+      "value": null,
+      "args": [
+        ""
+      ],
+      "context": {
+        "count": 1
+      },
+      "expected": "1"
+    },
+    {
+      "id": "count-89",
+      "kind": "extra",
+      "name": "count",
+      "value": null,
+      "args": [
+        ""
+      ],
+      "context": {
+        "count": 7
+      },
+      "expected": "7"
+    },
+    {
+      "id": "count-90",
+      "kind": "extra",
+      "name": "count",
+      "value": null,
+      "args": [
+        "9007199254740991"
+      ],
+      "context": {
+        "count": 0
+      },
+      "expected": "9007199254740991"
+    },
+    {
+      "id": "count-91",
+      "kind": "extra",
+      "name": "count",
+      "value": null,
+      "args": [
+        "9007199254740991"
+      ],
+      "context": {
+        "count": 1
+      },
+      "expected": "9007199254740992"
+    },
+    {
+      "id": "count-92",
+      "kind": "extra",
+      "name": "count",
+      "value": null,
+      "args": [
+        "9007199254740991"
+      ],
+      "context": {
+        "count": 7
+      },
+      "expected": "9007199254740992"
+    },
+    {
+      "id": "count-93",
+      "kind": "extra",
+      "name": "count",
+      "value": null,
+      "args": [
+        "9007199254740994"
+      ],
+      "context": {
+        "count": 0
+      },
+      "expected": "9007199254740994"
+    },
+    {
+      "id": "count-94",
+      "kind": "extra",
+      "name": "count",
+      "value": null,
+      "args": [
+        "9007199254740994"
+      ],
+      "context": {
+        "count": 1
+      },
+      "expected": "9007199254740996"
+    },
+    {
+      "id": "count-95",
+      "kind": "extra",
+      "name": "count",
+      "value": null,
+      "args": [
+        "9007199254740994"
+      ],
+      "context": {
+        "count": 7
+      },
+      "expected": "9007199254740996"
+    },
+    {
+      "id": "calculation-96",
+      "kind": "calculation",
+      "name": "add",
+      "value": 10,
+      "args": [
+        "14"
+      ],
+      "expected": 24
+    },
+    {
+      "id": "calculation-97",
+      "kind": "calculation",
+      "name": "sub",
+      "value": "10px",
+      "args": [
+        "2.5"
+      ],
+      "expected": 7.5
+    },
+    {
+      "id": "calculation-98",
+      "kind": "calculation",
+      "name": "mul",
+      "value": [
+        3
+      ],
+      "args": [
+        "4"
+      ],
+      "expected": 12
+    },
+    {
+      "id": "calculation-99",
+      "kind": "calculation",
+      "name": "div",
+      "value": 10,
+      "args": [
+        "0"
+      ],
+      "expected": 10
+    },
+    {
+      "id": "calculation-100",
+      "kind": "calculation",
+      "name": "div",
+      "value": "10px",
+      "args": [
+        "Infinity"
+      ],
+      "expected": 0
+    },
+    {
+      "id": "calculation-101",
+      "kind": "calculation",
+      "name": "mul",
+      "value": null,
+      "args": [
+        "NaN"
+      ],
+      "expected": null
+    },
+    {
+      "id": "calculation-102",
+      "kind": "calculation",
+      "name": "add",
+      "value": false,
+      "args": [
+        "2"
+      ],
+      "nonfinite": "NaN"
+    },
+    {
+      "id": "calculation-103",
+      "kind": "calculation",
+      "name": "add",
+      "value": 10,
+      "args": [
+        "NaN"
+      ],
+      "nonfinite": "NaN"
+    },
+    {
+      "id": "calculation-104",
+      "kind": "calculation",
+      "name": "mul",
+      "value": 10,
+      "args": [
+        "Infinity"
+      ],
+      "nonfinite": "Infinity"
+    },
+    {
+      "id": "count-adjacent-markers",
+      "kind": "render",
+      "reason": "Previously unsupported native shape; now verified through compilation and rendering against the recorded Node output.",
+      "template": "<xml><r>{d[i].name:count()}:{d[i].name:count(0)}</r><r>{d[i+1].name}</r></xml>",
+      "data": [
+        {
+          "name": "A",
+          "hidden": false
+        },
+        {
+          "name": "B",
+          "hidden": true
+        },
+        {
+          "name": "C",
+          "hidden": false
+        }
+      ],
+      "options": {
+        "complement": {}
+      },
+      "expected": "<xml><r>1:1</r><r>2:2</r><r>3:3</r></xml>"
+    }
+  ]
+}
