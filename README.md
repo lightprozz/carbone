@@ -274,6 +274,25 @@ To check out the **[api reference](https://carbone.io/documentation/developer/em
 
 To checkout out the Carbone CLI documentation, visit [carbone.io](https://carbone.io/documentation/developer/embedding/embedding-in-node.html#cli)
 
+## Rich text fields
+
+Text coming from a WYSIWYG editor (TinyMCE, CKEditor, ...) is HTML. The `html`
+formatter converts it into native document markup, so a marker such as
+`{d.comment:html}` renders paragraphs, headings, line breaks, bold, italic,
+underline, strikethrough, inline code, links and bulleted or numbered lists in
+docx and odt templates, and converts to PDF with the rest of the document:
+
+```javascript
+  carbone.render('report.docx', {
+    comment : '<p>Excellent <b>improvement</b> in speaking.</p><ul><li>Reads aloud</li></ul>'
+  }, { convertTo : 'pdf' }, callback);
+```
+
+Text is escaped: characters of the input that are not part of a supported tag
+are displayed as text, and unknown tags are dropped while their text is kept.
+This formatter is the Community Edition equivalent of the Enterprise `:html`
+formatter, which is only available from Carbone v5.
+
 ## HTTP service (Railway)
 
 `server.js` exposes the renderer over HTTP so it can run as a container on
