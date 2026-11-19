@@ -1,0 +1,12 @@
+node_modules
+.git
+.github
+.hoplite
+.context
+test
+doc
+coverage
+render
+template
+*.log
+npm-debug.log

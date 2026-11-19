@@ -274,6 +274,29 @@ To check out the **[api reference](https://carbone.io/documentation/developer/em
 
 To checkout out the Carbone CLI documentation, visit [carbone.io](https://carbone.io/documentation/developer/embedding/embedding-in-node.html#cli)
 
+## HTTP service (Railway)
+
+`server.js` exposes the renderer over HTTP so it can run as a container on
+[Railway](https://railway.com) (or any other container host):
+
+```bash
+  npm start        # listens on $PORT, 3000 by default
+```
+
+| Route | Description |
+| --- | --- |
+| `GET /health` | liveness probe |
+| `POST /render` | body `{ "template": "<base64>", "data": {}, "options": {} }`, responds with the rendered document |
+
+`options` accepts the `carbone.render` options, such as `convertTo : 'pdf'`. The
+image installs LibreOffice and Python, which format conversion requires. The port,
+the request size limit and the working directory are configurable with `PORT`,
+`MAX_BODY_MB` and `CARBONE_WORK_DIR`.
+
+Deployment is configured in `railway.json` (Docker build, `/health` healthcheck):
+connect the repository in the Railway dashboard, or run `railway up` with the
+Railway CLI.
+
 ## Issues
 
 If you're facing any issues with this Community Edition, search a similar issue to ensure it doesn't already exist on [Github](https://github.com/carboneio/carbone/issues). Otherwhise, [create an issue to help us](https://github.com/carboneio/carbone/issues/new/choose).

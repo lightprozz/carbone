@@ -18,6 +18,7 @@
     "json"
   ],
   "scripts": {
+    "start": "node server.js",
     "test": "./node_modules/.bin/mocha test --timeout 100000 --exit",
     "lint": "eslint ./lib/**.js ./test/**.js ./formatters/**.js",
     "lint:fix": "eslint ./lib/**.js ./test/**.js ./formatters/**.js --fix",
