@@ -11,6 +11,7 @@ RUN apt-get update \
       libreoffice-writer \
       libreoffice-calc \
       libreoffice-impress \
+      python3-uno \
       python3 \
       fonts-dejavu-core \
       fonts-liberation \
