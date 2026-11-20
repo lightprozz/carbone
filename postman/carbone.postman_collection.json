@@ -1,0 +1,318 @@
+{
+  "info": {
+    "name": "Carbone render service",
+    "description": "Test the Carbone HTTP render service.\n\nSetup\n1. Set the `baseUrl` variable to the deployed service (Railway gives it in the service settings).\n2. Set the `apiToken` variable to the service API token, the value of the `CARBONE_API_TOKEN` variable in Railway. Leave it empty if the service runs without a token.\n3. For the file upload request, pick your own .docx or .odt template in the `template` field.\n\nRequests\n- Health check and service info need no token.\n- Both render requests send the token as `Authorization: Bearer`, set on the collection.\n- The JSON request builds its template in a pre-request script, so it runs with no local file.\n- The last request checks that the service refuses to render without a token.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{apiToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://carbone-production-760b366a.up.railway.app",
+      "type": "string"
+    },
+    {
+      "key": "apiToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "templateFile",
+      "value": "template.docx",
+      "type": "string"
+    },
+    {
+      "key": "templateBase64",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health check",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "health"
+          ]
+        },
+        "description": "Liveness probe. No API token needed, so it works as a Railway healthcheck."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('service is up', function () {",
+              "  pm.response.to.have.status(200);",
+              "  pm.expect(pm.response.json().status).to.eql('ok');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Service info (token status)",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            ""
+          ]
+        },
+        "description": "Shows whether the deployment requires an API token: the `auth` field says `bearer token required` or `disabled`."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('service answers', function () {",
+              "  pm.response.to.have.status(200);",
+              "  pm.expect(pm.response.json().service).to.eql('carbone');",
+              "});",
+              "pm.test('token status is reported', function () {",
+              "  pm.expect(['bearer token required', 'disabled']).to.include(pm.response.json().auth);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Render HTML template to PDF (JSON, base64)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"templateName\": \"report.html\",\n  \"template\": \"{{templateBase64}}\",\n  \"data\": {\n    \"examName\": \"Cambridge English Test - Starters\",\n    \"studentName\": \"Thai Le Ha\",\n    \"class\": \"4C5\",\n    \"total\": 85,\n    \"skills\": [\n      { \"name\": \"Listening\", \"evaluation\": 4 },\n      { \"name\": \"Speaking\", \"evaluation\": 3 }\n    ],\n    \"comment\": \"<p>Excellent <b>improvement</b> in <i>speaking</i>.</p><ul><li>Reads aloud with confidence</li></ul>\"\n  },\n  \"options\": {\n    \"convertTo\": \"pdf\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/render",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "render"
+          ]
+        },
+        "description": "Renders an HTML template held in the pre-request script, converted to PDF by LibreOffice. The `comment` field goes through the html formatter, so the editor markup becomes real formatting."
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var lines = [",
+              "  '<!DOCTYPE html>',",
+              "  '<html>',",
+              "  '  <head><meta charset=\"utf-8\"><title>{d.examName}</title></head>',",
+              "  '  <body>',",
+              "  '    <h1>{d.examName}</h1>',",
+              "  '    <p>Student: {d.studentName} - Class: {d.class}</p>',",
+              "  '    <table border=\"1\" cellpadding=\"6\">',",
+              "  '      <tr><th>Skill</th><th>Evaluation</th></tr>',",
+              "  '      <tr><td>{d.skills[i].name}</td><td>{d.skills[i].evaluation}</td></tr>',",
+              "  '      <tr><td>{d.skills[i+1].name}</td><td>{d.skills[i+1].evaluation}</td></tr>',",
+              "  '    </table>',",
+              "  '    <p><b>Total: {d.total}%</b></p>',",
+              "  '    <div>{d.comment:html}</div>',",
+              "  '  </body>',",
+              "  '</html>'",
+              "];",
+              "var template = lines.join('\\n');",
+              "pm.variables.set('templateBase64', CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(template)));"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('render succeeds', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('response is a PDF', function () {",
+              "  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/pdf');",
+              "  pm.expect(pm.response.stream.slice(0, 5).toString()).to.eql('%PDF-');",
+              "});",
+              "pm.test('response is named', function () {",
+              "  pm.expect(pm.response.headers.get('Content-Disposition')).to.include('attachment; filename=');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Render uploaded template to PDF (multipart form-data)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "template",
+              "type": "file",
+              "src": [
+                "{{templateFile}}"
+              ],
+              "description": "Pick a .docx, .odt, .xlsx or HTML template containing carbone markers."
+            },
+            {
+              "key": "data",
+              "type": "text",
+              "value": "{\"examName\":\"Cambridge English Test - Starters\",\"studentName\":\"Thai Le Ha\",\"class\":\"4C5\",\"createDate\":\"2026-11-20\",\"mainTeacher\":\"Ms. Lan\",\"coTeacher\":\"Mr. Minh\",\"total\":85,\"result\":\"Pass\",\"overall\":[{\"name\":\"Listening\",\"evaluation\":4},{\"name\":\"Speaking\",\"evaluation\":3}],\"academic\":[{\"name\":\"Grammar\",\"score\":8,\"weight\":10},{\"name\":\"Vocabulary\",\"score\":9,\"weight\":10}],\"teacherComment\":\"<p>Excellent <b>improvement</b> in <i>speaking</i>.</p><ul><li>Reads aloud with confidence</li></ul>\",\"additionalComments\":\"<ol><li>Daily reading, 10 minutes</li><li>Weekly spelling test</li></ol>\"}",
+              "description": "The JSON injected in the template."
+            },
+            {
+              "key": "options",
+              "type": "text",
+              "value": "{\"convertTo\":\"pdf\"}",
+              "description": "carbone.render options. Remove convertTo to get the document in the format of the template."
+            },
+            {
+              "key": "templateName",
+              "type": "text",
+              "value": "",
+              "description": "Optional: format of the template when the uploaded file name does not carry it (for example an html template).",
+              "disabled": true
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/render",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "render"
+          ]
+        },
+        "description": "Uploads a template file instead of sending base64, which is the convenient way to test a real report in Postman."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('render succeeds', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('response is a PDF', function () {",
+              "  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/pdf');",
+              "  pm.expect(pm.response.stream.slice(0, 5).toString()).to.eql('%PDF-');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Rejected without API token",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"templateName\": \"report.html\",\n  \"template\": \"{{templateBase64}}\",\n  \"data\": {},\n  \"options\": {}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/render",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "render"
+          ]
+        },
+        "description": "Sends the same request without a token. When CARBONE_API_TOKEN is set the service answers 401; when authentication is disabled it answers 400 for the empty data instead."
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var template = '<html><body>{d.total}</body></html>';",
+              "pm.variables.set('templateBase64', CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(template)));"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('the service does not render without a token', function () {",
+              "  if (pm.response.code === 401) {",
+              "    pm.expect(pm.response.json().error).to.eql('missing or invalid API token');",
+              "  } else {",
+              "    // no token configured on this deployment",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+              "  }",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

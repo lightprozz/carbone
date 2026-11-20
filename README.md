@@ -305,12 +305,33 @@ formatter, which is only available from Carbone v5.
 | Route | Description |
 | --- | --- |
 | `GET /health` | liveness probe |
-| `POST /render` | body `{ "template": "<base64>", "data": {}, "options": {} }`, responds with the rendered document |
+| `POST /render` | JSON `{ "template": "<base64>", "data": {}, "options": {} }`, or `multipart/form-data` with a `template` file, `data` and `options` fields |
 
 `options` accepts the `carbone.render` options, such as `convertTo : 'pdf'`. The
 image installs LibreOffice and Python, which format conversion requires. The port,
 the request size limit and the working directory are configurable with `PORT`,
 `MAX_BODY_MB` and `CARBONE_WORK_DIR`.
+
+### API token
+
+Set `CARBONE_API_TOKEN` to require a token on `POST /render`, sent either as
+`Authorization: Bearer <token>` or as an `x-api-token` header. `GET /health` stays
+open so the platform healthcheck keeps working. Without the variable the service
+renders for anyone who knows the URL, so set it on a public deployment.
+
+### Postman
+
+`postman/carbone.postman_collection.json` tests the service: a health check, a
+JSON request that builds its template in a pre-request script, a file upload of a
+real template converted to PDF, and a check that the service refuses to render
+without a token. Import the collection and the environment in
+`postman/carbone.postman_environment.json`, then set `baseUrl` and `apiToken`.
+
+```bash
+  newman run postman/carbone.postman_collection.json \
+    --env-var baseUrl=https://your-service.up.railway.app \
+    --env-var apiToken=your-token --working-dir .
+```
 
 Deployment is configured in `railway.json` (Docker build, `/health` healthcheck):
 connect the repository in the Railway dashboard, or run `railway up` with the
